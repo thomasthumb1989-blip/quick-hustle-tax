@@ -159,7 +159,23 @@ describe('calculateSideHustleTax', () => {
     );
   });
 
-  it('12. Effective tax rate is between 0 and 1', () => {
+  it('12. Below trading allowance still reports correct totalIncomeTax and breakdown', () => {
+    const result = calculateSideHustleTax(
+      makeInput({ sideHustleGrossIncome: 500, sideHustleExpenses: 0 })
+    );
+
+    expect(result.flags.belowTradingAllowance).toBe(true);
+    expect(result.additionalTaxOwedOnSideHustle).toBe(0);
+
+    // totalIncomeTax should reflect actual tax on total income, not 0
+    // Employment £30k → taxable £17,430 → £3,486 at 20%
+    expect(result.totalIncomeTax).toBe(result.taxOnEmploymentOnly);
+    expect(result.totalIncomeTax).toBeGreaterThan(0);
+    expect(result.incomeTaxBreakdown.length).toBeGreaterThanOrEqual(1);
+    expect(result.incomeTaxBreakdown[0].rate).toBe(0.2);
+  });
+
+  it('13. Effective tax rate is between 0 and 1', () => {
     const result = calculateSideHustleTax(
       makeInput({
         employmentIncome: 50000,

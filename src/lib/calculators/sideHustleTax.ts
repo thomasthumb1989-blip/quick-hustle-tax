@@ -153,10 +153,14 @@ export function calculateSideHustleTax(input: SideHustleTaxInput): SideHustleTax
   const taxYear = taxData.getTaxYear(input.taxYear, input.region);
   const tradingAllowance = taxYear.tradingAllowance;
 
-  // If side hustle income ≤ trading allowance, no tax owed
+  // If side hustle income ≤ trading allowance, no tax owed on side hustle.
+  // Side hustle profit = 0, so tax position = employment income only.
+  // Still compute full income tax breakdown for display consistency.
   if (input.sideHustleGrossIncome <= tradingAllowance) {
     const totalGross = input.employmentIncome + input.sideHustleGrossIncome;
-    const paUsed = getEffectivePersonalAllowance(totalGross, taxYear);
+    const empPA = getEffectivePersonalAllowance(input.employmentIncome, taxYear);
+    const empTaxable = Math.max(0, input.employmentIncome - empPA);
+    const { breakdown, total: empTax } = calculateIncomeTax(empTaxable, taxYear.incomeTaxBands);
 
     return {
       totalGrossIncome: totalGross,
@@ -164,11 +168,11 @@ export function calculateSideHustleTax(input: SideHustleTaxInput): SideHustleTax
       claimedDeduction: input.sideHustleGrossIncome,
       claimedDeductionType: 'tradingAllowance',
       sideHustleProfit: 0,
-      totalTaxableIncome: Math.max(0, totalGross - paUsed),
-      personalAllowanceUsed: paUsed,
-      incomeTaxBreakdown: [],
-      totalIncomeTax: 0,
-      taxOnEmploymentOnly: getFullTaxLiability(input.employmentIncome, taxYear),
+      totalTaxableIncome: empTaxable,
+      personalAllowanceUsed: empPA,
+      incomeTaxBreakdown: breakdown,
+      totalIncomeTax: empTax,
+      taxOnEmploymentOnly: empTax,
       class4NIBreakdown: [],
       totalClass4NI: 0,
       additionalTaxOwedOnSideHustle: 0,
