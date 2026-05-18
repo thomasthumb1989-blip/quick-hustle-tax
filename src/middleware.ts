@@ -25,7 +25,7 @@ export const onRequest = defineMiddleware(async (_context, next) => {
       "img-src 'self' data: https:",
       "font-src 'self'",
       "connect-src 'self' https://www.google-analytics.com https://www.clarity.ms https://pagead2.googlesyndication.com",
-      "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com",
+      "frame-src https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
     ].join('; ')
   );
 
