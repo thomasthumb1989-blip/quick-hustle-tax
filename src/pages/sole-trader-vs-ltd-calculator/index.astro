@@ -143,7 +143,17 @@ const today = new Date().toLocaleDateString('en-GB', {
     <AdSlot slot="after-calculator" format="horizontal" />
 
     {/* Guide content */}
-    <div class="mt-12 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-8">
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
+      {/* Table of Contents sidebar */}
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">
+            On this page
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
       <article>
         <p class="text-xs text-[var(--text-muted)] mb-6">
           Last updated: May 2026 · Tax year 2026/27 · All rates and thresholds from HMRC published guidance
@@ -361,15 +371,6 @@ const today = new Date().toLocaleDateString('en-GB', {
         </AccordionSection>
       </article>
 
-      {/* Table of Contents sidebar */}
-      <aside class="hidden lg:block">
-        <div class="sticky top-24">
-          <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">
-            On this page
-          </p>
-          <TableOfContents sections={tocSections} client:load />
-        </div>
-      </aside>
     </div>
 
     {/* Footer */}
