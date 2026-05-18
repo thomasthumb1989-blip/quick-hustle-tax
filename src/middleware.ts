@@ -20,11 +20,11 @@ export const onRequest = defineMiddleware(async (_context, next) => {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://pagead2.googlesyndication.com",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.google.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self'",
-      "connect-src 'self' https://www.google-analytics.com https://www.clarity.ms https://pagead2.googlesyndication.com",
+      "connect-src 'self' https://www.google-analytics.com https://www.clarity.ms https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.google.com",
       "frame-src https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
     ].join('; ')
   );
