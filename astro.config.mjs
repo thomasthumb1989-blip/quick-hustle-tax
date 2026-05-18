@@ -10,6 +10,9 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://quickhustletax.co.uk',
   output: 'static',
+  build: {
+    inlineStylesheets: 'always',
+  },
   integrations: [
     react(),
     sitemap(),
