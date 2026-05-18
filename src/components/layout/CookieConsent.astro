@@ -1,0 +1,71 @@
+---
+---
+
+<div
+  id="cookie-banner"
+  class="hidden fixed bottom-0 inset-x-0 z-50 p-4 bg-[var(--bg-secondary)] border-t border-[var(--border)] shadow-lg"
+>
+  <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="text-sm text-[var(--text-secondary)]">
+      We use cookies for analytics to improve your experience.
+      <a href="/cookies" class="underline hover:text-primary-500">Learn more</a>.
+    </p>
+    <div class="flex gap-2 shrink-0">
+      <button id="cookie-reject" class="px-4 py-2 text-sm rounded-lg border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors">
+        Reject
+      </button>
+      <button id="cookie-accept" class="px-4 py-2 text-sm rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors">
+        Accept
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    const consent = localStorage.getItem('cookie-consent');
+    if (!consent) {
+      document.getElementById('cookie-banner')?.classList.remove('hidden');
+    } else if (consent === 'accepted') {
+      loadAnalytics();
+    }
+
+    document.getElementById('cookie-accept')?.addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'accepted');
+      document.getElementById('cookie-banner')?.classList.add('hidden');
+      loadAnalytics();
+    });
+
+    document.getElementById('cookie-reject')?.addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'rejected');
+      document.getElementById('cookie-banner')?.classList.add('hidden');
+    });
+
+    function loadAnalytics() {
+      // GA4
+      const ga4Id = document.querySelector('meta[name="ga4-id"]')?.getAttribute('content');
+      if (ga4Id) {
+        const s = document.createElement('script');
+        s.src = `https://www.googletagmanager.com/gtag/js?id=${ga4Id}`;
+        s.async = true;
+        document.head.appendChild(s);
+        s.onload = () => {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ window.dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', ga4Id);
+        };
+      }
+
+      // Microsoft Clarity
+      const clarityId = document.querySelector('meta[name="clarity-id"]')?.getAttribute('content');
+      if (clarityId) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", clarityId);
+      }
+    }
+  })();
+</script>

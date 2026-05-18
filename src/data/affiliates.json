@@ -1,0 +1,47 @@
+[
+  {
+    "id": "wise",
+    "name": "Wise",
+    "description": "Send money abroad with the real exchange rate. No hidden fees.",
+    "category": "banking",
+    "url": "https://placeholder.wise.com/affiliate",
+    "cta": "Open a Wise Account",
+    "logo": "/icons/affiliates/wise.svg"
+  },
+  {
+    "id": "tide",
+    "name": "Tide",
+    "description": "Free business bank account built for sole traders and small businesses.",
+    "category": "banking",
+    "url": "https://placeholder.tide.co/affiliate",
+    "cta": "Get Free Business Account",
+    "logo": "/icons/affiliates/tide.svg"
+  },
+  {
+    "id": "anna-money",
+    "name": "ANNA Money",
+    "description": "Business account, tax reminders, and auto-filing for sole traders.",
+    "category": "banking",
+    "url": "https://placeholder.anna.money/affiliate",
+    "cta": "Try ANNA Free",
+    "logo": "/icons/affiliates/anna.svg"
+  },
+  {
+    "id": "freeagent",
+    "name": "FreeAgent",
+    "description": "Accounting software that handles your self-assessment tax return.",
+    "category": "accounting",
+    "url": "https://placeholder.freeagent.com/affiliate",
+    "cta": "Start Free Trial",
+    "logo": "/icons/affiliates/freeagent.svg"
+  },
+  {
+    "id": "crunch",
+    "name": "Crunch",
+    "description": "Accountancy service and software for freelancers and contractors.",
+    "category": "accounting",
+    "url": "https://placeholder.crunch.co.uk/affiliate",
+    "cta": "Get a Quote",
+    "logo": "/icons/affiliates/crunch.svg"
+  }
+]

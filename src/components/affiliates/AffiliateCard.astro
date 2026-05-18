@@ -1,0 +1,29 @@
+---
+import { MONETISATION } from '../../config/site';
+
+interface Props {
+  name: string;
+  description: string;
+  url: string;
+  cta: string;
+}
+
+const { name, description, url, cta } = Astro.props;
+---
+
+{MONETISATION.affiliatesEnabled && (
+  <div class="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+    <div class="flex-1">
+      <p class="font-semibold text-[var(--text-primary)]">{name}</p>
+      <p class="text-sm text-[var(--text-secondary)] mt-1">{description}</p>
+    </div>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer sponsored"
+      class="shrink-0 px-4 py-2 text-sm font-medium rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+    >
+      {cta} &rarr;
+    </a>
+  </div>
+)}

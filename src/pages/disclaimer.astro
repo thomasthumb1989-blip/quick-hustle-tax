@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config/site';
+---
+
+<BaseLayout title="Disclaimer">
+  <div class="max-w-3xl mx-auto prose prose-slate dark:prose-invert">
+    <h1>Disclaimer</h1>
+    <p><em>Last updated: May 2026</em></p>
+
+    <h2>Not financial advice</h2>
+    <p>{SITE.name} provides free tax estimation tools for informational purposes only. The results are estimates based on publicly available HMRC tax rates and thresholds for the {SITE.taxYear} tax year.</p>
+
+    <h2>No guarantee of accuracy</h2>
+    <p>While we strive to keep our calculators accurate and up-to-date, we make no warranties about the completeness, reliability, or accuracy of the results. Tax rules are complex and individual circumstances vary.</p>
+
+    <h2>Professional advice</h2>
+    <p>You should always consult HMRC directly or seek advice from a qualified accountant or tax adviser before making financial decisions based on our tools.</p>
+
+    <h2>Affiliate links</h2>
+    <p>This site may contain affiliate links. If you click through and make a purchase or sign up, we may receive a commission at no extra cost to you. This does not influence our recommendations.</p>
+
+    <h2>Limitation of liability</h2>
+    <p>Under no circumstances shall {SITE.name} be liable for any direct, indirect, incidental, or consequential damages arising from the use of our calculators or content.</p>
+  </div>
+</BaseLayout>

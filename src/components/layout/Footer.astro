@@ -1,0 +1,33 @@
+---
+import { SITE } from '../../config/site';
+---
+
+<footer class="border-t border-[var(--border)] bg-[var(--bg-secondary)] mt-auto">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <p class="font-bold text-[var(--text-primary)]">{SITE.name}</p>
+        <p class="text-sm text-[var(--text-muted)] mt-1">Free UK tax calculators and checkers for side-hustlers, sole traders, and freelancers.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-sm text-[var(--text-primary)] mb-2">Tools</p>
+        <ul class="space-y-1 text-sm text-[var(--text-secondary)]">
+          <li><a href="/tools/side-hustle-tax" class="hover:text-primary-500">Side-Hustle Tax Calculator</a></li>
+          <li><a href="/tools/take-home-pay" class="hover:text-primary-500">Take-Home Pay Calculator</a></li>
+          <li><a href="/tools/sole-trader-vs-ltd" class="hover:text-primary-500">Sole Trader vs Ltd</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold text-sm text-[var(--text-primary)] mb-2">Legal</p>
+        <ul class="space-y-1 text-sm text-[var(--text-secondary)]">
+          <li><a href="/privacy" class="hover:text-primary-500">Privacy Policy</a></li>
+          <li><a href="/cookies" class="hover:text-primary-500">Cookie Policy</a></li>
+          <li><a href="/disclaimer" class="hover:text-primary-500">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-8 pt-4 border-t border-[var(--border)] text-center text-xs text-[var(--text-muted)]">
+      <p>&copy; {new Date().getFullYear()} {SITE.name}. Not financial advice. Tax year {SITE.taxYear}.</p>
+    </div>
+  </div>
+</footer>

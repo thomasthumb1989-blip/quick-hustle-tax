@@ -1,0 +1,21 @@
+{
+  "name": "Quick Hustle Tax",
+  "short_name": "Quick Hustle",
+  "description": "Free UK tax calculators and checkers for side-hustlers, sole traders, and freelancers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

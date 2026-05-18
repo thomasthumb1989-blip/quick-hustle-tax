@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import { SITE } from '../config/site';
+
+const tools = [
+  { title: 'Side-Hustle Tax Calculator', description: 'Calculate tax on your side income alongside PAYE employment.', href: '/tools/side-hustle-tax', icon: '💰' },
+  { title: 'Take-Home Pay Calculator', description: 'See your actual take-home after tax, NI, and deductions.', href: '/tools/take-home-pay', icon: '💷' },
+  { title: 'Sole Trader vs Ltd', description: 'Compare tax efficiency between sole trader and limited company.', href: '/tools/sole-trader-vs-ltd', icon: '⚖️' },
+  { title: 'Trading Allowance Checker', description: 'Check if you qualify for the £1,000 trading allowance.', href: '/tools/trading-allowance', icon: '✅' },
+  { title: 'Dividend Tax Calculator', description: 'Calculate dividend tax for company directors.', href: '/tools/dividend-tax', icon: '📊' },
+  { title: 'Self-Assessment Deadlines', description: 'Check your deadlines and potential penalty exposure.', href: '/tools/self-assessment-deadlines', icon: '📅' },
+  { title: 'Platform Seller Reporting', description: 'Check HMRC reporting rules for Etsy, Vinted, eBay sellers.', href: '/tools/platform-seller-reporting', icon: '🛒' },
+];
+---
+
+<BaseLayout title="Free UK Tax Calculators">
+  <section class="text-center mb-12">
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+      UK Tax, <span class="text-primary-600 dark:text-primary-400">Simplified</span>
+    </h1>
+    <p class="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+      Free calculators for side-hustlers, sole traders, and anyone with income outside PAYE.
+      Built for tax year {SITE.taxYear}.
+    </p>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {tools.map((tool) => (
+      <a href={tool.href} class="group">
+        <Card class="h-full hover:border-primary-500/50 hover:shadow-md transition-all duration-200">
+          <span class="text-2xl">{tool.icon}</span>
+          <h2 class="text-lg font-semibold mt-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+            {tool.title}
+          </h2>
+          <p class="text-sm text-[var(--text-secondary)] mt-1">{tool.description}</p>
+        </Card>
+      </a>
+    ))}
+  </section>
+</BaseLayout>
