@@ -20,12 +20,15 @@ export const onRequest = defineMiddleware(async (_context, next) => {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.clarity.ms https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.google.com",
-      "style-src 'self' 'unsafe-inline'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.google.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.googleadservices.com https://*.clarity.ms https://*.cloudflareinsights.com",
+      "style-src 'self' 'unsafe-inline' https://*.googleapis.com",
       "img-src 'self' data: https:",
-      "font-src 'self'",
-      "connect-src 'self' https://www.google-analytics.com https://www.clarity.ms https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com https://www.google.com",
-      "frame-src https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net",
+      "font-src 'self' data:",
+      "connect-src 'self' https://*.google.com https://*.googleapis.com https://*.googlesyndication.com https://*.google-analytics.com https://*.clarity.ms https://*.cloudflareinsights.com https://*.doubleclick.net",
+      "frame-src 'self' https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
     ].join('; ')
   );
 
