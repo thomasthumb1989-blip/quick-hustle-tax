@@ -32,7 +32,7 @@ const pageTitle = `${title} | ${SITE.name}`;
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_GB" />
     <link rel="canonical" href={new URL(Astro.url.pathname, SITE.url).href} />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- TODO: Re-add manifest when @vite-pwa/astro supports Astro 6 -->
     <meta name="theme-color" content="#1d4ed8" />
 
     {ANALYTICS.ga4.measurementId && (
