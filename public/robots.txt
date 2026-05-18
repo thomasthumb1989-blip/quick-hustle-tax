@@ -1,5 +1,3 @@
-# Quick Hustle Tax — robots.txt
-
 User-agent: *
 Allow: /
 

@@ -46,7 +46,7 @@ export function WorkedExample({
       </div>
 
       {/* Key Figures */}
-      <div
+      <dl
         className="mx-5 mb-4 grid grid-cols-2 gap-4 rounded-md p-4"
         style={{ backgroundColor: 'var(--bg-tertiary)' }}
       >
@@ -78,7 +78,7 @@ export function WorkedExample({
             {formatCurrency(expenses)}
           </dd>
         </div>
-      </div>
+      </dl>
 
       {/* Calculation Narrative */}
       <div

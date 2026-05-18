@@ -134,9 +134,9 @@ export default function SideHustleTaxCalculator() {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Inputs */}
       <div>
-        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
           Your Income
-        </h3>
+        </h2>
         <InputsPanel
           inputs={inputs}
           displayValues={displayValues}
@@ -149,9 +149,9 @@ export default function SideHustleTaxCalculator() {
 
       {/* Results */}
       <div>
-        <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
           Tax Estimate
-        </h3>
+        </h2>
         {result ? (
           <ResultsPanel
             result={result}

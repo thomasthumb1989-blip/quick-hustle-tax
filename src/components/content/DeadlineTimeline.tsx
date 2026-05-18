@@ -84,12 +84,12 @@ export function DeadlineTimeline({ events }: DeadlineTimelineProps) {
                 >
                   {event.date}
                 </span>
-                <h4
+                <h3
                   className="mt-1.5 text-base font-semibold"
                   style={{ color: 'var(--text-primary)' }}
                 >
                   {event.title}
-                </h4>
+                </h3>
                 <p
                   className="mt-0.5 text-sm leading-relaxed"
                   style={{ color: 'var(--text-secondary)' }}

@@ -6,12 +6,17 @@ import ThemeToggle from './ThemeToggle.astro';
 <header class="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--bg-primary)]/95 backdrop-blur-sm">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
     <a href="/" class="block hover:opacity-80 transition-opacity">
-      <img
-        src="/logo.png"
-        alt="Quick Hustle Tax"
-        height="48"
-        class="h-10 sm:h-12 w-auto"
-      />
+      <picture>
+        <source srcset="/logo.avif" type="image/avif" />
+        <source srcset="/logo.webp" type="image/webp" />
+        <img
+          src="/logo.png"
+          alt="Quick Hustle Tax"
+          width="380"
+          height="70"
+          class="h-10 sm:h-12 w-auto"
+        />
+      </picture>
     </a>
     <nav class="flex items-center gap-6">
       <a href="/tools" class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">

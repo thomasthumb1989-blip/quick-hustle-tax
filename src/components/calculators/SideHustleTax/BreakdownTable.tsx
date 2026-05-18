@@ -30,9 +30,9 @@ export function BreakdownTable({
     <div className="space-y-6">
       {/* Income Tax Breakdown */}
       <div>
-        <h4 className="text-sm font-semibold text-[var(--text-primary)] mb-2">
+        <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-2">
           Income Tax (on total income)
-        </h4>
+        </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -82,9 +82,9 @@ export function BreakdownTable({
       {/* Class 4 NI Breakdown */}
       {class4NIBreakdown.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-[var(--text-primary)] mb-2">
+          <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-2">
             Class 4 National Insurance (on side-hustle profit)
-          </h4>
+          </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
