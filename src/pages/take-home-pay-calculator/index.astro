@@ -15,13 +15,13 @@ import {
   breadcrumbSchema,
 } from '../../lib/seo/schema';
 
-const pageTitle = 'UK Take-Home Pay Calculator 2025/26 — Free Salary Calculator';
+const pageTitle = 'UK Take-Home Pay Calculator 2026/27 — Free Salary Calculator';
 const pageDescription =
-  'Calculate your exact UK take-home pay for 2025/26. See income tax, National Insurance, student loan, and pension deductions. Updated with latest HMRC rates.';
+  'Calculate your exact UK take-home pay for 2026/27. See income tax, National Insurance, student loan, and pension deductions. Updated with latest HMRC rates.';
 const canonicalUrl = `${SITE.url}/take-home-pay-calculator/`;
 
 const appSchema = webApplicationSchema({
-  name: 'UK Take-Home Pay Calculator 2025/26',
+  name: 'UK Take-Home Pay Calculator 2026/27',
   description: pageDescription,
   url: canonicalUrl,
 });
@@ -43,7 +43,7 @@ const faqs = faqPageSchema([
   },
   {
     question: 'How do I check my tax code is correct?',
-    answer: "Check your payslip or P45 for your current tax code. You can also log into your HMRC Personal Tax Account at gov.uk to verify it. The standard code for 2025/26 is 1257L. If yours differs, it may reflect benefits in kind, underpaid tax from a previous year, or a second job.",
+    answer: "Check your payslip or P45 for your current tax code. You can also log into your HMRC Personal Tax Account at gov.uk to verify it. The standard code for 2026/27 is 1257L. If yours differs, it may reflect benefits in kind, underpaid tax from a previous year, or a second job.",
   },
   {
     question: 'Is salary sacrifice worth it?',
@@ -89,7 +89,7 @@ const faqItems = [
   },
   {
     question: 'How do I check my tax code is correct?',
-    answer: "Check your payslip or log into your HMRC Personal Tax Account at gov.uk. The standard 2025/26 code is 1257L. If yours is different, it may reflect benefits in kind, underpaid tax from a previous year, or a second job.",
+    answer: "Check your payslip or log into your HMRC Personal Tax Account at gov.uk. The standard 2026/27 code is 1257L. If yours is different, it may reflect benefits in kind, underpaid tax from a previous year, or a second job.",
   },
   {
     question: 'Is salary sacrifice worth it?',
@@ -135,7 +135,7 @@ const faqItems = [
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
         UK Take-Home Pay Calculator
-        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2025/26)</span>
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2026/27)</span>
       </h1>
       <p class="text-lg text-[var(--text-secondary)] mt-2">
         See exactly what lands in your bank account after income tax, National Insurance, student loan repayments, and pension contributions.
@@ -169,7 +169,7 @@ const faqItems = [
 
         {/* Featured snippet target */}
         <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary)">
-          On a £30,000 UK salary in 2025/26, your take-home pay is approximately <strong>£25,120 per year</strong> (£2,093/month) after £3,486 income tax and £1,394 National Insurance. All rates and thresholds below are from <a href="https://www.gov.uk/income-tax-rates" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">HMRC's published guidance</a> for the 2025/26 tax year.
+          On a £30,000 UK salary in 2026/27, your take-home pay is approximately <strong>£25,120 per year</strong> (£2,093/month) after £3,486 income tax and £1,394 National Insurance. All rates and thresholds below are from <a href="https://www.gov.uk/income-tax-rates" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">HMRC's published guidance</a> for the 2026/27 tax year.
         </p>
 
         {/* ── Section: How Calculated ── */}
@@ -192,7 +192,7 @@ const faqItems = [
         {/* ── Section: Income Tax ── */}
         <AccordionSection id="income-tax" title="Income Tax Bands Explained" defaultOpen={true}>
           <p class="mb-3">
-            Your Personal Allowance for 2025/26 is <strong>£12,570</strong> — the first £12,570 you earn is tax-free. After that, income tax is applied in bands:
+            Your Personal Allowance for 2026/27 is <strong>£12,570</strong> — the first £12,570 you earn is tax-free. After that, income tax is applied in bands:
           </p>
           <ComparisonTable
             headers={['Band', 'Taxable Income', 'Rate']}
@@ -220,7 +220,7 @@ const faqItems = [
         {/* ── Section: NI ── */}
         <AccordionSection id="national-insurance" title="National Insurance Contributions" defaultOpen={true}>
           <p class="mb-3">
-            Employee National Insurance (Class 1) for 2025/26:
+            Employee National Insurance (Class 1) for 2026/27:
           </p>
           <ul class="list-disc pl-5 space-y-1 mb-4">
             <li><strong>8%</strong> on earnings between £12,570 and £50,270 (main rate)</li>
@@ -242,15 +242,15 @@ const faqItems = [
           <ComparisonTable
             headers={['Plan', 'Threshold', 'Rate', 'Who']}
             rows={[
-              ['Plan 1', '£26,065', '9%', 'Started before Sep 2012'],
-              ['Plan 2', '£28,470', '9%', 'Sep 2012 – Jul 2023'],
-              ['Plan 4', '£32,745', '9%', 'Scotland'],
-              ['Plan 5', '£25,000', '9%', 'Aug 2023 onwards'],
+              ['Plan 1', '£26,900', '9%', 'Started before Sep 2012'],
+              ['Plan 2', '£29,385', '9%', 'Sep 2012 – Jul 2023'],
+              ['Plan 4', '£33,795', '9%', 'Scotland'],
+              ['Plan 5', '£25,000', '9%', 'Aug 2023 onwards (active from Apr 2026)'],
               ['Postgraduate', '£21,000', '6%', "Master's / Doctoral loan"],
             ]}
           />
           <CalloutBox variant="warning" title="Plans stack">
-            If you have Plan 2 and a Postgraduate loan, you pay both: 9% above £28,470 <strong>plus</strong> 6% above £21,000. On a £40k salary, that's £1,038 + £1,140 = £2,178/year.
+            If you have Plan 2 and a Postgraduate loan, you pay both: 9% above £29,385 <strong>plus</strong> 6% above £21,000. On a £40k salary, that's £955 + £1,140 = £2,095/year.
           </CalloutBox>
           <CalloutBox variant="tip" title="Not a real debt">
             Student loans don't appear on your credit file and are written off after 25-40 years depending on your plan. They're more like a graduate tax than a traditional loan.
@@ -281,7 +281,7 @@ const faqItems = [
             <p><strong>Result: Salary sacrifice saves Marcus ~£450/year for the same pension contribution.</strong></p>
           </WorkedExample>
           <CalloutBox variant="info" title="Future change">
-            From April 2029, salary sacrifice NI exemption will be capped at £2,000/year for employer NI. This doesn't affect 2025/26 employee calculations.
+            From April 2029, salary sacrifice NI exemption will be capped at £2,000/year for employer NI. This doesn't affect 2026/27 employee calculations.
           </CalloutBox>
         </AccordionSection>
 
@@ -299,17 +299,17 @@ const faqItems = [
             <p>Taxable income: £32,430. All within basic rate.</p>
             <p>Income tax: £32,430 × 20% = £6,486</p>
             <p>NI: (£45,000 − £12,570) × 8% = £2,594.40</p>
-            <p>Student loan Plan 1: (£45,000 − £26,065) × 9% = £1,704.15</p>
+            <p>Student loan Plan 1: (£45,000 − £26,900) × 9% = £1,629</p>
             <p>Pension: qualifying earnings £38,760 × 5% = £1,938</p>
-            <p><strong>Annual take-home: £32,277.45 (£2,690/month)</strong></p>
+            <p><strong>Annual take-home: £32,352.60 (£2,696/month)</strong></p>
           </WorkedExample>
 
           <WorkedExample persona="Priya, software engineer" job="Software engineer, £85,000/year" sideHustle="Plan 2 + Postgrad loan, 8% salary sacrifice" income={85000} expenses={0}>
             <p>Salary sacrifice: £85,000 × 8% = £6,800. Adjusted salary: £78,200.</p>
             <p>Income tax: basic £37,700 × 20% = £7,540, higher £27,930 × 40% = £11,172. Total: £18,712</p>
             <p>NI on £78,200: main £3,016 + additional £158.60 = £3,174.60</p>
-            <p>Student loans (on gross £85,000): Plan 2 £5,087.70 + Postgrad £3,840 = £8,927.70</p>
-            <p><strong>Annual take-home: £47,385.70 (£3,949/month)</strong></p>
+            <p>Student loans (on gross £85,000): Plan 2 £5,005.35 + Postgrad £3,840 = £8,845.35</p>
+            <p><strong>Annual take-home: £47,468.05 (£3,956/month)</strong></p>
             <p><strong>Salary sacrifice saves Priya ~£1,200/year vs auto-enrolment.</strong></p>
           </WorkedExample>
         </AccordionSection>

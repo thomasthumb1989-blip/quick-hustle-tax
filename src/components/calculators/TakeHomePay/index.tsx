@@ -8,9 +8,12 @@ import {
 } from '../../../lib/calculators/takeHomePay';
 import type { Period } from '../../../lib/calculators/periodConversion';
 import { convertForToggle, toAnnual } from '../../../lib/calculators/periodConversion';
+import { AVAILABLE_TAX_YEARS, DEFAULT_TAX_YEAR } from '../../../lib/tax-data/index';
+import { TaxYearSelector } from '../TaxYearSelector';
 
 const STORAGE_KEY = 'qht-take-home-pay-inputs';
 const PERIOD_KEY = 'qht-take-home-pay-period';
+const TAX_YEAR_KEY = 'qht-take-home-pay-tax-year';
 
 const defaultInputs: TakeHomePayInput = {
   annualGrossSalary: 30000,
@@ -19,6 +22,7 @@ const defaultInputs: TakeHomePayInput = {
   studentLoanPlans: [],
   taxCode: '1257L',
   isOverStatePensionAge: false,
+  taxYear: DEFAULT_TAX_YEAR,
 };
 
 function loadInputs(): TakeHomePayInput {
@@ -39,12 +43,25 @@ function loadPeriod(): Period {
   return 'annual';
 }
 
+function loadTaxYear(): string {
+  if (typeof window === 'undefined') return DEFAULT_TAX_YEAR;
+  try {
+    const saved = localStorage.getItem(TAX_YEAR_KEY);
+    if (saved && AVAILABLE_TAX_YEARS.includes(saved as typeof AVAILABLE_TAX_YEARS[number])) return saved;
+  } catch { /* ignore */ }
+  return DEFAULT_TAX_YEAR;
+}
+
 function saveInputs(inputs: TakeHomePayInput): void {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(inputs)); } catch { /* ignore */ }
 }
 
 function savePeriod(period: Period): void {
   try { localStorage.setItem(PERIOD_KEY, period); } catch { /* ignore */ }
+}
+
+function saveTaxYear(year: string): void {
+  try { localStorage.setItem(TAX_YEAR_KEY, year); } catch { /* ignore */ }
 }
 
 export default function TakeHomePayCalculator() {
@@ -59,16 +76,18 @@ export default function TakeHomePayCalculator() {
   useEffect(() => {
     const savedInputs = loadInputs();
     const savedPeriod = loadPeriod();
-    setInputs(savedInputs);
+    const savedTaxYear = loadTaxYear();
+    const mergedInputs = { ...savedInputs, taxYear: savedTaxYear };
+    setInputs(mergedInputs);
     setSalaryPeriod(savedPeriod);
     setDisplaySalary(
       savedPeriod === 'monthly'
-        ? Math.round(savedInputs.annualGrossSalary / 12)
-        : savedInputs.annualGrossSalary
+        ? Math.round(mergedInputs.annualGrossSalary / 12)
+        : mergedInputs.annualGrossSalary
     );
-    const r = calculateTakeHomePay(savedInputs);
+    const r = calculateTakeHomePay(mergedInputs);
     setResult(r);
-    updateSalSacComparison(savedInputs, r);
+    updateSalSacComparison(mergedInputs, r);
   }, []);
 
   function updateSalSacComparison(inp: TakeHomePayInput, res: TakeHomePayResult) {
@@ -97,6 +116,18 @@ export default function TakeHomePayCalculator() {
     });
   }, []);
 
+  const handleTaxYearChange = useCallback((year: string) => {
+    saveTaxYear(year);
+    setInputs((prev) => {
+      const next = { ...prev, taxYear: year };
+      const r = calculateTakeHomePay(next);
+      setResult(r);
+      updateSalSacComparison(next, r);
+      saveInputs(next);
+      return next;
+    });
+  }, []);
+
   const handleDisplaySalaryChange = useCallback((value: number) => {
     setDisplaySalary(value);
   }, []);
@@ -111,35 +142,41 @@ export default function TakeHomePayCalculator() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-          Your Details
-        </h2>
-        <InputsPanel
-          inputs={inputs}
-          displaySalary={displaySalary}
-          salaryPeriod={salaryPeriod}
-          onChange={handleChange}
-          onDisplaySalaryChange={handleDisplaySalaryChange}
-          onSalaryPeriodChange={handleSalaryPeriodChange}
-        />
-      </div>
-
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-          Your Take-Home Pay
-        </h2>
-        {result ? (
-          <ResultsPanel
-            result={result}
-            autoEnrolmentTakeHome={autoEnrolTakeHome}
+    <div className="space-y-6">
+      <TaxYearSelector
+        value={inputs.taxYear ?? DEFAULT_TAX_YEAR}
+        onChange={handleTaxYearChange}
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            Your Details
+          </h2>
+          <InputsPanel
+            inputs={inputs}
+            displaySalary={displaySalary}
+            salaryPeriod={salaryPeriod}
+            onChange={handleChange}
+            onDisplaySalaryChange={handleDisplaySalaryChange}
+            onSalaryPeriodChange={handleSalaryPeriodChange}
           />
-        ) : (
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 text-center text-[var(--text-muted)]">
-            <p>Calculating...</p>
-          </div>
-        )}
+        </div>
+
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            Your Take-Home Pay
+          </h2>
+          {result ? (
+            <ResultsPanel
+              result={result}
+              autoEnrolmentTakeHome={autoEnrolTakeHome}
+            />
+          ) : (
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 text-center text-[var(--text-muted)]">
+              <p>Calculating...</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

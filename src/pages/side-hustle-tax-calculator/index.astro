@@ -16,9 +16,9 @@ import {
   breadcrumbSchema,
 } from '../../lib/seo/schema';
 
-const pageTitle = 'UK Side-Hustle Tax Calculator 2025/26';
+const pageTitle = 'UK Side-Hustle Tax Calculator 2026/27 — Free Self-Employment Tax Calculator';
 const pageDescription =
-  "Free calculator to work out tax on your side-hustle income alongside your salary. Includes £1,000 trading allowance, Class 4 NI, and Self Assessment estimate. 2025/26 rates.";
+  "Free calculator to work out tax on your side-hustle income alongside your salary. Includes £1,000 trading allowance, Class 4 NI, and Self Assessment estimate. 2026/27 rates.";
 const canonicalUrl = `${SITE.url}/side-hustle-tax-calculator/`;
 
 const appSchema = webApplicationSchema({
@@ -81,11 +81,11 @@ const tocSections = [
 ];
 
 const deadlineEvents = [
-  { date: '5 April 2026', title: 'Tax year ends', description: '2025/26 tax year closes. Start gathering your figures.', color: 'blue' as const },
-  { date: '5 October 2026', title: 'Register for Self Assessment', description: 'Deadline to register if this is your first time filing.', color: 'blue' as const },
-  { date: '31 October 2026', title: 'Paper tax return deadline', description: 'If filing on paper (most people file online instead).', color: 'purple' as const },
-  { date: '31 January 2027', title: 'Online filing + payment deadline', description: 'File your return and pay any tax owed by this date.', color: 'red' as const },
-  { date: '31 July 2027', title: 'Second payment on account', description: 'If applicable — advance payment towards next year\'s bill.', color: 'red' as const },
+  { date: '5 April 2027', title: 'Tax year ends', description: '2026/27 tax year closes. Start gathering your figures.', color: 'blue' as const },
+  { date: '5 October 2027', title: 'Register for Self Assessment', description: 'Deadline to register if this is your first time filing.', color: 'blue' as const },
+  { date: '31 October 2027', title: 'Paper tax return deadline', description: 'If filing on paper (most people file online instead).', color: 'purple' as const },
+  { date: '31 January 2028', title: 'Online filing + payment deadline', description: 'File your return and pay any tax owed by this date.', color: 'red' as const },
+  { date: '31 July 2028', title: 'Second payment on account', description: 'If applicable — advance payment towards next year\'s bill.', color: 'red' as const },
 ];
 
 const faqItems = [
@@ -151,7 +151,7 @@ const today = new Date().toLocaleDateString('en-GB', {
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
         UK Side-Hustle Tax Calculator
-        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2025/26)</span>
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2026/27)</span>
       </h1>
       <p class="text-lg text-[var(--text-secondary)] mt-2">
         Calculate how much extra tax you'll owe on your side-hustle income alongside your PAYE salary.
@@ -269,7 +269,7 @@ const today = new Date().toLocaleDateString('en-GB', {
             To register, go to <a href="https://www.gov.uk/register-for-self-assessment" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">GOV.UK</a> and sign up. You'll get a <strong>Unique Taxpayer Reference (UTR)</strong> — keep this safe.
           </p>
           <CalloutBox variant="warning" title="Important deadline">
-            You must register by <strong>5 October</strong> following the end of the tax year. For 2025/26 income, that means registering by <strong>5 October 2026</strong>.
+            You must register by <strong>5 October</strong> following the end of the tax year. For 2026/27 income, that means registering by <strong>5 October 2027</strong>.
           </CalloutBox>
         </AccordionSection>
 
@@ -354,7 +354,7 @@ const today = new Date().toLocaleDateString('en-GB', {
         </AccordionSection>
 
         {/* ── Section: Deadlines ── */}
-        <AccordionSection id="deadlines" title="Key Deadlines for 2025/26">
+        <AccordionSection id="deadlines" title="Key Deadlines for 2026/27">
           <DeadlineTimeline events={deadlineEvents} />
           <CalloutBox variant="tip" title="Top tip">
             Don't wait until January. File as soon as you have all your figures (from 6 April 2026 onwards). You still don't have to <strong>pay</strong> until 31 January, but you'll know exactly what you owe.

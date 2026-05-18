@@ -1,18 +1,28 @@
 import type { TaxYearData, TaxDataService } from './types.ts';
-import data2025 from '../../data/tax-rates-2025-26.json';
+import data202526 from '../../data/tax-rates-2025-26.json';
+import data202627 from '../../data/tax-rates-2026-27.json';
 
-export type { TaxYearData, TaxBand, PersonalAllowance, TaxDataService } from './types.ts';
+export type { TaxYearData, TaxBand, PersonalAllowance, StudentLoanPlan, PensionRates, DividendTax, TaxDataService } from './types.ts';
+
+const DATA_MAP: Record<string, unknown> = {
+  '2025/26': data202526,
+  '2026/27': data202627,
+};
+
+export const DEFAULT_TAX_YEAR = '2026/27';
+export const AVAILABLE_TAX_YEARS = ['2026/27', '2025/26'] as const;
 
 class JsonTaxDataService implements TaxDataService {
   getTaxYear(year: string, region: 'EWN' | 'Scotland'): TaxYearData {
-    if (year === '2025/26' && region === 'EWN') {
-      return data2025 as TaxYearData;
+    const data = DATA_MAP[year];
+    if (data && region === 'EWN') {
+      return data as TaxYearData;
     }
     throw new Error(`Tax data not available for ${year} ${region}`);
   }
 
   getAvailableYears(): string[] {
-    return ['2025/26'];
+    return [...AVAILABLE_TAX_YEARS];
   }
 }
 

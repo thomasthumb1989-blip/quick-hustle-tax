@@ -8,12 +8,15 @@ import {
 } from '../../../lib/calculators/sideHustleTax';
 import type { Period } from '../../../lib/calculators/periodConversion';
 import { convertForToggle, toAnnual } from '../../../lib/calculators/periodConversion';
+import { AVAILABLE_TAX_YEARS, DEFAULT_TAX_YEAR } from '../../../lib/tax-data/index';
+import { TaxYearSelector } from '../TaxYearSelector';
 
 const STORAGE_KEY = 'qht-side-hustle-inputs';
 const PERIODS_KEY = 'qht-side-hustle-periods';
+const TAX_YEAR_KEY = 'qht-side-hustle-tax-year';
 
 const defaultInputs: SideHustleTaxInput = {
-  taxYear: '2025/26',
+  taxYear: DEFAULT_TAX_YEAR,
   region: 'EWN',
   employmentIncome: 30000,
   sideHustleGrossIncome: 5000,
@@ -51,12 +54,25 @@ function loadPeriods(): FieldPeriods {
   return defaultPeriods;
 }
 
+function loadTaxYear(): string {
+  if (typeof window === 'undefined') return DEFAULT_TAX_YEAR;
+  try {
+    const saved = localStorage.getItem(TAX_YEAR_KEY);
+    if (saved && AVAILABLE_TAX_YEARS.includes(saved as typeof AVAILABLE_TAX_YEARS[number])) return saved;
+  } catch { /* ignore */ }
+  return DEFAULT_TAX_YEAR;
+}
+
 function saveInputs(inputs: SideHustleTaxInput): void {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(inputs)); } catch { /* ignore */ }
 }
 
 function savePeriods(periods: FieldPeriods): void {
   try { localStorage.setItem(PERIODS_KEY, JSON.stringify(periods)); } catch { /* ignore */ }
+}
+
+function saveTaxYear(year: string): void {
+  try { localStorage.setItem(TAX_YEAR_KEY, year); } catch { /* ignore */ }
 }
 
 /** Derive display values from annual inputs + current periods */
@@ -89,10 +105,12 @@ export default function SideHustleTaxCalculator() {
   useEffect(() => {
     const savedInputs = loadInputs();
     const savedPeriods = loadPeriods();
-    setInputs(savedInputs);
+    const savedTaxYear = loadTaxYear();
+    const mergedInputs = { ...savedInputs, taxYear: savedTaxYear };
+    setInputs(mergedInputs);
     setPeriods(savedPeriods);
-    setDisplayValues(deriveDisplayValues(savedInputs, savedPeriods));
-    setResult(calculateSideHustleTax(savedInputs));
+    setDisplayValues(deriveDisplayValues(mergedInputs, savedPeriods));
+    setResult(calculateSideHustleTax(mergedInputs));
   }, []);
 
   const handleChange = useCallback((updates: Partial<SideHustleTaxInput>) => {
@@ -103,6 +121,16 @@ export default function SideHustleTaxCalculator() {
         setResult(calculateSideHustleTax(next));
         saveInputs(next);
       }, 250);
+      return next;
+    });
+  }, []);
+
+  const handleTaxYearChange = useCallback((year: string) => {
+    saveTaxYear(year);
+    setInputs((prev) => {
+      const next = { ...prev, taxYear: year };
+      setResult(calculateSideHustleTax(next));
+      saveInputs(next);
       return next;
     });
   }, []);
@@ -131,37 +159,43 @@ export default function SideHustleTaxCalculator() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      {/* Inputs */}
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-          Your Income
-        </h2>
-        <InputsPanel
-          inputs={inputs}
-          displayValues={displayValues}
-          periods={periods}
-          onChange={handleChange}
-          onDisplayChange={handleDisplayChange}
-          onPeriodChange={handlePeriodChange}
-        />
-      </div>
-
-      {/* Results */}
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-          Tax Estimate
-        </h2>
-        {result ? (
-          <ResultsPanel
-            result={result}
-            grossIncome={inputs.sideHustleGrossIncome}
+    <div className="space-y-6">
+      <TaxYearSelector
+        value={inputs.taxYear}
+        onChange={handleTaxYearChange}
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Inputs */}
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            Your Income
+          </h2>
+          <InputsPanel
+            inputs={inputs}
+            displayValues={displayValues}
+            periods={periods}
+            onChange={handleChange}
+            onDisplayChange={handleDisplayChange}
+            onPeriodChange={handlePeriodChange}
           />
-        ) : (
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 text-center text-[var(--text-muted)]">
-            <p>Calculating...</p>
-          </div>
-        )}
+        </div>
+
+        {/* Results */}
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            Tax Estimate
+          </h2>
+          {result ? (
+            <ResultsPanel
+              result={result}
+              grossIncome={inputs.sideHustleGrossIncome}
+            />
+          ) : (
+            <div className="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-6 text-center text-[var(--text-muted)]">
+              <p>Calculating...</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

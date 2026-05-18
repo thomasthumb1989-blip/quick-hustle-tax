@@ -3,7 +3,7 @@ export const SITE = {
   description: 'Free UK tax calculators and checkers for side-hustlers, sole traders, and freelancers.',
   url: 'https://quickhustletax.co.uk',
   locale: 'en-GB',
-  taxYear: '2025/26',
+  taxYear: '2026/27',
 } as const;
 
 export const MONETISATION = {

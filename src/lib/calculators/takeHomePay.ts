@@ -1,4 +1,5 @@
-import taxRates from '../../data/tax-rates-2025-26.json';
+import { taxData, DEFAULT_TAX_YEAR } from '../tax-data/index.ts';
+import type { TaxYearData, TaxBand } from '../tax-data/types.ts';
 
 /* ═══════════════════════ Types ═══════════════════════ */
 
@@ -12,6 +13,7 @@ export interface TakeHomePayInput {
   studentLoanPlans: StudentLoanPlan[];
   taxCode: string; // default '1257L'
   isOverStatePensionAge: boolean; // default false
+  taxYear?: string; // default '2026/27'
 }
 
 export interface TaxBandBreakdown {
@@ -77,7 +79,7 @@ export interface TakeHomePayResult {
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
 /** Parse a UK tax code to determine personal allowance */
-function parseTaxCode(code: string): { type: 'numeric'; pa: number } | { type: 'special'; code: string } {
+function parseTaxCode(code: string, defaultPA: number): { type: 'numeric'; pa: number } | { type: 'special'; code: string } {
   const upper = code.toUpperCase().trim();
 
   if (upper === 'BR') return { type: 'special', code: 'BR' };
@@ -98,26 +100,26 @@ function parseTaxCode(code: string): { type: 'numeric'; pa: number } | { type: '
   if (digits) return { type: 'numeric', pa: Number(digits[1]) * 10 };
 
   // Unsupported
-  return { type: 'numeric', pa: taxRates.personalAllowance.amount };
+  return { type: 'numeric', pa: defaultPA };
 }
 
 /** Calculate effective PA after taper */
-function getEffectivePA(adjustedNetIncome: number, basePa: number): number {
+function getEffectivePA(adjustedNetIncome: number, basePa: number, rates: TaxYearData): number {
   if (basePa <= 0) return basePa; // K codes stay negative, no taper
-  if (adjustedNetIncome <= taxRates.personalAllowance.taperStart) return basePa;
+  if (adjustedNetIncome <= rates.personalAllowance.taperStart) return basePa;
 
-  const excess = adjustedNetIncome - taxRates.personalAllowance.taperStart;
-  const reduction = Math.floor(excess / taxRates.personalAllowance.taperRate);
+  const excess = adjustedNetIncome - rates.personalAllowance.taperStart;
+  const reduction = Math.floor(excess / rates.personalAllowance.taperRate);
   return Math.max(0, basePa - reduction);
 }
 
 /** Calculate income tax on taxable income using progressive bands */
-function calcIncomeTax(taxableIncome: number): { breakdown: TaxBandBreakdown[]; total: number } {
+function calcIncomeTax(taxableIncome: number, bands: TaxBand[]): { breakdown: TaxBandBreakdown[]; total: number } {
   const breakdown: TaxBandBreakdown[] = [];
   let total = 0;
   let remaining = Math.max(0, taxableIncome);
 
-  for (const band of taxRates.incomeTaxBands) {
+  for (const band of bands) {
     if (remaining <= 0) break;
     const width = band.to !== null ? band.to - band.from : Infinity;
     const inBand = Math.min(remaining, width);
@@ -150,11 +152,11 @@ function calcSpecialCodeTax(gross: number, code: string): { breakdown: TaxBandBr
 }
 
 /** Calculate employee NI (Class 1) */
-function calcEmployeeNI(salary: number): { breakdown: NIBandBreakdown[]; total: number } {
+function calcEmployeeNI(salary: number, bands: TaxBand[]): { breakdown: NIBandBreakdown[]; total: number } {
   const breakdown: NIBandBreakdown[] = [];
   let total = 0;
 
-  for (const band of taxRates.niEmployeeBands) {
+  for (const band of bands) {
     if (band.rate === 0) continue;
     const lower = band.from;
     const upper = band.to ?? Infinity;
@@ -175,13 +177,13 @@ function calcEmployeeNI(salary: number): { breakdown: NIBandBreakdown[]; total: 
 }
 
 /** Calculate student loan repayments */
-function calcStudentLoans(grossSalary: number, plans: StudentLoanPlan[]): StudentLoanDeduction[] {
+function calcStudentLoans(grossSalary: number, plans: StudentLoanPlan[], rates: TaxYearData): StudentLoanDeduction[] {
   const loanData: Record<string, { threshold: number; rate: number; label: string }> = {
-    plan1: { ...taxRates.studentLoan.plan1, label: 'Plan 1' },
-    plan2: { ...taxRates.studentLoan.plan2, label: 'Plan 2' },
-    plan4: { ...taxRates.studentLoan.plan4, label: 'Plan 4' },
-    plan5: { ...taxRates.studentLoan.plan5, label: 'Plan 5' },
-    postgraduate: { ...taxRates.studentLoan.postgrad, label: 'Postgraduate' },
+    plan1: { ...rates.studentLoan.plan1, label: 'Plan 1' },
+    plan2: { ...rates.studentLoan.plan2, label: 'Plan 2' },
+    plan4: { ...rates.studentLoan.plan4, label: 'Plan 4' },
+    plan5: { ...rates.studentLoan.plan5, label: 'Plan 5' },
+    postgraduate: { ...rates.studentLoan.postgrad, label: 'Postgraduate' },
   };
 
   return plans.map((plan) => {
@@ -195,43 +197,47 @@ function calcStudentLoans(grossSalary: number, plans: StudentLoanPlan[]): Studen
 function calcPension(
   grossSalary: number,
   percent: number,
-  pensionType: PensionType
+  pensionType: PensionType,
+  rates: TaxYearData
 ): { employeeContribution: number; employerContribution: number; pensionableEarnings: number } {
   if (pensionType === 'none' || percent <= 0) {
     return { employeeContribution: 0, employerContribution: 0, pensionableEarnings: 0 };
   }
 
-  const pLower = taxRates.pension.qualifyingEarningsLower;
-  const pUpper = taxRates.pension.qualifyingEarningsUpper;
+  const pLower = rates.pension.qualifyingEarningsLower;
+  const pUpper = rates.pension.qualifyingEarningsUpper;
 
   if (pensionType === 'salary-sacrifice') {
     // Salary sacrifice: percentage of gross salary
     const employeeContribution = round2(grossSalary * (percent / 100));
-    const employerContribution = round2(grossSalary * taxRates.pension.defaultEmployerRate);
+    const employerContribution = round2(grossSalary * rates.pension.defaultEmployerRate);
     return { employeeContribution, employerContribution, pensionableEarnings: grossSalary };
   }
 
   // Auto-enrolment: percentage of qualifying earnings
   const qualifyingEarnings = Math.max(0, Math.min(grossSalary, pUpper) - pLower);
   const employeeContribution = round2(qualifyingEarnings * (percent / 100));
-  const employerContribution = round2(qualifyingEarnings * taxRates.pension.defaultEmployerRate);
+  const employerContribution = round2(qualifyingEarnings * rates.pension.defaultEmployerRate);
   return { employeeContribution, employerContribution, pensionableEarnings: qualifyingEarnings };
 }
 
 /* ═══════════════════════ Main Calculation ═══════════════════════ */
 
 export function calculateTakeHomePay(input: TakeHomePayInput): TakeHomePayResult {
+  const year = input.taxYear ?? DEFAULT_TAX_YEAR;
+  const rates = taxData.getTaxYear(year, 'EWN');
+
   const gross = Math.max(0, input.annualGrossSalary);
 
   // 1. Pension
-  const pension = calcPension(gross, input.pensionContributionPercent, input.pensionType);
+  const pension = calcPension(gross, input.pensionContributionPercent, input.pensionType, rates);
 
   // 2. Adjusted gross for tax/NI (reduced by salary sacrifice only)
   const isSalarySacrifice = input.pensionType === 'salary-sacrifice';
   const adjustedGross = isSalarySacrifice ? gross - pension.employeeContribution : gross;
 
   // 3. Parse tax code
-  const parsedCode = parseTaxCode(input.taxCode);
+  const parsedCode = parseTaxCode(input.taxCode, rates.personalAllowance.amount);
 
   // 4. Income tax
   let incomeTaxResult: { breakdown: TaxBandBreakdown[]; total: number };
@@ -242,9 +248,9 @@ export function calculateTakeHomePay(input: TakeHomePayInput): TakeHomePayResult
     incomeTaxResult = calcSpecialCodeTax(adjustedGross, parsedCode.code);
   } else {
     // Apply PA taper based on adjusted net income
-    effectivePA = getEffectivePA(adjustedGross, parsedCode.pa);
+    effectivePA = getEffectivePA(adjustedGross, parsedCode.pa, rates);
     const taxableIncome = Math.max(0, adjustedGross - effectivePA);
-    incomeTaxResult = calcIncomeTax(taxableIncome);
+    incomeTaxResult = calcIncomeTax(taxableIncome, rates.incomeTaxBands);
   }
 
   // 5. National Insurance
@@ -252,11 +258,11 @@ export function calculateTakeHomePay(input: TakeHomePayInput): TakeHomePayResult
   if (input.isOverStatePensionAge) {
     niResult = { breakdown: [], total: 0 };
   } else {
-    niResult = calcEmployeeNI(adjustedGross);
+    niResult = calcEmployeeNI(adjustedGross, rates.niEmployeeBands);
   }
 
   // 6. Student loans (calculated on gross salary, NOT reduced by salary sacrifice)
-  const studentLoanDeductions = calcStudentLoans(gross, input.studentLoanPlans);
+  const studentLoanDeductions = calcStudentLoans(gross, input.studentLoanPlans, rates);
   const totalStudentLoan = round2(studentLoanDeductions.reduce((sum, d) => sum + d.deduction, 0));
 
   // 7. Take-home calculation
@@ -285,9 +291,7 @@ export function calculateTakeHomePay(input: TakeHomePayInput): TakeHomePayResult
   const marginalResult = calculateTakeHomePayInternal({
     ...input,
     annualGrossSalary: gross + 1,
-  });
-  const marginalTaxRate = gross > 0 ? round2((gross + 1 - annualTakeHome - (marginalResult.annualTakeHome - annualTakeHome + annualTakeHome)) * 100) / 100 : 0;
-  // Simpler: marginal = 1 - (takeHome(gross+1) - takeHome(gross))
+  }, rates);
   const takeHomeOnePound = marginalResult.annualTakeHome;
   const marginalKeep = round2(takeHomeOnePound - annualTakeHome);
   const marginalRate = round2(1 - marginalKeep);
@@ -323,25 +327,25 @@ export function calculateTakeHomePay(input: TakeHomePayInput): TakeHomePayResult
 }
 
 /** Internal version that doesn't recurse for marginal rate */
-function calculateTakeHomePayInternal(input: TakeHomePayInput): { annualTakeHome: number } {
+function calculateTakeHomePayInternal(input: TakeHomePayInput, rates: TaxYearData): { annualTakeHome: number } {
   const gross = Math.max(0, input.annualGrossSalary);
-  const pension = calcPension(gross, input.pensionContributionPercent, input.pensionType);
+  const pension = calcPension(gross, input.pensionContributionPercent, input.pensionType, rates);
   const isSalarySacrifice = input.pensionType === 'salary-sacrifice';
   const adjustedGross = isSalarySacrifice ? gross - pension.employeeContribution : gross;
 
-  const parsedCode = parseTaxCode(input.taxCode);
+  const parsedCode = parseTaxCode(input.taxCode, rates.personalAllowance.amount);
 
   let incomeTax: number;
   if (parsedCode.type === 'special') {
     incomeTax = calcSpecialCodeTax(adjustedGross, parsedCode.code).total;
   } else {
-    const effectivePA = getEffectivePA(adjustedGross, parsedCode.pa);
+    const effectivePA = getEffectivePA(adjustedGross, parsedCode.pa, rates);
     const taxableIncome = Math.max(0, adjustedGross - effectivePA);
-    incomeTax = calcIncomeTax(taxableIncome).total;
+    incomeTax = calcIncomeTax(taxableIncome, rates.incomeTaxBands).total;
   }
 
-  const ni = input.isOverStatePensionAge ? 0 : calcEmployeeNI(adjustedGross).total;
-  const studentLoanDeductions = calcStudentLoans(gross, input.studentLoanPlans);
+  const ni = input.isOverStatePensionAge ? 0 : calcEmployeeNI(adjustedGross, rates.niEmployeeBands).total;
+  const studentLoanDeductions = calcStudentLoans(gross, input.studentLoanPlans, rates);
   const totalStudentLoan = round2(studentLoanDeductions.reduce((sum, d) => sum + d.deduction, 0));
 
   let annualTakeHome: number;

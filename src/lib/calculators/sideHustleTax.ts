@@ -2,7 +2,7 @@ import { taxData, getEffectivePersonalAllowance } from '../tax-data/index.ts';
 import type { TaxYearData, TaxBand } from '../tax-data/types.ts';
 
 export interface SideHustleTaxInput {
-  taxYear: string; // "2025/26"
+  taxYear: string; // "2026/27"
   region: 'EWN' | 'Scotland';
   employmentIncome: number; // Annual PAYE gross
   sideHustleGrossIncome: number; // Annual side hustle gross

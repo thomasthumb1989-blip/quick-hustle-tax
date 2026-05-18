@@ -14,7 +14,7 @@ function makeInput(overrides: Partial<SideHustleTaxInput> = {}): SideHustleTaxIn
   };
 }
 
-describe('calculateSideHustleTax', () => {
+describe('calculateSideHustleTax — 2025/26', () => {
   it('1. Side income £500, employment £30k → below trading allowance, no tax', () => {
     const result = calculateSideHustleTax(
       makeInput({ sideHustleGrossIncome: 500 })
@@ -57,11 +57,8 @@ describe('calculateSideHustleTax', () => {
       })
     );
 
-    // PA £12,570 + basic band £37,700 = £50,270 threshold
-    // Employment £45k: below threshold. Total £45k + £9k profit = £54k → crosses into higher rate
     expect(result.flags.crossesHigherRateThreshold).toBe(true);
 
-    // Some tax should be at 40%
     const higherRateBand = result.incomeTaxBreakdown.find((b) => b.rate === 0.4);
     expect(higherRateBand).toBeDefined();
     expect(higherRateBand!.tax).toBeGreaterThan(0);
@@ -76,7 +73,6 @@ describe('calculateSideHustleTax', () => {
       })
     );
 
-    // Total: £90k + £19k (after £1k allowance) = £109k → above £100k taper
     expect(result.flags.personalAllowanceTapered).toBe(true);
     expect(result.personalAllowanceUsed).toBeLessThan(12570);
   });
@@ -90,7 +86,6 @@ describe('calculateSideHustleTax', () => {
       })
     );
 
-    // Total: £120k + £29k = £149k → well above £125,140 where PA = 0
     expect(result.personalAllowanceUsed).toBe(0);
     expect(result.flags.personalAllowanceTapered).toBe(true);
   });
@@ -127,9 +122,6 @@ describe('calculateSideHustleTax', () => {
       })
     );
 
-    // Total: £25k + £2k (after allowance) = £27k. All within basic rate.
-    // Additional tax on side hustle = £2k * 20% = £400 income tax
-    // Class 4 NI: £0 (profit £2k below £12,570 threshold)
     expect(result.additionalTaxOwedOnSideHustle).toBe(400);
     expect(result.totalClass4NI).toBe(0);
   });
@@ -153,7 +145,6 @@ describe('calculateSideHustleTax', () => {
       })
     );
 
-    // Take-home = gross - expenses - tax owed
     expect(result.takeHomeFromSideHustle).toBe(
       5000 - 200 - result.additionalTaxOwedOnSideHustle
     );
@@ -166,9 +157,6 @@ describe('calculateSideHustleTax', () => {
 
     expect(result.flags.belowTradingAllowance).toBe(true);
     expect(result.additionalTaxOwedOnSideHustle).toBe(0);
-
-    // totalIncomeTax should reflect actual tax on total income, not 0
-    // Employment £30k → taxable £17,430 → £3,486 at 20%
     expect(result.totalIncomeTax).toBe(result.taxOnEmploymentOnly);
     expect(result.totalIncomeTax).toBeGreaterThan(0);
     expect(result.incomeTaxBreakdown.length).toBeGreaterThanOrEqual(1);
@@ -186,5 +174,49 @@ describe('calculateSideHustleTax', () => {
 
     expect(result.effectiveTaxRateOnSideHustle).toBeGreaterThan(0);
     expect(result.effectiveTaxRateOnSideHustle).toBeLessThan(1);
+  });
+});
+
+describe('calculateSideHustleTax — 2026/27', () => {
+  function make2627(overrides: Partial<SideHustleTaxInput> = {}): SideHustleTaxInput {
+    return {
+      taxYear: '2026/27',
+      region: 'EWN',
+      employmentIncome: 30000,
+      sideHustleGrossIncome: 5000,
+      sideHustleExpenses: 200,
+      claimMode: 'auto',
+      ...overrides,
+    };
+  }
+
+  it('basic scenario: £30k + £5k side hustle + £200 expenses produces correct result', () => {
+    const result = calculateSideHustleTax(make2627());
+
+    // Trading allowance still £1,000, better than £200 expenses
+    expect(result.claimedDeductionType).toBe('tradingAllowance');
+    expect(result.claimedDeduction).toBe(1000);
+    expect(result.sideHustleProfit).toBe(4000);
+    expect(result.flags.requiresSelfAssessment).toBe(true);
+    // Same tax bands as 2025/26 so additional tax should be same
+    expect(result.additionalTaxOwedOnSideHustle).toBeGreaterThan(0);
+  });
+
+  it('below trading allowance works same in 2026/27', () => {
+    const result = calculateSideHustleTax(make2627({ sideHustleGrossIncome: 500 }));
+    expect(result.flags.belowTradingAllowance).toBe(true);
+    expect(result.additionalTaxOwedOnSideHustle).toBe(0);
+  });
+
+  it('higher rate crossing works in 2026/27', () => {
+    const result = calculateSideHustleTax(make2627({
+      employmentIncome: 45000,
+      sideHustleGrossIncome: 10000,
+      sideHustleExpenses: 0,
+    }));
+
+    expect(result.flags.crossesHigherRateThreshold).toBe(true);
+    const higherRateBand = result.incomeTaxBreakdown.find((b) => b.rate === 0.4);
+    expect(higherRateBand).toBeDefined();
   });
 });
