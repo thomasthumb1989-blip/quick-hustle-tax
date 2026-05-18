@@ -53,7 +53,22 @@
     "smallProfitsRate": 0.19,
     "smallProfitsLimit": 50000,
     "mainRate": 0.25,
-    "mainRateThreshold": 250000
+    "mainRateThreshold": 250000,
+    "marginalReliefFraction": 0.015
+  },
+  "employerNI": {
+    "secondaryThreshold": 5000,
+    "rate": 0.15,
+    "employmentAllowance": 10500
+  },
+  "selfEmployedNI": {
+    "class2WeeklyRate": 3.65,
+    "class2WeeksPerYear": 52,
+    "class2SmallProfitsThreshold": 6845,
+    "class4LowerLimit": 12570,
+    "class4UpperLimit": 50270,
+    "class4MainRate": 0.06,
+    "class4AdditionalRate": 0.02
   },
   "lowerEarningsLimit": 6708,
   "class2NI": { "weeklyRate": 3.65 },

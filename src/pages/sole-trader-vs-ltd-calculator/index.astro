@@ -1,22 +1,119 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SoleTraderVsLtdCalculator from '../../components/calculators/SoleTraderVsLtd/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
 import { SITE } from '../../config/site';
-import { breadcrumbSchema } from '../../lib/seo/schema';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
 
-const pageTitle = 'Sole Trader vs Limited Company Calculator 2026/27';
-const pageDescription = 'Compare tax efficiency between operating as a sole trader vs a limited company. See which structure saves you more after tax and NI.';
+const pageTitle = 'Sole Trader vs Limited Company Tax Calculator 2026/27 — Free UK Comparison';
+const pageDescription =
+  "Compare take-home pay as a sole trader vs limited company director for 2026/27. See income tax, NI, corporation tax, and dividend tax side by side. Free instant results.";
+const canonicalUrl = `${SITE.url}/sole-trader-vs-ltd-calculator/`;
+
+const appSchema = webApplicationSchema({
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+});
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: SITE.url },
   { name: 'Tools', url: `${SITE.url}/tools/` },
-  { name: 'Sole Trader vs Ltd', url: `${SITE.url}/sole-trader-vs-ltd-calculator/` },
+  { name: 'Sole Trader vs Ltd', url: canonicalUrl },
 ]);
+
+const faqData = [
+  {
+    question: 'At what profit level should I become a limited company?',
+    answer: "With 2026/27 tax rates, pure extraction (salary + dividends) never beats sole trader at any profit level — the combined corporation tax plus dividend tax exceeds sole trader income tax plus NI across the board. However, Ltd still wins with strategies like employer pension contributions (above ~£40–50k profit), income splitting with a spouse, or retaining profits in the company.",
+  },
+  {
+    question: 'Can I switch from sole trader to limited company?',
+    answer: "Yes. You can incorporate at any time by registering a company at Companies House. Your sole trader business ceases trading and the company takes over. You'll need to register for Corporation Tax, set up PAYE for your salary, and file separate accounts. The transition is straightforward but an accountant can help with timing and asset transfers.",
+  },
+  {
+    question: 'Do I need an accountant for a limited company?',
+    answer: "Legally, no — but practically, yes. Ltd companies must file annual accounts, a Corporation Tax return, and operate PAYE for director salaries. Most directors find the complexity and compliance risk justify accountant fees of £1,000–2,500 per year.",
+  },
+  {
+    question: 'What is the Employment Allowance and can I claim it?',
+    answer: "The Employment Allowance reduces your employer NI bill by up to £10,500 per year. However, single-director companies with no other employees CANNOT claim it. You need at least two directors or one director plus an employee to qualify.",
+  },
+  {
+    question: 'How are dividends taxed differently from salary?',
+    answer: "Salary is taxed at income tax rates (20%/40%/45%) plus employee and employer NI. Dividends are taxed at lower rates (10.75%/35.75%/39.35% for 2026/27) with no NI — but the company has already paid Corporation Tax on the profit before dividends are distributed, creating double taxation.",
+  },
+  {
+    question: 'What happens to my profits if I do not take them out as dividends?',
+    answer: "Retained profits stay in the company and are only subject to Corporation Tax (19–25%). You can invest them, build reserves, or extract them later. This can be tax-efficient if you don't need the income immediately, as you avoid dividend tax until distribution.",
+  },
+  {
+    question: 'Is IR35 a concern for me?',
+    answer: "If you work for a single client who controls when, where, and how you work, HMRC may consider you a 'disguised employee' under IR35. If IR35 applies, you lose the tax benefits of a Ltd company and are taxed as an employee. This is a complex area — seek specialist advice if you have a single main client.",
+  },
+  {
+    question: 'Can my spouse be a shareholder to reduce tax?',
+    answer: "Yes, if your spouse genuinely owns shares and receives dividends, they can use their own Personal Allowance and dividend allowance. However, HMRC's 'settlements legislation' may challenge arrangements where shares don't reflect genuine ownership or contribution to the business.",
+  },
+  {
+    question: 'Is it worth setting up a limited company for £30,000 profit?',
+    answer: "At £30,000 profit with 2026/27 rates, the sole trader structure is typically more tax-efficient after accounting for Ltd company costs (accounting, employer NI, admin time). The calculator above gives you exact figures for your situation.",
+  },
+  {
+    question: 'How much does a sole trader pay in tax on £50,000?',
+    answer: "On £50,000 profit as a sole trader (2026/27): Income Tax is £7,486 and Class 4 NI is £2,245.80, totalling £9,731.80 in tax. Take-home pay is approximately £40,268.",
+  },
+  {
+    question: 'How much tax does a limited company pay on £50,000 profit?',
+    answer: "On £50,000 profit through a Ltd company (2026/27, no Employment Allowance): Corporation Tax is approximately £6,896, dividend tax approximately £3,107, employer NI £1,136, plus ~£1,200 accounting costs. Total cost is approximately £12,339, giving take-home of approximately £37,662.",
+  },
+  {
+    question: 'What are the disadvantages of a limited company?',
+    answer: "Higher admin burden (annual accounts, CT return, PAYE, confirmation statement), accountant fees (£1,000–2,500/year), public filing of accounts at Companies House, director responsibilities, and less flexibility with profit extraction. For 2026/27, the combined tax rate through a Ltd company is also often higher than sole trader rates due to double taxation.",
+  },
+];
+
+const faqs = faqPageSchema(faqData);
+
+const faqItems = faqData;
+
+const tocSections = [
+  { id: 'key-differences', title: 'Key Differences' },
+  { id: 'sole-trader-tax', title: 'How Sole Traders Are Taxed' },
+  { id: 'ltd-tax', title: 'How Ltd Directors Are Taxed' },
+  { id: 'salary-dividend-split', title: 'Optimal Salary-Dividend Split' },
+  { id: 'corporation-tax', title: 'Corporation Tax & Marginal Relief' },
+  { id: 'worked-examples', title: 'Worked Examples' },
+  { id: 'hidden-costs', title: 'Hidden Costs of a Ltd Company' },
+  { id: 'when-ltd-still-makes-sense', title: 'When Ltd Still Makes Sense' },
+  { id: 'when-to-incorporate', title: 'When to Incorporate' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const today = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
 
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
     <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
       <ol class="flex items-center gap-1.5">
         <li><a href="/" class="hover:text-primary-500">Home</a></li>
@@ -27,28 +124,258 @@ const breadcrumbs = breadcrumbSchema([
       </ol>
     </nav>
 
+    {/* Header */}
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
-        Sole Trader vs Limited Company
+        Sole Trader vs Limited Company Calculator
         <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2026/27)</span>
       </h1>
       <p class="text-lg text-[var(--text-secondary)] mt-2">
-        Should you stay as a sole trader or incorporate? Compare the tax you'd pay under each structure side-by-side.
+        Should you stay as a sole trader or incorporate? Compare the tax you'd pay under each structure side-by-side, using 2026/27 rates.
       </p>
     </header>
 
-    <div class="rounded-xl border-2 border-dashed border-[var(--border)] p-12 text-center">
-      <p class="text-2xl mb-2">⚖️</p>
-      <p class="text-lg font-semibold text-[var(--text-primary)]">Coming Soon</p>
-      <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md mx-auto">
-        This calculator is being built right now. In the meantime, try our
-        <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Side-Hustle Tax Calculator</a>.
-      </p>
+    {/* Calculator */}
+    <section class="mb-12" aria-label="Tax comparison calculator">
+      <SoleTraderVsLtdCalculator client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Guide content */}
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-8">
+      <article>
+        <p class="text-xs text-[var(--text-muted)] mb-6">
+          Last updated: May 2026 · Tax year 2026/27 · All rates and thresholds from HMRC published guidance
+        </p>
+
+        <p class="text-base text-[var(--text-secondary)] mb-6 leading-relaxed">
+          In 2026/27, a sole trader takes home more than a limited company director at every profit level when all profits are extracted as dividends — the April 2026 dividend tax increase tipped the balance. However, Ltd companies can still save tax through retained profits, employer pension contributions, and income splitting. All rates and thresholds below are from HMRC's published guidance for the 2026/27 tax year.
+        </p>
+
+        <CalloutBox variant="tip" title="Quick Answer" client:load>
+          <p>
+            Quick answer: With the 2026/27 dividend tax increase, extracting all Ltd profit as salary + dividends no longer beats sole trader at any profit level. However, Ltd still offers advantages through retained profits (deferring tax), employer pension contributions (CT-deductible, NI-free), and splitting income between directors/shareholders.
+          </p>
+        </CalloutBox>
+
+        <CalloutBox variant="warning" title="Important: 2026/27 Rate Change" client:load>
+          <p>
+            From April 2026, dividend tax increased by 2 percentage points. This means the combined corporation tax + dividend tax burden now exceeds sole trader income tax + NI at all profit levels when all profits are extracted. The traditional advice to incorporate above £30,000 profit no longer applies for simple extraction strategies.
+          </p>
+        </CalloutBox>
+
+        <AccordionSection id="key-differences" title="1. Sole Trader vs Limited Company: Key Differences" defaultOpen={true} client:load>
+          <p class="mb-3">
+            A sole trader is an individual who runs their own business and is personally responsible for its debts. A limited company is a separate legal entity that pays corporation tax on profits, with directors extracting income via salary and dividends.
+          </p>
+          <CalloutBox variant="info" client:load>
+            <p>A sole trader IS the business — there's no legal separation. A Ltd company is a separate legal entity with its own tax obligations.</p>
+          </CalloutBox>
+          <ComparisonTable
+            client:load
+            headers={['', 'Sole Trader', 'Limited Company']}
+            rows={[
+              ['Setup', 'Register with HMRC', 'Companies House + HMRC'],
+              ['Liability', 'Personal (unlimited)', 'Limited to company assets'],
+              ['Tax on profits', 'Income Tax + NI', 'Corporation Tax + Dividend Tax'],
+              ['Admin burden', 'Low (Self Assessment)', 'High (accounts, CT, PAYE)'],
+              ['Public records', 'None', 'Accounts filed publicly'],
+              ['Profit extraction', 'All profits are yours', 'Salary + dividends'],
+            ]}
+          />
+        </AccordionSection>
+
+        <AccordionSection id="sole-trader-tax" title="2. How Sole Traders Are Taxed" client:load>
+          <p class="mb-3">
+            Sole traders pay Income Tax on their profits using the same bands as employed workers, plus Class 4 National Insurance on profits above £12,570.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Personal Allowance:</strong> first £12,570 tax-free (tapers above £100k income)</li>
+            <li><strong>Basic rate:</strong> 20% on profits from £12,570 to £50,270</li>
+            <li><strong>Higher rate:</strong> 40% on profits from £50,270 to £125,140</li>
+            <li><strong>Additional rate:</strong> 45% above £125,140</li>
+            <li><strong>Class 4 NI:</strong> 6% on £12,570–£50,270, then 2% above</li>
+            <li><strong>Class 2 NI:</strong> no longer required since April 2024 (automatic NI credits)</li>
+          </ul>
+          <p>
+            The effective combined rate (IT + NI) is 26% at basic rate and 42% at higher rate. File via Self Assessment by 31 January following the tax year.
+          </p>
+          <p class="mt-3">
+            Already have PAYE employment alongside your self-employment?
+            Try our <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Side-Hustle Tax Calculator</a> for that scenario.
+          </p>
+        </AccordionSection>
+
+        <AccordionSection id="ltd-tax" title="3. How Ltd Company Directors Are Taxed" client:load>
+          <p class="mb-3">
+            A limited company is a separate taxpayer. The company pays Corporation Tax on profits, then the director extracts money via salary (PAYE) and dividends.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Corporation Tax:</strong> 19% on profits up to £50,000; 25% above £250,000; marginal relief in between</li>
+            <li><strong>Director salary:</strong> typically set at the Personal Allowance (£12,570) — no income tax, no employee NI</li>
+            <li><strong>Employer NI:</strong> 15% on salary above £5,000 secondary threshold</li>
+            <li><strong>Employment Allowance:</strong> up to £10,500 off employer NI (not available to single-director companies)</li>
+            <li><strong>Dividends:</strong> remaining post-CT profit distributed to the director</li>
+            <li><strong>Dividend tax:</strong> 10.75% basic / 35.75% higher / 39.35% additional (2026/27)</li>
+          </ul>
+          <CalloutBox variant="warning" client:load>
+            <p>Dividend tax rates increased by 2 percentage points from April 2026. Basic rate is now 10.75% (was 8.75%), higher rate 35.75% (was 33.75%). This significantly affects the sole trader vs Ltd comparison.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="salary-dividend-split" title="4. The Optimal Salary-Dividend Split" client:load>
+          <p class="mb-3">
+            Most accountants recommend a director salary of £12,570 (the Personal Allowance) plus dividends for the rest. This minimises the overall tax bill because:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li>Salary up to £12,570 incurs zero income tax (covered by PA)</li>
+            <li>No employee NI at this level (salary at/below primary threshold)</li>
+            <li>The salary reduces the company's Corporation Tax bill</li>
+            <li>Dividends have lower tax rates than salary above the PA</li>
+          </ul>
+          <CalloutBox variant="tip" client:load>
+            <p>The optimal director salary for 2026/27 is £12,570 — the Personal Allowance. No income tax, no employee NI, and the salary reduces your Corporation Tax bill.</p>
+          </CalloutBox>
+          <p class="mt-3">
+            The first £500 of dividends is covered by the dividend allowance (0% tax). Remaining dividends fill the basic rate band (10.75%), then higher (35.75%), then additional (39.35%).
+          </p>
+        </AccordionSection>
+
+        <AccordionSection id="corporation-tax" title="5. Corporation Tax and Marginal Relief" client:load>
+          <p class="mb-3">
+            Since April 2023, Corporation Tax has a two-rate structure: 19% for small profits (up to £50,000) and 25% for profits above £250,000. Between these thresholds, marginal relief applies, creating an effective rate between 19% and 25%.
+          </p>
+          <p class="mb-3">
+            The marginal relief formula: (£250,000 − profit) × 3/200. This produces an effective marginal rate of 26.5% in the band.
+          </p>
+          <ComparisonTable
+            client:load
+            headers={['Taxable Profit', 'CT Rate', 'CT Paid', 'Effective Rate']}
+            rows={[
+              ['£30,000', '19%', '£5,700', '19.0%'],
+              ['£50,000', '19%', '£9,500', '19.0%'],
+              ['£100,000', 'Marginal', '£22,750', '22.8%'],
+              ['£200,000', 'Marginal', '£47,500', '23.8%'],
+              ['£300,000', '25%', '£75,000', '25.0%'],
+            ]}
+          />
+        </AccordionSection>
+
+        <AccordionSection id="worked-examples" title="6. Worked Examples" client:load>
+          <WorkedExample
+            persona="Tom — Freelance Plumber"
+            job="Self-employed plumber"
+            sideHustle="£25,000 annual profit"
+            income={25000}
+            expenses={0}
+            client:load
+          >
+            <p>As a sole trader: £12,570 Personal Allowance, £2,486 income tax, £745.80 Class 4 NI. Total tax: £3,231.80. Take-home: £21,768.20.</p>
+            <p>As Ltd company: £12,570 salary + dividends after 19% CT. With £1,200 accounting costs and employer NI, take-home is approximately £2,000 less.</p>
+            <p>Verdict: Sole trader wins clearly. At £25k, the Ltd accounting costs and double taxation (CT + dividend tax) outweigh any benefit. Ltd would only make sense here if Tom retained profits for business growth or made employer pension contributions.</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="Aisha — Freelance Consultant"
+            job="Management consultant"
+            sideHustle="£60,000 annual profit"
+            income={60000}
+            expenses={0}
+            client:load
+          >
+            <p>As a sole trader: taxable income £47,430, income tax £11,486, Class 4 NI £2,645.80. Total tax: £14,131.80. Take-home: £45,868.20.</p>
+            <p>As Ltd company: £12,570 salary, CT on remaining profit, dividends extracted. With 2026/27 dividend rates, combined tax + costs exceed the sole trader total.</p>
+            <p>Verdict: Sole trader wins on pure extraction. However, if Aisha made £10,000/year in employer pension contributions through her Ltd company, those would be CT-deductible and NI-free — potentially tipping the balance. Income splitting with a spouse as shareholder could also help.</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="David — IT Contractor"
+            job="Software contractor"
+            sideHustle="£100,000 annual profit"
+            income={100000}
+            expenses={0}
+            client:load
+          >
+            <p>As a sole trader: PA begins to taper at £100k, creating an effective 60% marginal rate between £100k–£125k. Full basic + higher rate tax plus NI.</p>
+            <p>As Ltd company: director's personal income stays below £100k (avoiding PA taper), but corporation tax at marginal rates plus higher-rate dividend tax applies. Even with PA taper avoidance, sole trader still edges ahead on pure extraction.</p>
+            <p>Verdict: Sole trader wins even at £100k, though the gap is smallest here due to PA taper mitigation. This is where Ltd strategies shine: employer pension contributions (saving 40% IT + 2% NI vs CT-deductible), profit retention, and Business Asset Disposal Relief if David plans to sell.</p>
+          </WorkedExample>
+        </AccordionSection>
+
+        <AccordionSection id="hidden-costs" title="7. Hidden Costs of Running a Limited Company" client:load>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Accountant fees:</strong> £1,000–2,500/year for annual accounts, CT return, and payroll</li>
+            <li><strong>Companies House:</strong> £34/year confirmation statement</li>
+            <li><strong>Payroll admin:</strong> RTI filing every time you pay yourself</li>
+            <li><strong>Corporation Tax return:</strong> CT600 due 12 months after year end</li>
+            <li><strong>Time overhead:</strong> board minutes, registered office, record keeping</li>
+            <li><strong>Employer NI:</strong> 15% on salary above £5,000 (unless EA applies)</li>
+          </ul>
+          <CalloutBox variant="warning" client:load>
+            <p>Don't incorporate just for a small tax saving. If the saving is under £1,000/year, the admin hassle and professional fees probably aren't worth it.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="when-ltd-still-makes-sense" title="8. When Ltd Still Makes Sense" client:load>
+          <p class="mb-3">
+            The calculator above compares pure extraction (all profit taken as salary + dividends). In reality, Ltd companies offer several strategies that can reduce the total tax bill below the sole trader level:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Retained profits:</strong> leave money in the company at just 19% CT. You defer dividend tax until you actually extract the money — useful if you're reinvesting in the business or building reserves.</li>
+            <li><strong>Employer pension contributions:</strong> the most powerful Ltd benefit. Company pension payments are CT-deductible, attract no income tax, and have no NI. A £10,000 employer pension contribution saves up to £4,200 compared to drawing dividends and contributing personally.</li>
+            <li><strong>Spouse/partner as shareholder:</strong> if your spouse genuinely owns shares, dividends split across two Personal Allowances and two sets of tax bands. HMRC's settlements legislation requires genuine ownership — not just a paper arrangement.</li>
+            <li><strong>Limited liability protection:</strong> your personal assets are protected from business debts. This is a non-tax reason but crucial for businesses with contractual risk.</li>
+            <li><strong>Multiple income streams:</strong> salary + dividends + pension gives more flexibility to optimise extraction year by year based on your circumstances.</li>
+            <li><strong>Selling the business:</strong> Business Asset Disposal Relief (BADR) means the first £1 million of capital gains on company shares is taxed at just 10% CGT — significantly better than extracting all profits as dividends over time.</li>
+          </ul>
+          <CalloutBox variant="tip" client:load>
+            <p>Rule of thumb for 2026/27: pure extraction favours sole trader. With pension strategy, Ltd can win above ~£40–50k profit. With income splitting, Ltd can win for couples. With retained profits, Ltd defers tax for growing businesses.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="when-to-incorporate" title="9. When to Incorporate — and When Not To" client:load>
+          <p class="mb-3">
+            With the 2026/27 dividend tax increase, the decision framework has changed:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Pure tax extraction:</strong> sole trader wins at all profit levels in 2026/27</li>
+            <li><strong>With pension strategy:</strong> Ltd can win above ~£40–50k if you're making employer pension contributions</li>
+            <li><strong>With retained profits:</strong> Ltd defers tax — useful for businesses reinvesting or saving for large purchases</li>
+            <li><strong>With income splitting:</strong> Ltd can win for couples where one partner has unused allowances</li>
+            <li><strong>Limited liability:</strong> always relevant if your business carries contractual or professional risk</li>
+          </ul>
+          <CalloutBox variant="warning" client:load>
+            <p>Don't incorporate based on outdated advice. Many online guides still suggest incorporating above £30k–£50k profit — that advice predates the April 2026 dividend tax increase and no longer holds for simple extraction strategies.</p>
+          </CalloutBox>
+          <p class="mt-3">
+            Exceptions to consider: IR35 status (if you're inside IR35, Ltd structure offers little benefit), mortgage applications (lenders may want to see company accounts history), and simplicity (sole trader is significantly less admin).
+          </p>
+          <p class="mt-3">
+            Self-employed? See how your salary compares with our <a href="/take-home-pay-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Take-Home Pay Calculator</a>.
+          </p>
+        </AccordionSection>
+
+        <AccordionSection id="faqs" title="10. Frequently Asked Questions" client:load>
+          <FAQAccordion items={faqItems} client:load />
+        </AccordionSection>
+      </article>
+
+      {/* Table of Contents sidebar */}
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">
+            On this page
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
     </div>
 
+    {/* Footer */}
     <footer class="mt-12 pt-4 border-t border-[var(--border)]">
       <p class="text-xs text-[var(--text-muted)]">
-        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates
+        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates · Not financial advice
       </p>
     </footer>
   </div>

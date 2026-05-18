@@ -29,6 +29,30 @@ export interface DividendTax {
   additional: number;
 }
 
+export interface CorporationTax {
+  smallProfitsRate: number;
+  smallProfitsLimit: number;
+  mainRate: number;
+  mainRateThreshold: number;
+  marginalReliefFraction: number;
+}
+
+export interface EmployerNI {
+  secondaryThreshold: number;
+  rate: number;
+  employmentAllowance: number;
+}
+
+export interface SelfEmployedNI {
+  class2WeeklyRate: number;
+  class2WeeksPerYear: number;
+  class2SmallProfitsThreshold: number;
+  class4LowerLimit: number;
+  class4UpperLimit: number;
+  class4MainRate: number;
+  class4AdditionalRate: number;
+}
+
 export interface TaxYearData {
   year: string; // "2025/26" or "2026/27"
   region: 'EWN' | 'Scotland';
@@ -46,6 +70,9 @@ export interface TaxYearData {
   };
   pension: PensionRates;
   dividendTax: DividendTax;
+  corporationTax: CorporationTax;
+  employerNI: EmployerNI;
+  selfEmployedNI: SelfEmployedNI;
 }
 
 export interface TaxDataService {

@@ -2,7 +2,7 @@ import type { TaxYearData, TaxDataService } from './types.ts';
 import data202526 from '../../data/tax-rates-2025-26.json';
 import data202627 from '../../data/tax-rates-2026-27.json';
 
-export type { TaxYearData, TaxBand, PersonalAllowance, StudentLoanPlan, PensionRates, DividendTax, TaxDataService } from './types.ts';
+export type { TaxYearData, TaxBand, PersonalAllowance, StudentLoanPlan, PensionRates, DividendTax, CorporationTax, EmployerNI, SelfEmployedNI, TaxDataService } from './types.ts';
 
 const DATA_MAP: Record<string, unknown> = {
   '2025/26': data202526,
