@@ -1,22 +1,126 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TakeHomePayCalculator from '../../components/calculators/TakeHomePay/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
 import { SITE } from '../../config/site';
-import { breadcrumbSchema } from '../../lib/seo/schema';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
 
-const pageTitle = 'UK Take-Home Pay Calculator 2025/26';
-const pageDescription = 'Free calculator to work out your actual take-home pay after income tax, National Insurance, and deductions. 2025/26 rates.';
+const pageTitle = 'UK Take-Home Pay Calculator 2025/26 — Free Salary Calculator';
+const pageDescription =
+  'Calculate your exact UK take-home pay for 2025/26. See income tax, National Insurance, student loan, and pension deductions. Updated with latest HMRC rates.';
+const canonicalUrl = `${SITE.url}/take-home-pay-calculator/`;
+
+const appSchema = webApplicationSchema({
+  name: 'UK Take-Home Pay Calculator 2025/26',
+  description: pageDescription,
+  url: canonicalUrl,
+});
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: SITE.url },
   { name: 'Tools', url: `${SITE.url}/tools/` },
-  { name: 'Take-Home Pay Calculator', url: `${SITE.url}/take-home-pay-calculator/` },
+  { name: 'Take-Home Pay Calculator', url: canonicalUrl },
 ]);
+
+const faqs = faqPageSchema([
+  {
+    question: "What's the difference between gross and net salary?",
+    answer: "Gross salary is your total pay before any deductions. Net salary (take-home pay) is what lands in your bank account after income tax, National Insurance, pension contributions, and student loan repayments are deducted.",
+  },
+  {
+    question: 'Do I pay NI after State Pension age?',
+    answer: "No. Once you reach State Pension age, you stop paying National Insurance contributions entirely. Your employer also stops paying employer NI on your earnings. However, you still pay income tax as normal.",
+  },
+  {
+    question: 'How do I check my tax code is correct?',
+    answer: "Check your payslip or P45 for your current tax code. You can also log into your HMRC Personal Tax Account at gov.uk to verify it. The standard code for 2025/26 is 1257L. If yours differs, it may reflect benefits in kind, underpaid tax from a previous year, or a second job.",
+  },
+  {
+    question: 'Is salary sacrifice worth it?',
+    answer: "Usually yes, especially for higher-rate taxpayers. Salary sacrifice reduces your gross salary before tax and NI are calculated, saving both income tax and National Insurance. The downside: it can reduce your mortgage borrowing capacity and statutory payments (like maternity pay) since those are based on your reduced salary.",
+  },
+  {
+    question: 'Do student loan repayments count as tax?',
+    answer: "Not technically — student loan repayments are not a tax, and they don't appear on your tax return. However, they're deducted from your salary through PAYE just like tax and NI. Unlike tax, repayments stop once the loan is repaid or written off (25-40 years depending on plan).",
+  },
+  {
+    question: 'What if I have two jobs?',
+    answer: "Your Personal Allowance is usually applied to your main job. Your second job typically uses a BR (Basic Rate) tax code, meaning all income from it is taxed at 20%. You can split your allowance between jobs by contacting HMRC, but most people find it simpler to keep it on their primary employment.",
+  },
+  {
+    question: 'How does overtime affect my take-home pay?',
+    answer: "Overtime is taxed at your marginal rate — the rate on your next pound of income. If you're a basic-rate taxpayer, overtime is taxed at 20% plus 8% NI (28% total). If overtime pushes you into the higher-rate band, that portion is taxed at 40% plus 2% NI (42% total).",
+  },
+  {
+    question: 'Can I reduce my tax bill legally?',
+    answer: "Yes. Common methods include: salary sacrifice pension contributions (reduces both tax and NI), claiming higher-rate pension tax relief via Self Assessment, using your full ISA allowance for savings, charitable donations via Gift Aid (for higher-rate taxpayers), and ensuring your tax code is correct.",
+  },
+]);
+
+const tocSections = [
+  { id: 'how-calculated', title: 'How Take-Home Pay Works' },
+  { id: 'income-tax', title: 'Income Tax Bands' },
+  { id: 'national-insurance', title: 'National Insurance' },
+  { id: 'student-loans', title: 'Student Loan Repayments' },
+  { id: 'pension', title: 'Pension Contributions' },
+  { id: 'worked-examples', title: 'Worked Examples' },
+  { id: 'common-mistakes', title: 'Common Mistakes' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const faqItems = [
+  {
+    question: "What's the difference between gross and net salary?",
+    answer: "Gross salary is your total pay before any deductions. Net salary (take-home pay) is what lands in your bank account after income tax, National Insurance, pension contributions, and student loan repayments are deducted.",
+  },
+  {
+    question: 'Do I pay NI after State Pension age?',
+    answer: "No. Once you reach State Pension age, you stop paying National Insurance entirely. You still pay income tax as normal — there's no age exemption for that.",
+  },
+  {
+    question: 'How do I check my tax code is correct?',
+    answer: "Check your payslip or log into your HMRC Personal Tax Account at gov.uk. The standard 2025/26 code is 1257L. If yours is different, it may reflect benefits in kind, underpaid tax from a previous year, or a second job.",
+  },
+  {
+    question: 'Is salary sacrifice worth it?',
+    answer: "Usually yes, especially for higher-rate taxpayers. You save both income tax and NI. The downside: it can reduce mortgage borrowing capacity and statutory payments (maternity pay, redundancy) since those are based on your reduced salary.",
+  },
+  {
+    question: 'Do student loan repayments count as tax?',
+    answer: "No — they're not a tax and don't appear on your tax return. But they are deducted from your pay through PAYE. Unlike tax, repayments stop once the loan is repaid or written off (25-40 years depending on plan).",
+  },
+  {
+    question: 'What if I have two jobs?',
+    answer: "Your Personal Allowance usually applies to your main job. Your second job typically uses a BR tax code, so all income from it is taxed at 20%. You can split your allowance between jobs by contacting HMRC.",
+  },
+  {
+    question: 'How does overtime affect my take-home pay?',
+    answer: "Overtime is taxed at your marginal rate. Basic-rate taxpayers pay 20% tax + 8% NI = 28% total. If overtime pushes you into the higher band, that portion costs 40% tax + 2% NI = 42% total.",
+  },
+  {
+    question: 'Can I reduce my tax bill legally?',
+    answer: "Yes. Salary sacrifice pension, claiming higher-rate pension tax relief, ISA allowance, Gift Aid for higher-rate taxpayers, and checking your tax code is correct. These are all legitimate and widely used.",
+  },
+];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
 
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
     <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
       <ol class="flex items-center gap-1.5">
         <li><a href="/" class="hover:text-primary-500">Home</a></li>
@@ -27,6 +131,7 @@ const breadcrumbs = breadcrumbSchema([
       </ol>
     </nav>
 
+    {/* Header */}
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
         UK Take-Home Pay Calculator
@@ -37,18 +142,221 @@ const breadcrumbs = breadcrumbSchema([
       </p>
     </header>
 
-    <div class="rounded-xl border-2 border-dashed border-[var(--border)] p-12 text-center">
-      <p class="text-2xl mb-2">💷</p>
-      <p class="text-lg font-semibold text-[var(--text-primary)]">Coming Soon</p>
-      <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md mx-auto">
-        This calculator is being built right now. In the meantime, try our
-        <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Side-Hustle Tax Calculator</a>.
-      </p>
+    {/* Calculator — full width */}
+    <section class="mb-12" aria-label="Take-home pay calculator">
+      <TakeHomePayCalculator client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    <AdSlot slot="in-article" format="auto" />
+
+    {/* ═══════════ Two-column guide layout ═══════════ */}
+    <div class="mt-12 lg:grid lg:grid-cols-[240px_1fr] lg:gap-10">
+
+      {/* Left: sticky ToC */}
+      <aside class="mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-24">
+          <p class="hidden lg:block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
+            In this guide
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      {/* Right: guide content */}
+      <article class="max-w-[70ch] space-y-2">
+
+        {/* Featured snippet target */}
+        <p class="text-sm leading-relaxed mb-4" style="color: var(--text-secondary)">
+          On a £30,000 UK salary in 2025/26, your take-home pay is approximately <strong>£25,120 per year</strong> (£2,093/month) after £3,486 income tax and £1,394 National Insurance. All rates and thresholds below are from <a href="https://www.gov.uk/income-tax-rates" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">HMRC's published guidance</a> for the 2025/26 tax year.
+        </p>
+
+        {/* ── Section: How Calculated ── */}
+        <AccordionSection id="how-calculated" title="How Your Take-Home Pay Is Calculated" defaultOpen={true}>
+          <p class="mb-3">
+            Every time you're paid, your employer runs the PAYE (Pay As You Earn) system to deduct taxes before the money reaches your bank account. The order matters:
+          </p>
+          <ol class="list-decimal pl-5 space-y-1 mb-4">
+            <li><strong>Pension (salary sacrifice only)</strong> — deducted from gross pay before any tax or NI is calculated</li>
+            <li><strong>Income tax</strong> — calculated on your taxable income (after Personal Allowance)</li>
+            <li><strong>National Insurance</strong> — calculated on your earnings above the primary threshold</li>
+            <li><strong>Student loan repayments</strong> — calculated on your gross salary above your plan threshold</li>
+            <li><strong>Pension (auto-enrolment)</strong> — deducted from your net pay after tax</li>
+          </ol>
+          <CalloutBox variant="info" title="Employer NI is separate">
+            Your employer also pays National Insurance on your salary (13.8% above £5,000). This doesn't come out of your pay — it's an additional cost to your employer on top of your salary.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Income Tax ── */}
+        <AccordionSection id="income-tax" title="Income Tax Bands Explained" defaultOpen={true}>
+          <p class="mb-3">
+            Your Personal Allowance for 2025/26 is <strong>£12,570</strong> — the first £12,570 you earn is tax-free. After that, income tax is applied in bands:
+          </p>
+          <ComparisonTable
+            headers={['Band', 'Taxable Income', 'Rate']}
+            rows={[
+              ['Personal Allowance', '£0 – £12,570', '0%'],
+              ['Basic rate', '£12,571 – £50,270', '20%'],
+              ['Higher rate', '£50,271 – £125,140', '40%'],
+              ['Additional rate', 'Over £125,140', '45%'],
+            ]}
+          />
+          <CalloutBox variant="warning" title="The £100,000 trap">
+            If you earn between £100,000 and £125,140, your Personal Allowance is reduced by £1 for every £2 above £100k. This creates an effective <strong>60% marginal tax rate</strong> in this band — you lose your allowance AND pay 40% tax. Many high earners use salary sacrifice pension to stay below £100k.
+          </CalloutBox>
+          <p class="mt-3">
+            <strong>Tax codes:</strong> Your tax code tells your employer how much Personal Allowance to apply. The standard code <strong>1257L</strong> means £12,570 allowance. Common variations:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mt-2">
+            <li><strong>BR</strong> — all income taxed at basic rate (20%), usually for a second job</li>
+            <li><strong>D0</strong> — all income taxed at higher rate (40%)</li>
+            <li><strong>K codes</strong> — negative allowance (you owe tax on benefits in kind)</li>
+            <li><strong>NT</strong> — no tax deducted</li>
+          </ul>
+        </AccordionSection>
+
+        {/* ── Section: NI ── */}
+        <AccordionSection id="national-insurance" title="National Insurance Contributions" defaultOpen={true}>
+          <p class="mb-3">
+            Employee National Insurance (Class 1) for 2025/26:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>8%</strong> on earnings between £12,570 and £50,270 (main rate)</li>
+            <li><strong>2%</strong> on earnings above £50,270 (additional rate)</li>
+          </ul>
+          <CalloutBox variant="info" title="NI is not income tax">
+            National Insurance and income tax are completely separate systems with different thresholds and rates. Crucially, NI stops entirely when you reach State Pension age — income tax doesn't.
+          </CalloutBox>
+          <p class="mt-3">
+            The NI primary threshold is now aligned with the Personal Allowance at £12,570, simplifying things. But unlike income tax, there's no "higher rate" band for NI — it drops to 2% above £50,270 rather than increasing.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Student Loans ── */}
+        <AccordionSection id="student-loans" title="Student Loan Repayments">
+          <p class="mb-3">
+            Student loan repayments are calculated on your gross salary above your plan's threshold. The five plans:
+          </p>
+          <ComparisonTable
+            headers={['Plan', 'Threshold', 'Rate', 'Who']}
+            rows={[
+              ['Plan 1', '£26,065', '9%', 'Started before Sep 2012'],
+              ['Plan 2', '£28,470', '9%', 'Sep 2012 – Jul 2023'],
+              ['Plan 4', '£32,745', '9%', 'Scotland'],
+              ['Plan 5', '£25,000', '9%', 'Aug 2023 onwards'],
+              ['Postgraduate', '£21,000', '6%', "Master's / Doctoral loan"],
+            ]}
+          />
+          <CalloutBox variant="warning" title="Plans stack">
+            If you have Plan 2 and a Postgraduate loan, you pay both: 9% above £28,470 <strong>plus</strong> 6% above £21,000. On a £40k salary, that's £1,038 + £1,140 = £2,178/year.
+          </CalloutBox>
+          <CalloutBox variant="tip" title="Not a real debt">
+            Student loans don't appear on your credit file and are written off after 25-40 years depending on your plan. They're more like a graduate tax than a traditional loan.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Pension ── */}
+        <AccordionSection id="pension" title="Pension Contributions">
+          <p class="mb-3">
+            Workplace pension auto-enrolment requires minimum contributions on qualifying earnings (£6,240 to £50,270):
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>5% employee</strong> contribution (minimum)</li>
+            <li><strong>3% employer</strong> contribution (minimum)</li>
+          </ul>
+          <p class="mb-3">
+            There are two main ways pension contributions work:
+          </p>
+          <p class="mb-2">
+            <strong>Auto-enrolment (relief at source):</strong> Your contribution is taken from your net pay. Your pension provider automatically adds 20% basic-rate tax relief. If you're a higher-rate taxpayer, you claim the extra 20% through Self Assessment.
+          </p>
+          <p class="mb-3">
+            <strong>Salary sacrifice:</strong> Your contractual salary is reduced before tax and NI are calculated. This saves both income tax <em>and</em> National Insurance — a double benefit that auto-enrolment doesn't provide.
+          </p>
+          <WorkedExample persona="Marcus, marketing manager" job="Employed, £45,000/year" sideHustle="Comparing pension types" income={45000} expenses={0}>
+            <p><strong>Auto-enrolment (5%):</strong> Qualifying earnings £38,760. Pension = £1,938. Tax and NI calculated on full £45,000.</p>
+            <p><strong>Salary sacrifice (5%):</strong> Sacrifice £2,250. Tax and NI calculated on £42,750 — saving £450 in NI alone.</p>
+            <p><strong>Result: Salary sacrifice saves Marcus ~£450/year for the same pension contribution.</strong></p>
+          </WorkedExample>
+          <CalloutBox variant="info" title="Future change">
+            From April 2029, salary sacrifice NI exemption will be capped at £2,000/year for employer NI. This doesn't affect 2025/26 employee calculations.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Worked Examples ── */}
+        <AccordionSection id="worked-examples" title="Three Worked Examples">
+          <WorkedExample persona="Emma, teaching assistant" job="Teaching assistant, £24,000/year" sideHustle="Plan 2 student loan, no pension" income={24000} expenses={0}>
+            <p>Personal Allowance: £12,570. Taxable income: £11,430.</p>
+            <p>Income tax: £11,430 × 20% = £2,286</p>
+            <p>NI: (£24,000 − £12,570) × 8% = £914.40</p>
+            <p>Student loan: £24,000 below Plan 2 threshold (£28,470) = £0</p>
+            <p><strong>Annual take-home: £20,799.60 (£1,733/month)</strong></p>
+          </WorkedExample>
+
+          <WorkedExample persona="Marcus, marketing manager" job="Marketing manager, £45,000/year" sideHustle="Plan 1 student loan, 5% auto-enrolment" income={45000} expenses={0}>
+            <p>Taxable income: £32,430. All within basic rate.</p>
+            <p>Income tax: £32,430 × 20% = £6,486</p>
+            <p>NI: (£45,000 − £12,570) × 8% = £2,594.40</p>
+            <p>Student loan Plan 1: (£45,000 − £26,065) × 9% = £1,704.15</p>
+            <p>Pension: qualifying earnings £38,760 × 5% = £1,938</p>
+            <p><strong>Annual take-home: £32,277.45 (£2,690/month)</strong></p>
+          </WorkedExample>
+
+          <WorkedExample persona="Priya, software engineer" job="Software engineer, £85,000/year" sideHustle="Plan 2 + Postgrad loan, 8% salary sacrifice" income={85000} expenses={0}>
+            <p>Salary sacrifice: £85,000 × 8% = £6,800. Adjusted salary: £78,200.</p>
+            <p>Income tax: basic £37,700 × 20% = £7,540, higher £27,930 × 40% = £11,172. Total: £18,712</p>
+            <p>NI on £78,200: main £3,016 + additional £158.60 = £3,174.60</p>
+            <p>Student loans (on gross £85,000): Plan 2 £5,087.70 + Postgrad £3,840 = £8,927.70</p>
+            <p><strong>Annual take-home: £47,385.70 (£3,949/month)</strong></p>
+            <p><strong>Salary sacrifice saves Priya ~£1,200/year vs auto-enrolment.</strong></p>
+          </WorkedExample>
+        </AccordionSection>
+
+        {/* ── Section: Common Mistakes ── */}
+        <AccordionSection id="common-mistakes" title="Common Mistakes">
+          <CalloutBox variant="warning" title="Thinking NI stops at £50,270">
+            NI doesn't stop at the Upper Earnings Limit — it drops from 8% to 2%. You still pay NI on every pound above £50,270 until you reach State Pension age.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Not claiming higher-rate pension relief">
+            If you're a higher-rate taxpayer with an auto-enrolment pension, your provider only adds 20% tax relief. You must claim the extra 20% through Self Assessment — it won't happen automatically.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Confusing gross and net in job offers">
+            Job offers always quote gross salary. A £40,000 gross salary gives you roughly £30,000-£32,000 take-home depending on your deductions. Always run the numbers before accepting.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Ignoring the £100k PA taper">
+            If you're offered a raise from £95k to £105k, your effective rate on that extra £10k is ~60%. A salary sacrifice pension contribution to stay below £100k can be more tax-efficient.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Not checking your tax code">
+            HMRC sometimes assigns incorrect tax codes, especially if you've changed jobs. An emergency tax code (W1/M1) or wrong code can mean you're overpaying. Check it on your payslip.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: FAQs ── */}
+        <section id="faqs" class="my-4">
+          <h2 class="text-xl font-semibold mb-4" style="color: var(--text-primary)">Frequently Asked Questions</h2>
+          <FAQAccordion items={faqItems} />
+        </section>
+
+        {/* Cross-link */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Got side-hustle income too?</strong> Use our
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>
+            to see how much extra tax you'll owe on top of your salary.
+          </p>
+        </div>
+
+      </article>
     </div>
 
     <footer class="mt-12 pt-4 border-t border-[var(--border)]">
       <p class="text-xs text-[var(--text-muted)]">
-        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates
+        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates · Updated May 2026
+      </p>
+      <p class="text-xs text-[var(--text-muted)] mt-1">
+        This calculator provides estimates for general guidance only. It does not constitute financial advice. For complex tax situations, consult a qualified accountant.
       </p>
     </footer>
   </div>
