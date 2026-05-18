@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SideHustleTaxCalculator from '../../components/calculators/SideHustleTax/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
+import AffiliateCard from '../../components/affiliates/AffiliateCard.astro';
+import { SITE } from '../../config/site';
+import { Content as SideHustleTaxContent } from '../../content/tools/side-hustle-tax.mdx';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
+
+const pageTitle = 'UK Side-Hustle Tax Calculator 2025/26';
+const pageDescription =
+  "Free calculator to work out tax on your side-hustle income alongside your salary. Includes £1,000 trading allowance, Class 4 NI, and Self Assessment estimate. 2025/26 rates.";
+const canonicalUrl = `${SITE.url}/side-hustle-tax-calculator/`;
+
+const appSchema = webApplicationSchema({
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Tools', url: `${SITE.url}/tools/` },
+  { name: 'Side-Hustle Tax Calculator', url: canonicalUrl },
+]);
+
+const faqs = faqPageSchema([
+  {
+    question: 'Do I need to pay tax on my side hustle if I already pay tax on my salary?',
+    answer: "Yes, if your side-hustle income exceeds the £1,000 trading allowance. Your salary uses up your Personal Allowance through PAYE, so side-hustle profit is typically taxed from the first pound at your marginal rate (20% or 40%).",
+  },
+  {
+    question: 'What if my side hustle makes a loss?',
+    answer: 'If your expenses exceed your income, you can claim a trading loss. This can be offset against other income in the same year or carried forward. You cannot claim both a loss and the trading allowance.',
+  },
+  {
+    question: 'Is selling on Vinted or eBay taxable?',
+    answer: "Selling personal belongings isn't normally taxable. But buying items to resell at a profit or making items to sell regularly counts as trading income. Since January 2024, platforms report seller data to HMRC if you make over 30 sales or earn over €2,000.",
+  },
+  {
+    question: 'Do I need an accountant for my side hustle?',
+    answer: 'Not necessarily for straightforward cases. Accounting software like FreeAgent or QuickBooks can handle simple Self Assessment returns. For complex situations, professional advice is worthwhile.',
+  },
+  {
+    question: "What happens if I don't declare my side-hustle income?",
+    answer: 'HMRC is increasingly effective at detecting undeclared income. Penalties range from 0% to 100% of the tax owed. Voluntary disclosure results in lower penalties.',
+  },
+  {
+    question: 'Can I use the trading allowance if I\'m a landlord?',
+    answer: "The trading allowance is for trading income only. There's a separate £1,000 property allowance for rental income.",
+  },
+  {
+    question: 'How do I actually pay my Self Assessment bill?',
+    answer: 'Through your GOV.UK account via direct debit, bank transfer, or debit card. HMRC also offers Budget Payment Plans to spread payments monthly.',
+  },
+  {
+    question: 'Does my side-hustle income affect my student loan repayments?',
+    answer: 'Yes — side-hustle profit is added to your total income for student loan repayment calculations via Self Assessment.',
+  },
+]);
+
+const today = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
+
+  <div class="max-w-4xl mx-auto">
+    {/* Breadcrumbs */}
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/tools" class="hover:text-primary-500">Tools</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Side-Hustle Tax Calculator</li>
+      </ol>
+    </nav>
+
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        UK Side-Hustle Tax Calculator
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2025/26)</span>
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-2">
+        Calculate how much extra tax you'll owe on your side-hustle income alongside your PAYE salary.
+        Includes the £1,000 trading allowance and Class 4 National Insurance.
+      </p>
+    </header>
+
+    {/* Calculator */}
+    <section class="mb-12" aria-label="Tax calculator">
+      <SideHustleTaxCalculator client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Affiliate cards */}
+    <section class="space-y-3 my-8">
+      <p class="text-xs text-[var(--text-muted)]">Recommended tools for side hustlers</p>
+      <AffiliateCard
+        name="FreeAgent"
+        description="Accounting software that handles your Self Assessment tax return automatically."
+        url="https://placeholder.freeagent.com/affiliate"
+        cta="Start Free Trial"
+      />
+      <AffiliateCard
+        name="Tide"
+        description="Free business bank account built for sole traders — separate your side-hustle money."
+        url="https://placeholder.tide.co/affiliate"
+        cta="Open Free Account"
+      />
+      <AffiliateCard
+        name="Wise"
+        description="Receive payments from international clients with no hidden fees."
+        url="https://placeholder.wise.com/affiliate"
+        cta="Get Started"
+      />
+    </section>
+
+    <AdSlot slot="in-article" format="auto" />
+
+    {/* MDX content */}
+    <article class="prose prose-slate dark:prose-invert max-w-none mt-12">
+      <SideHustleTaxContent />
+    </article>
+
+    <AdSlot slot="end-of-content" format="rectangle" />
+
+    {/* Footer disclaimer */}
+    <footer class="mt-12 pt-4 border-t border-[var(--border)] space-y-2">
+      <p class="text-xs text-[var(--text-muted)]">
+        <strong>Disclaimer:</strong> This calculator provides estimates only and does not constitute
+        financial advice. Tax rules are complex and individual circumstances vary. Always consult
+        HMRC or a qualified accountant for your specific situation.
+      </p>
+      <p class="text-xs text-[var(--text-muted)]">
+        Last updated: {today} · Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
