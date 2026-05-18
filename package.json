@@ -20,6 +20,7 @@
     "@astrojs/react": "^5.0.5",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource/inter": "^5.2.8",
+    "@fontsource/montserrat": "^5.2.8",
     "@tailwindcss/vite": "^4.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -33,6 +34,7 @@
     "vite": "^7"
   },
   "devDependencies": {
+    "sharp": "^0.34.5",
     "vitest": "^4.1.6"
   }
 }
