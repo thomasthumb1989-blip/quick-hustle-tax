@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const pageTitle = 'Sole Trader vs Limited Company Calculator 2025/26';
+const pageDescription = 'Compare tax efficiency between operating as a sole trader vs a limited company. See which structure saves you more after tax and NI.';
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Tools', url: `${SITE.url}/tools/` },
+  { name: 'Sole Trader vs Ltd', url: `${SITE.url}/sole-trader-vs-ltd-calculator/` },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+
+  <div class="max-w-4xl mx-auto">
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/tools" class="hover:text-primary-500">Tools</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Sole Trader vs Ltd</li>
+      </ol>
+    </nav>
+
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        Sole Trader vs Limited Company
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2025/26)</span>
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-2">
+        Should you stay as a sole trader or incorporate? Compare the tax you'd pay under each structure side-by-side.
+      </p>
+    </header>
+
+    <div class="rounded-xl border-2 border-dashed border-[var(--border)] p-12 text-center">
+      <p class="text-2xl mb-2">⚖️</p>
+      <p class="text-lg font-semibold text-[var(--text-primary)]">Coming Soon</p>
+      <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md mx-auto">
+        This calculator is being built right now. In the meantime, try our
+        <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Side-Hustle Tax Calculator</a>.
+      </p>
+    </div>
+
+    <footer class="mt-12 pt-4 border-t border-[var(--border)]">
+      <p class="text-xs text-[var(--text-muted)]">
+        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
