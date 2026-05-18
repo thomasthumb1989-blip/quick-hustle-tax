@@ -4,7 +4,12 @@ import SideHustleTaxCalculator from '../../components/calculators/SideHustleTax/
 import AdSlot from '../../components/ads/AdSlot.astro';
 import AffiliateCard from '../../components/affiliates/AffiliateCard.astro';
 import { SITE } from '../../config/site';
-import { Content as SideHustleTaxContent } from '../../content/tools/side-hustle-tax.mdx';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { DeadlineTimeline } from '../../components/content/DeadlineTimeline';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
 import {
   webApplicationSchema,
   faqPageSchema,
@@ -50,7 +55,7 @@ const faqs = faqPageSchema([
     answer: 'HMRC is increasingly effective at detecting undeclared income. Penalties range from 0% to 100% of the tax owed. Voluntary disclosure results in lower penalties.',
   },
   {
-    question: 'Can I use the trading allowance if I\'m a landlord?',
+    question: "Can I use the trading allowance if I'm a landlord?",
     answer: "The trading allowance is for trading income only. There's a separate £1,000 property allowance for rental income.",
   },
   {
@@ -62,6 +67,61 @@ const faqs = faqPageSchema([
     answer: 'Yes — side-hustle profit is added to your total income for student loan repayment calculations via Self Assessment.',
   },
 ]);
+
+const tocSections = [
+  { id: 'what-counts', title: 'What Counts as a Side Hustle?' },
+  { id: 'trading-allowance', title: 'The £1,000 Trading Allowance' },
+  { id: 'self-assessment', title: 'Register for Self Assessment' },
+  { id: 'income-stacking', title: 'How Income Stacks' },
+  { id: 'allowance-vs-expenses', title: 'Allowance vs Expenses' },
+  { id: 'worked-examples', title: 'Worked Examples' },
+  { id: 'common-mistakes', title: 'Common Mistakes' },
+  { id: 'deadlines', title: 'Key Deadlines' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const deadlineEvents = [
+  { date: '5 April 2026', title: 'Tax year ends', description: '2025/26 tax year closes. Start gathering your figures.', color: 'blue' as const },
+  { date: '5 October 2026', title: 'Register for Self Assessment', description: 'Deadline to register if this is your first time filing.', color: 'blue' as const },
+  { date: '31 October 2026', title: 'Paper tax return deadline', description: 'If filing on paper (most people file online instead).', color: 'purple' as const },
+  { date: '31 January 2027', title: 'Online filing + payment deadline', description: 'File your return and pay any tax owed by this date.', color: 'red' as const },
+  { date: '31 July 2027', title: 'Second payment on account', description: 'If applicable — advance payment towards next year\'s bill.', color: 'red' as const },
+];
+
+const faqItems = [
+  {
+    question: 'Do I need to pay tax on my side hustle if I already pay tax on my salary?',
+    answer: "Yes, if your side-hustle income exceeds the £1,000 trading allowance. Your salary uses up your Personal Allowance through PAYE, so side-hustle profit is typically taxed from the first pound at your marginal rate (20% or 40%).",
+  },
+  {
+    question: 'What if my side hustle makes a loss?',
+    answer: "If your expenses exceed your income, you can claim a trading loss. This can be offset against other income in the same year or carried forward. You'll need to file a Self Assessment return to claim the loss. Note: you cannot claim both a loss and the trading allowance — you must use actual expenses.",
+  },
+  {
+    question: 'Is selling on Vinted or eBay taxable?',
+    answer: "It depends. Selling your own personal belongings isn't normally taxable. But if you're buying items to resell at a profit, or making items to sell regularly, HMRC treats that as trading income. Since January 2024, platforms like Vinted, eBay, and Etsy report seller data to HMRC if you make over 30 sales or earn over €2,000.",
+  },
+  {
+    question: 'Do I need an accountant for my side hustle?',
+    answer: "Not necessarily. If your side hustle is straightforward (one source of income, simple expenses), Self Assessment is manageable with accounting software like FreeAgent, QuickBooks, or even a spreadsheet. For more complex situations (Ltd company, multiple income sources, VAT), professional advice is worth the investment.",
+  },
+  {
+    question: "What happens if I don't declare my side-hustle income?",
+    answer: "HMRC is increasingly effective at detecting undeclared income, especially with digital platform reporting requirements. Penalties range from 0% (unprompted disclosure) to 100% of the tax owed. If HMRC discovers it first, penalties are higher. It's always better to declare voluntarily.",
+  },
+  {
+    question: "Can I use the trading allowance if I'm a landlord?",
+    answer: "The trading allowance is for trading income only — not rental income. There's a separate £1,000 property allowance for rental income, which works similarly.",
+  },
+  {
+    question: 'How do I actually pay my Self Assessment bill?',
+    answer: "You can pay through your GOV.UK account via direct debit, bank transfer, debit card, or at a bank/building society. HMRC also offers the option to spread payments through a Budget Payment Plan if you prefer to pay monthly rather than in a lump sum.",
+  },
+  {
+    question: 'Does my side-hustle income affect my student loan repayments?',
+    answer: "Yes — if you're on a student loan, your side-hustle profit is added to your total income for repayment calculations. Student loan repayments through Self Assessment are calculated on your total income including side-hustle profit.",
+  },
+];
 
 const today = new Date().toLocaleDateString('en-GB', {
   day: 'numeric',
@@ -75,7 +135,7 @@ const today = new Date().toLocaleDateString('en-GB', {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
   <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
 
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-5xl mx-auto">
     {/* Breadcrumbs */}
     <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
       <ol class="flex items-center gap-1.5">
@@ -99,7 +159,7 @@ const today = new Date().toLocaleDateString('en-GB', {
       </p>
     </header>
 
-    {/* Calculator */}
+    {/* Calculator — full width */}
     <section class="mb-12" aria-label="Tax calculator">
       <SideHustleTaxCalculator client:load />
     </section>
@@ -131,10 +191,184 @@ const today = new Date().toLocaleDateString('en-GB', {
 
     <AdSlot slot="in-article" format="auto" />
 
-    {/* MDX content */}
-    <article class="prose prose-slate dark:prose-invert max-w-none mt-12">
-      <SideHustleTaxContent />
-    </article>
+    {/* ═══════════ Two-column guide layout ═══════════ */}
+    <div class="mt-12 lg:grid lg:grid-cols-[240px_1fr] lg:gap-10">
+
+      {/* Left: sticky ToC */}
+      <aside class="mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-24">
+          <p class="hidden lg:block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
+            In this guide
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      {/* Right: guide content */}
+      <article class="max-w-[70ch] space-y-2">
+
+        {/* ── Section: What Counts ── */}
+        <AccordionSection id="what-counts" title="What Counts as a Side Hustle?" defaultOpen={true} client:load>
+          <p class="mb-3">
+            A side hustle is any work you do to earn money outside your main employment. HMRC doesn't use the term "side hustle" — they call it <strong>trading income</strong>. Common examples:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li><strong>Selling online</strong>: Etsy, Vinted, eBay, Depop, Amazon FBA</li>
+            <li><strong>Freelancing</strong>: copywriting, web design, consulting, tutoring</li>
+            <li><strong>Gig work</strong>: Deliveroo, Uber, TaskRabbit</li>
+            <li><strong>Content creation</strong>: YouTube ad revenue, Twitch, Substack</li>
+            <li><strong>Renting</strong>: Airbnb income (short-term property lets)</li>
+            <li><strong>Crafts and products</strong>: handmade goods, print-on-demand, digital downloads</li>
+          </ul>
+          <CalloutBox variant="info" title="Regular vs one-off" client:load>
+            If you're doing any of the above <strong>regularly and for profit</strong>, HMRC considers it trading income. Occasional one-off sales of personal items (like clearing out your wardrobe on Vinted) generally don't count — but regular selling does.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Trading Allowance ── */}
+        <AccordionSection id="trading-allowance" title="The £1,000 Trading Allowance Explained" defaultOpen={true} client:load>
+          <p class="mb-3">
+            This is the single most important rule for side hustlers, and it's widely misunderstood. Since April 2017, every UK taxpayer gets a <strong>£1,000 trading allowance</strong>:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li>If your <strong>total gross trading income</strong> (revenue, not profit) is <strong>£1,000 or less</strong>, you <strong>don't need to tell HMRC at all</strong>. No Self Assessment. No tax return. Nothing.</li>
+            <li>If your gross trading income is <strong>above £1,000</strong>, you <strong>must register for Self Assessment</strong> — but you can still use the £1,000 as a flat deduction instead of claiming actual expenses.</li>
+          </ul>
+
+          <CalloutBox variant="warning" title="Common mistake" client:load>
+            The £1,000 threshold is based on <strong>gross income</strong> (total revenue), not profit after expenses. Many people get this wrong.
+          </CalloutBox>
+
+          <WorkedExample persona="Sarah" job="Candle maker, part-time" sideHustle="Sells handmade candles on Etsy" income={800} expenses={300} client:load>
+            <p>Her gross income (£800) is below £1,000. She doesn't need to declare anything to HMRC. The £300 in expenses is irrelevant — she's automatically covered by the trading allowance.</p>
+            <p><strong>Result: No tax. No Self Assessment needed.</strong></p>
+          </WorkedExample>
+
+          <WorkedExample persona="James" job="Office worker, full-time" sideHustle="Freelance graphic design" income={4000} expenses={600} client:load>
+            <p>James has two options:</p>
+            <p>1. <strong>Claim the trading allowance</strong>: Profit = £4,000 − £1,000 = £3,000</p>
+            <p>2. <strong>Claim actual expenses</strong>: Profit = £4,000 − £600 = £3,400</p>
+            <p><strong>Result: Trading allowance saves £80 in tax (£400 × 20%).</strong></p>
+          </WorkedExample>
+
+          <CalloutBox variant="tip" title="Key rule" client:load>
+            You can claim the trading allowance <strong>OR</strong> actual expenses, but <strong>never both</strong>. The calculator above automatically picks the better option for you.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Self Assessment ── */}
+        <AccordionSection id="self-assessment" title="When Do I Need to Register for Self Assessment?" defaultOpen={true} client:load>
+          <p class="mb-3">You need to register for Self Assessment if <strong>any</strong> of these apply:</p>
+          <ol class="list-decimal pl-5 space-y-1 mb-4">
+            <li>Your side-hustle gross income exceeds <strong>£1,000</strong> in the tax year</li>
+            <li>You want to claim <strong>actual expenses</strong> that exceed the trading allowance</li>
+            <li>You want to <strong>claim a loss</strong> to offset against other income</li>
+            <li>HMRC has asked you to file a return</li>
+          </ol>
+          <p class="mb-3">
+            To register, go to <a href="https://www.gov.uk/register-for-self-assessment" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">GOV.UK</a> and sign up. You'll get a <strong>Unique Taxpayer Reference (UTR)</strong> — keep this safe.
+          </p>
+          <CalloutBox variant="warning" title="Important deadline" client:load>
+            You must register by <strong>5 October</strong> following the end of the tax year. For 2025/26 income, that means registering by <strong>5 October 2026</strong>.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Income Stacking ── */}
+        <AccordionSection id="income-stacking" title="How Side-Hustle Income Stacks With Your Salary" client:load>
+          <p class="mb-3">
+            Your side-hustle income doesn't get its own separate tax calculation — it <strong>stacks on top</strong> of your employment income. Your employer already handles your Personal Allowance (£12,570) and basic rate tax through PAYE.
+          </p>
+          <CalloutBox variant="example" title="The stacking effect" client:load>
+            Imagine you earn £48,000 from your job. Your taxable employment income is £35,430 — within the basic rate band (up to £50,270 total). Add £5,000 of side-hustle profit: total becomes £53,000. The first £2,270 fills the basic rate at 20%. The remaining £2,730 hits 40% (higher rate).
+          </CalloutBox>
+          <p class="mt-3">
+            This is why the calculator above shows your <strong>marginal rate</strong> on the side hustle, not a flat 20%.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Allowance vs Expenses ── */}
+        <AccordionSection id="allowance-vs-expenses" title="Trading Allowance vs Actual Expenses — Which to Claim?" client:load>
+          <p class="mb-3">The decision is straightforward:</p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>Expenses less than £1,000</strong> → claim the trading allowance</li>
+            <li><strong>Expenses more than £1,000</strong> → claim actual expenses</li>
+            <li><strong>Not sure</strong> → the calculator above picks the better option automatically</li>
+          </ul>
+          <p class="mb-2 font-medium" style="color: var(--text-primary)">Common claimable expenses:</p>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li>Raw materials and stock</li>
+            <li>Software subscriptions (Canva, Adobe, accounting software)</li>
+            <li>Home office costs (proportion of energy bills, broadband)</li>
+            <li>Phone bills (business proportion)</li>
+            <li>Travel to clients or markets</li>
+            <li>Professional development and courses</li>
+            <li>Advertising and marketing costs</li>
+            <li>Packaging and postage</li>
+          </ul>
+          <CalloutBox variant="tip" title="Keep records" client:load>
+            Keep receipts for everything. HMRC can ask to see records for <strong>up to 5 years</strong> after the filing deadline. Digital records are fine.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Worked Examples ── */}
+        <AccordionSection id="worked-examples" title="Three Worked Examples" client:load>
+          <WorkedExample persona="Sarah, casual Etsy seller" job="Barista, £22,000/year" sideHustle="Sells stickers on Etsy" income={2500} expenses={400} client:load>
+            <p>Uses trading allowance (£1,000 &gt; £400 expenses). Profit = £1,500. All taxed at basic rate (20%) = £300 income tax. No Class 4 NI (profit below £12,570 threshold).</p>
+            <p><strong>Total to pay via Self Assessment: £300</strong></p>
+          </WorkedExample>
+
+          <WorkedExample persona="Dev, freelance web developer" job="Marketing manager, £42,000/year" sideHustle="Freelance web projects" income={12000} expenses={3000} client:load>
+            <p>Claims actual expenses (£3,000 &gt; £1,000). Profit = £9,000. Employment + profit = £51,000 → crosses into higher rate. Some income taxed at 40%. Class 4 NI also applies.</p>
+            <p><strong>Total Self Assessment bill: roughly £2,700</strong></p>
+          </WorkedExample>
+
+          <WorkedExample persona="Alex, high earner content creator" job="Software engineer, £95,000/year" sideHustle="YouTube channel" income={25000} expenses={5000} client:load>
+            <p>Claims actual expenses. Profit = £20,000. Total income = £115,000 → Personal Allowance starts to taper. Most side-hustle income taxed at 40%.</p>
+            <p><strong>Total Self Assessment bill: roughly £9,500 including Class 4 NI</strong></p>
+          </WorkedExample>
+        </AccordionSection>
+
+        {/* ── Section: Common Mistakes ── */}
+        <AccordionSection id="common-mistakes" title="Common Mistakes Side Hustlers Make" client:load>
+          <CalloutBox variant="warning" title="Mistake #1: Confusing allowances" client:load>
+            Thinking the trading allowance is on top of your Personal Allowance — it's not. It's a separate £1,000 deduction from trading income specifically.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Mistake #2: Not registering" client:load>
+            If your gross trading income exceeds £1,000, you must register for Self Assessment, even if your profit (after expenses) is small.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Mistake #3: Gross vs profit" client:load>
+            The £1,000 trading allowance threshold is based on <strong>gross income</strong> (total revenue), not profit after expenses.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Mistake #4: Double-claiming" client:load>
+            You get the trading allowance <strong>or</strong> actual expenses, never both.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Mistake #5: Forgetting NI" client:load>
+            Income tax isn't the only bill. If your side-hustle profit exceeds £12,570, you'll also pay 6% Class 4 NI.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Mistake #6: No records" client:load>
+            HMRC expects invoices, bank statements, and receipts for at least 5 years. Digital records are fine.
+          </CalloutBox>
+          <CalloutBox variant="warning" title="Mistake #7: Payment on account" client:load>
+            If your Self Assessment bill exceeds £1,000 and more than 20% of your total tax is unpaid via PAYE, HMRC will ask for advance payments towards next year's bill.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Deadlines ── */}
+        <AccordionSection id="deadlines" title="Key Deadlines for 2025/26" client:load>
+          <DeadlineTimeline events={deadlineEvents} client:load />
+          <CalloutBox variant="tip" title="Top tip" client:load>
+            Don't wait until January. File as soon as you have all your figures (from 6 April 2026 onwards). You still don't have to <strong>pay</strong> until 31 January, but you'll know exactly what you owe.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: FAQs ── */}
+        <section id="faqs" class="my-4">
+          <h2 class="text-xl font-semibold mb-4" style="color: var(--text-primary)">Frequently Asked Questions</h2>
+          <FAQAccordion items={faqItems} client:load />
+        </section>
+
+      </article>
+    </div>
 
     <AdSlot slot="end-of-content" format="rectangle" />
 
