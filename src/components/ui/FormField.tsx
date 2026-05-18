@@ -11,14 +11,18 @@ interface InputFieldProps extends BaseFieldProps, Omit<InputHTMLAttributes<HTMLI
   type?: string;
   prefix?: string;
   suffix?: string;
+  labelRight?: ReactNode;
 }
 
-export function FormField({ label, hint, error, id, prefix, suffix, className = '', ...props }: InputFieldProps) {
+export function FormField({ label, hint, error, id, prefix, suffix, labelRight, className = '', ...props }: InputFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-sm font-medium text-[var(--text-primary)]">
-        {label}
-      </label>
+      <div className="flex items-center justify-between gap-2">
+        <label htmlFor={id} className="text-sm font-medium text-[var(--text-primary)]">
+          {label}
+        </label>
+        {labelRight}
+      </div>
       {hint && <p className="text-xs text-[var(--text-muted)]">{hint}</p>}
       <div className="relative flex items-center">
         {prefix && (

@@ -8,6 +8,8 @@ const fmt = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 
+const fmtMonthly = (annual: number) => fmt(Math.round(annual / 12));
+
 const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
 
 interface ResultsPanelProps {
@@ -33,6 +35,9 @@ export function ResultsPanel({ result, grossIncome }: ResultsPanelProps) {
         </p>
         <p className="text-4xl font-bold text-primary-600 dark:text-primary-400">
           {fmt(result.additionalTaxOwedOnSideHustle)}
+        </p>
+        <p className="text-sm text-[var(--text-secondary)] mt-1">
+          {fmtMonthly(result.additionalTaxOwedOnSideHustle)}/month
         </p>
         <p className="text-sm text-[var(--text-muted)] mt-2">
           Effective rate: {pct(result.effectiveTaxRateOnSideHustle)} on your side-hustle income
@@ -82,6 +87,9 @@ export function ResultsPanel({ result, grossIncome }: ResultsPanelProps) {
           <p className="text-xs text-[var(--text-muted)]">Take-home from side hustle</p>
           <p className="text-lg font-semibold text-[var(--text-primary)]">
             {fmt(result.takeHomeFromSideHustle)}
+          </p>
+          <p className="text-xs text-[var(--text-muted)]">
+            {fmtMonthly(result.takeHomeFromSideHustle)}/mo
           </p>
         </div>
         <div className="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
