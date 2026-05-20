@@ -56,7 +56,15 @@ const ogImage = new URL('/og-default.png', SITE.url).href;
     <meta name="theme-color" content="#0a1628" />
 
     {ANALYTICS.ga4.measurementId && (
-      <meta name="ga4-id" content={ANALYTICS.ga4.measurementId} />
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.ga4.measurementId}`}></script>
+        <script is:inline define:vars={{ gaId: ANALYTICS.ga4.measurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
     )}
     {ANALYTICS.clarity.projectId && (
       <meta name="clarity-id" content={ANALYTICS.clarity.projectId} />

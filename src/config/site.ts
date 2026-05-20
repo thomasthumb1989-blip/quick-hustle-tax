@@ -7,14 +7,14 @@ export const SITE = {
 } as const;
 
 export const MONETISATION = {
-  adsenseEnabled: false,
-  adsensePublisherId: '',
+  adsenseEnabled: true,
+  adsensePublisherId: 'ca-pub-5980284561238174',
   emailCaptureEnabled: false,
   affiliatesEnabled: true,
 } as const;
 
 export const ANALYTICS = {
   cloudflare: { enabled: true },
-  ga4: { enabled: false, measurementId: '' },
+  ga4: { enabled: true, measurementId: 'G-REN3R638K6' },
   clarity: { enabled: false, projectId: '' },
 } as const;
