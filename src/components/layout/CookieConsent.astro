@@ -42,20 +42,7 @@
     });
 
     function loadAnalytics() {
-      // GA4
-      const ga4Id = document.querySelector('meta[name="ga4-id"]')?.getAttribute('content');
-      if (ga4Id) {
-        const s = document.createElement('script');
-        s.src = `https://www.googletagmanager.com/gtag/js?id=${ga4Id}`;
-        s.async = true;
-        document.head.appendChild(s);
-        s.onload = () => {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){ window.dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', ga4Id);
-        };
-      }
+      // GA4 is loaded unconditionally in BaseLayout head (consent mode handles GDPR)
 
       // Microsoft Clarity
       const clarityId = document.querySelector('meta[name="clarity-id"]')?.getAttribute('content');
