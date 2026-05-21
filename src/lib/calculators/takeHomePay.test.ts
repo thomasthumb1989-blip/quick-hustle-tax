@@ -60,9 +60,11 @@ describe('calculateTakeHomePay — 2026/27', () => {
     }));
 
     expect(r.personalAllowance).toBe(2570);
-    expect(r.incomeTax).toBe(39675);
+    // With PA taper fix: adjusted bands → additional starts at taxable 122570 not 112570
+    // Basic: 37700 * 0.20 = 7540, Higher: 79730 * 0.40 = 31892, Total: 39432
+    expect(r.incomeTax).toBe(39432);
     expect(r.nationalInsurance).toBe(4410.60);
-    expect(r.annualTakeHome).toBe(75914.40);
+    expect(r.annualTakeHome).toBe(76157.40);
   });
 
   it('Scenario E: £40,000 with Plan 2 + Postgraduate student loans (2026/27 thresholds)', () => {

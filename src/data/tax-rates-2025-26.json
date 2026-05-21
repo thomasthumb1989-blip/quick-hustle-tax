@@ -26,7 +26,7 @@
     "allowance": 500,
     "basic": 0.0875,
     "higher": 0.3375,
-    "additional": 0.3938
+    "additional": 0.3935
   },
   "studentLoan": {
     "plan1": { "threshold": 26065, "rate": 0.09 },

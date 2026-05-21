@@ -1,4 +1,4 @@
-import { taxData, getEffectivePersonalAllowance } from '../tax-data/index.ts';
+import { taxData, getEffectivePersonalAllowance, getAdjustedIncomeTaxBands } from '../tax-data/index.ts';
 import type { TaxYearData } from '../tax-data/types.ts';
 import { DEFAULT_TAX_YEAR } from '../tax-data/index.ts';
 
@@ -121,9 +121,10 @@ function calcIncomeTax(
 function calcSoleTrader(profit: number, rates: TaxYearData): SoleTraderResult {
   const pa = getEffectivePersonalAllowance(profit, rates);
   const taxableIncome = Math.max(0, profit - pa);
+  const adjustedBands = getAdjustedIncomeTaxBands(pa, rates);
   const { breakdown: itBreakdown, total: incomeTax } = calcIncomeTax(
     taxableIncome,
-    rates.incomeTaxBands
+    adjustedBands
   );
 
   // Class 2 NI: since April 2024, no longer required (automatic NI credits)
@@ -253,7 +254,8 @@ function calcLtdCompany(
   // Income tax on salary portion (at normal rates)
   let personalIncomeTax = 0;
   if (salaryTaxable > 0) {
-    const { total } = calcIncomeTax(salaryTaxable, rates.incomeTaxBands);
+    const adjustedBands = getAdjustedIncomeTaxBands(personalPA, rates);
+    const { total } = calcIncomeTax(salaryTaxable, adjustedBands);
     personalIncomeTax = total;
   }
 
@@ -262,7 +264,8 @@ function calcLtdCompany(
 
   // Dividend tax calculation
   const basicBandWidth = rates.incomeTaxBands[0].to!; // 37700
-  const higherBandWidth = rates.incomeTaxBands[1].to! - rates.incomeTaxBands[0].to!; // 74870
+  // Dynamic higher band width — adjusts when PA is tapered
+  const higherBandWidth = Math.max(0, 125140 - personalPA - basicBandWidth);
   const dividendAllowance = rates.dividendTax.allowance;
 
   // How much of basic band used by salary

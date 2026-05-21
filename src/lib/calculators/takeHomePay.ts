@@ -1,4 +1,4 @@
-import { taxData, DEFAULT_TAX_YEAR } from '../tax-data/index.ts';
+import { taxData, DEFAULT_TAX_YEAR, getAdjustedIncomeTaxBands } from '../tax-data/index.ts';
 import type { TaxYearData, TaxBand } from '../tax-data/types.ts';
 
 /* ═══════════════════════ Types ═══════════════════════ */
@@ -250,7 +250,8 @@ export function calculateTakeHomePay(input: TakeHomePayInput): TakeHomePayResult
     // Apply PA taper based on adjusted net income
     effectivePA = getEffectivePA(adjustedGross, parsedCode.pa, rates);
     const taxableIncome = Math.max(0, adjustedGross - effectivePA);
-    incomeTaxResult = calcIncomeTax(taxableIncome, rates.incomeTaxBands);
+    const adjustedBands = getAdjustedIncomeTaxBands(effectivePA, rates);
+    incomeTaxResult = calcIncomeTax(taxableIncome, adjustedBands);
   }
 
   // 5. National Insurance
@@ -341,7 +342,8 @@ function calculateTakeHomePayInternal(input: TakeHomePayInput, rates: TaxYearDat
   } else {
     const effectivePA = getEffectivePA(adjustedGross, parsedCode.pa, rates);
     const taxableIncome = Math.max(0, adjustedGross - effectivePA);
-    incomeTax = calcIncomeTax(taxableIncome, rates.incomeTaxBands).total;
+    const adjustedBands = getAdjustedIncomeTaxBands(effectivePA, rates);
+    incomeTax = calcIncomeTax(taxableIncome, adjustedBands).total;
   }
 
   const ni = input.isOverStatePensionAge ? 0 : calcEmployeeNI(adjustedGross, rates.niEmployeeBands).total;

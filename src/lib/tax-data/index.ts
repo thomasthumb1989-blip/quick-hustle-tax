@@ -2,7 +2,7 @@ import type { TaxYearData, TaxDataService } from './types.ts';
 import data202526 from '../../data/tax-rates-2025-26.json';
 import data202627 from '../../data/tax-rates-2026-27.json';
 
-export type { TaxYearData, TaxBand, PersonalAllowance, StudentLoanPlan, PensionRates, DividendTax, CorporationTax, EmployerNI, SelfEmployedNI, TaxDataService } from './types.ts';
+export type { TaxYearData, TaxBand, PersonalAllowance, StudentLoanPlan, PensionRates, DividendTax, CorporationTax, EmployerNI, SelfEmployedNI, TaxDataService, } from './types.ts';
 
 const DATA_MAP: Record<string, unknown> = {
   '2025/26': data202526,
@@ -27,6 +27,35 @@ class JsonTaxDataService implements TaxDataService {
 }
 
 export const taxData: TaxDataService = new JsonTaxDataService();
+
+/** Gross income at which additional rate begins (constant, all years) */
+const ADDITIONAL_RATE_GROSS_THRESHOLD = 125140;
+
+/**
+ * Adjust income tax bands for PA taper.
+ * Raw JSON bands assume PA = default (12570), making higher/additional boundary
+ * at taxable 112570. When PA is tapered, the boundary shifts to 125140 - actualPA.
+ */
+export function getAdjustedIncomeTaxBands(
+  actualPA: number,
+  taxYear: TaxYearData
+): TaxBand[] {
+  const defaultPA = taxYear.personalAllowance.amount;
+  if (actualPA === defaultPA) return taxYear.incomeTaxBands;
+
+  const additionalThreshold = ADDITIONAL_RATE_GROSS_THRESHOLD - actualPA;
+  return taxYear.incomeTaxBands.map((band, i) => {
+    if (i === 1 && band.to !== null) {
+      // Higher band: from stays at 37700, to adjusts
+      return { ...band, to: additionalThreshold };
+    }
+    if (i === 2) {
+      // Additional band: from adjusts
+      return { ...band, from: additionalThreshold };
+    }
+    return band;
+  });
+}
 
 /** Calculate effective personal allowance after taper */
 export function getEffectivePersonalAllowance(

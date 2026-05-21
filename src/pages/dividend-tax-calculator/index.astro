@@ -1,0 +1,374 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DividendTaxCalculator from '../../components/calculators/DividendTax/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
+import AffiliateCard from '../../components/affiliates/AffiliateCard.astro';
+import { SITE } from '../../config/site';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { DeadlineTimeline } from '../../components/content/DeadlineTimeline';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
+
+const pageTitle = 'Dividend Tax Calculator 2026/27 — Free UK Calculator | Quick Hustle Tax';
+const pageDescription =
+  "Calculate your UK dividend tax for 2026/27. Free calculator shows tax on dividends at the new 10.75% and 35.75% rates. Includes dividend allowance, Personal Allowance, and band breakdown.";
+const canonicalUrl = `${SITE.url}/dividend-tax-calculator/`;
+
+const appSchema = webApplicationSchema({
+  name: 'Dividend Tax Calculator 2026/27',
+  description: pageDescription,
+  url: canonicalUrl,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Tools', url: `${SITE.url}/tools/` },
+  { name: 'Dividend Tax Calculator', url: canonicalUrl },
+]);
+
+const faqData = [
+  {
+    question: 'Do I pay National Insurance on dividends?',
+    answer: "No. Dividends are not subject to National Insurance contributions, which is one of the main tax advantages of receiving income as dividends rather than salary. This is why company directors often take a low salary and extract remaining profits as dividends.",
+  },
+  {
+    question: 'What is the dividend allowance for 2026/27?',
+    answer: "The dividend allowance for 2026/27 is £500. This means the first £500 of dividend income above your Personal Allowance is taxed at 0%. However, the £500 still uses up your tax band space.",
+  },
+  {
+    question: 'How much can I earn in dividends tax-free?',
+    answer: "If you have no other income, you can receive up to £13,070 in dividends tax-free (£12,570 Personal Allowance + £500 dividend allowance). If you have a salary, the tax-free amount depends on how much PA you have remaining.",
+  },
+  {
+    question: 'Are dividends taxed the same in Scotland?',
+    answer: "Yes. Dividend tax rates are set by the UK government, not the Scottish Parliament. Regardless of where you live in the UK, dividend income is taxed at the same rates: 10.75% (basic), 35.75% (higher), and 39.35% (additional) for 2026/27.",
+  },
+  {
+    question: 'Do I need to file a tax return for dividend income?',
+    answer: "It depends on the amount. Dividends up to £500 require no action. For £500 to £10,000, you can either ask HMRC to adjust your PAYE tax code or file a Self Assessment return. Over £10,000, you must file Self Assessment.",
+  },
+  {
+    question: 'How has dividend tax changed in 2026/27?',
+    answer: "The basic rate increased from 8.75% to 10.75% and the higher rate from 33.75% to 35.75%, effective 6 April 2026. The additional rate remains at 39.35%. The dividend allowance stays at £500.",
+  },
+  {
+    question: "What's the difference between dividend tax and corporation tax?",
+    answer: "Corporation tax is paid by the company on its profits (25% for profits over £250,000). Dividend tax is paid by the individual shareholder who receives the dividends. The company pays corporation tax first, then distributes post-tax profits as dividends, and the individual pays dividend tax on what they receive.",
+  },
+  {
+    question: 'Can I split dividends with my spouse?',
+    answer: "Yes, if your spouse or partner holds shares in the company. Dividends are taxed on the shareholder, so issuing shares to your spouse means they can use their own Personal Allowance, dividend allowance, and basic rate band. The shares must be genuine — not just a tax arrangement.",
+  },
+  {
+    question: 'Do ISA dividends count toward the allowance?',
+    answer: "No. Dividends from shares held in an ISA (Individual Savings Account) are completely tax-free and do not count toward your dividend allowance or any tax band. You can invest up to £20,000 per tax year in ISAs.",
+  },
+  {
+    question: 'When do I pay dividend tax?',
+    answer: "Dividend tax is paid via Self Assessment by 31 January following the end of the tax year. For 2026/27, that means 31 January 2028. If your tax bill exceeds £1,000, you may also need to make payments on account (advance payments toward next year's bill).",
+  },
+];
+
+const faqs = faqPageSchema(faqData);
+
+const tocSections = [
+  { id: 'how-it-works', title: 'How Dividend Tax Works' },
+  { id: 'rates-thresholds', title: 'Rates and Thresholds' },
+  { id: 'step-by-step', title: 'Step-by-Step Calculation' },
+  { id: 'pa-and-dividends', title: 'Personal Allowance' },
+  { id: 'close-company', title: 'Close Company Reporting' },
+  { id: 'reduce-tax', title: 'Reduce Your Tax Bill' },
+  { id: 'reporting', title: 'How to Report and Pay' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const deadlineEvents = [
+  { date: '5 April 2027', title: 'Tax year ends', description: '2026/27 tax year closes. Gather dividend vouchers and records.', color: 'blue' as const },
+  { date: '5 October 2027', title: 'Register for Self Assessment', description: 'Deadline to register if first time filing.', color: 'blue' as const },
+  { date: '31 January 2028', title: 'File return + pay tax', description: 'Online Self Assessment deadline. Pay dividend tax owed.', color: 'red' as const },
+  { date: '31 July 2028', title: 'Second payment on account', description: 'If applicable — advance payment toward 2027/28 bill.', color: 'red' as const },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
+
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/tools" class="hover:text-primary-500">Tools</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Dividend Tax Calculator</li>
+      </ol>
+    </nav>
+
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        Dividend Tax Calculator
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2026/27)</span>
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-2">
+        Calculate how much tax you owe on your UK dividend income. Enter your salary and dividends to see a full band-by-band breakdown.
+      </p>
+    </header>
+
+    {/* Featured snippet */}
+    <p class="text-sm text-[var(--text-secondary)] mb-8 leading-relaxed">
+      In 2026/27, UK dividends above the £500 tax-free allowance are taxed at 10.75% (basic rate), 35.75% (higher rate), or 39.35% (additional rate), with dividends always taxed as the top slice of your income.
+    </p>
+
+    {/* Calculator — full width */}
+    <section class="mb-12" aria-label="Dividend tax calculator">
+      <DividendTaxCalculator client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Affiliate cards */}
+    <section class="space-y-3 my-8">
+      <p class="text-xs text-[var(--text-muted)]">Recommended tools for company directors</p>
+      <AffiliateCard
+        name="FreeAgent"
+        description="Accounting software that calculates your dividend tax and handles Self Assessment automatically."
+        url="https://placeholder.freeagent.com/affiliate"
+        cta="Start Free Trial"
+      />
+      <AffiliateCard
+        name="Tide"
+        description="Free business bank account — keep company and personal finances separate."
+        url="https://placeholder.tide.co/affiliate"
+        cta="Open Free Account"
+      />
+    </section>
+
+    <AdSlot slot="in-article" format="auto" />
+
+    {/* ═══════════ Two-column guide layout ═══════════ */}
+    <div class="mt-12 lg:grid lg:grid-cols-[240px_1fr] lg:gap-10">
+
+      {/* Left: sticky ToC */}
+      <aside class="mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-24">
+          <p class="hidden lg:block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
+            In this guide
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      {/* Right: guide content */}
+      <article class="max-w-[70ch] space-y-2">
+
+        {/* ── Section 1: How Dividend Tax Works ── */}
+        <AccordionSection id="how-it-works" title="1. How Dividend Tax Works in 2026/27" defaultOpen={true} client:load>
+          <p class="mb-3">
+            Dividends are the share of company profits distributed to shareholders. For tax purposes, the UK uses a specific stacking order: non-savings income (salary, pensions, rental) is taxed first, then savings income, then dividend income on top.
+          </p>
+          <p class="mb-3">
+            This "top slice" rule means dividends are always taxed at your highest marginal rate. If your salary fills your basic rate band, all dividends fall into the higher or additional rate band.
+          </p>
+
+          <CalloutBox variant="info" title="2026/27 rate increase" client:load>
+            Dividend tax rates increased by 2 percentage points from April 2026 for basic and higher rate taxpayers. The additional rate is unchanged at 39.35%.
+          </CalloutBox>
+
+          <CalloutBox variant="tip" title="No NI on dividends" client:load>
+            Dividends are NOT subject to National Insurance — this is a key reason company directors prefer dividends over additional salary.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section 2: Rates and Thresholds ── */}
+        <AccordionSection id="rates-thresholds" title="2. 2026/27 Dividend Tax Rates and Thresholds" defaultOpen={true} client:load>
+          <ComparisonTable
+            headers={['Tax Band', '2025/26 Rate', '2026/27 Rate', 'Change']}
+            rows={[
+              ['Dividend Allowance', '£500 at 0%', '£500 at 0%', 'No change'],
+              ['Basic rate', '8.75%', '10.75%', '+2pp'],
+              ['Higher rate', '33.75%', '35.75%', '+2pp'],
+              ['Additional rate', '39.35%', '39.35%', 'No change'],
+            ]}
+            highlightColumn={2}
+            client:load
+          />
+
+          <p class="mb-3 mt-4">
+            The dividend allowance has been reduced over the years: £5,000 in 2017/18, £2,000 from 2018/19, £1,000 from 2023/24, and £500 from 2024/25 onwards.
+          </p>
+
+          <CalloutBox variant="warning" title="Allowance uses band space" client:load>
+            The dividend allowance does NOT extend your tax bands. Even though you pay 0% on the first £500 of dividends, those £500 still use up your basic or higher rate band space.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section 3: Step-by-Step Calculation ── */}
+        <AccordionSection id="step-by-step" title="3. How to Calculate Dividend Tax (Step by Step)" defaultOpen={true} client:load>
+          <ol class="list-decimal pl-5 space-y-2 mb-4">
+            <li><strong>Add up total income</strong> — salary + dividends combined.</li>
+            <li><strong>Calculate Personal Allowance</strong> — £12,570, or tapered if total income exceeds £100,000.</li>
+            <li><strong>Apply PA to salary first</strong> — any remaining PA covers dividends.</li>
+            <li><strong>Work out taxable salary</strong> — fills basic rate band before dividends.</li>
+            <li><strong>Apply £500 dividend allowance</strong> — taxed at 0% but uses band space.</li>
+            <li><strong>Allocate remaining dividends to bands</strong> — basic, then higher, then additional.</li>
+            <li><strong>Apply dividend tax rates</strong> — 10.75% / 35.75% / 39.35% for 2026/27.</li>
+          </ol>
+
+          <WorkedExample
+            persona="Sarah"
+            job="Office manager"
+            sideHustle="Company director with £40,000 dividends"
+            income={12570}
+            expenses={0}
+          >
+            <p>Salary: £12,570 (full PA used). Dividends: £40,000.</p>
+            <p>Taxable salary: £0 (covered by PA). All £40,000 dividends fall into basic rate band.</p>
+            <p>Dividend allowance: £500 at 0%. Basic rate: £39,500 at 10.75% = <strong>£4,246.25</strong>.</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="James"
+            job="Senior developer"
+            sideHustle="Investment portfolio paying £25,000 dividends"
+            income={85000}
+            expenses={0}
+          >
+            <p>Salary: £85,000. Dividends: £25,000. Total: £110,000.</p>
+            <p>PA tapered: £12,570 − (£110,000 − £100,000) / 2 = £7,570.</p>
+            <p>Taxable salary: £77,430. Basic band used: £37,700. Higher band used: £39,730.</p>
+            <p>Higher band remaining: £74,870 − £39,730 = £35,140. All dividends in higher band.</p>
+            <p>Allowance: £500 at 0%. Higher: £24,500 at 35.75% = <strong>£8,758.75</strong>.</p>
+          </WorkedExample>
+        </AccordionSection>
+
+        {/* ── Section 4: Personal Allowance and Dividends ── */}
+        <AccordionSection id="pa-and-dividends" title="4. Personal Allowance and Dividends" client:load>
+          <p class="mb-3">
+            If you have little or no salary, your £12,570 Personal Allowance covers dividends first. Combined with the £500 dividend allowance, you can receive up to £13,070 of dividends with zero tax if you have no other income.
+          </p>
+          <p class="mb-3">
+            Dividends count toward total income for PA taper purposes. If combined income exceeds £100,000, you lose £1 of PA for every £2 over.
+          </p>
+
+          <CalloutBox variant="warning" title="The 60% trap" client:load>
+            If your combined salary + dividends exceed £100,000, you start losing your Personal Allowance at £1 for every £2 over. This creates an effective 60% marginal tax rate in the £100,000–£125,140 band.
+          </CalloutBox>
+
+          <WorkedExample
+            persona="Priya"
+            job="No employment"
+            sideHustle="Receives £15,000 in dividends from family company"
+            income={15000}
+            expenses={0}
+          >
+            <p>No salary. Dividends: £15,000.</p>
+            <p>PA covers £12,570. Taxable dividends: £2,430.</p>
+            <p>Allowance: £500 at 0%. Basic: £1,930 at 10.75% = <strong>£207.48</strong>.</p>
+          </WorkedExample>
+        </AccordionSection>
+
+        <AdSlot slot="mid-content" format="auto" />
+
+        {/* ── Section 5: Close Company Reporting ── */}
+        <AccordionSection id="close-company" title="5. New Close Company Reporting Rules from 2025/26" client:load>
+          <p class="mb-3">
+            From the 2025/26 Self Assessment return onwards, directors of close companies must report additional information on form SA102. A close company is one controlled by 5 or fewer participators, or any number of director-participators — this covers most owner-managed businesses.
+          </p>
+          <p class="mb-3">New mandatory reporting fields:</p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li>Confirmation of close company director status</li>
+            <li>Company name and Companies House registration number (CRN)</li>
+            <li>Dividend amount from EACH close company (separately, not combined)</li>
+            <li>Percentage of share capital held</li>
+          </ul>
+
+          <CalloutBox variant="warning" title="£60 penalty per omission" client:load>
+            £60 penalty per missing element — make sure you have your Companies House registration number and exact dividend amounts for each company before filing.
+          </CalloutBox>
+
+          <p class="text-sm text-[var(--text-muted)]">
+            This affects approximately 900,000 director-shareholders. Source: The Income Tax (Additional Information to be included in Returns) Regulations 2025.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section 6: Reduce Your Tax Bill ── */}
+        <AccordionSection id="reduce-tax" title="6. How to Reduce Your Dividend Tax Bill" client:load>
+          <p class="mb-3">Several legitimate strategies can reduce your overall dividend tax liability:</p>
+
+          <p class="mb-2"><strong>ISA sheltering</strong> — Dividends from shares held in ISAs are completely tax-free. Annual ISA allowance is £20,000. However, you cannot shelter dividends from your own limited company via an ISA.</p>
+
+          <p class="mb-2"><strong>Pension contributions</strong> — Making pension contributions (especially employer contributions from a Ltd company) reduces total income. This can bring you below £100,000, recovering your full Personal Allowance.</p>
+
+          <p class="mb-2"><strong>Spousal share allocation</strong> — Issuing shares to your spouse allows them to use their own PA, dividend allowance, and basic rate band. Shares must represent a genuine economic interest.</p>
+
+          <p class="mb-2"><strong>Timing dividends</strong> — Spreading dividend declarations across tax years helps stay within lower bands.</p>
+
+          <CalloutBox variant="tip" title="Optimal director salary" client:load>
+            The most tax-efficient salary for a Ltd company director in 2026/27 is typically £12,570 — using your full Personal Allowance while avoiding employee NI. Compare options with our <a href="/sole-trader-vs-ltd-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Sole Trader vs Ltd Calculator</a>.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section 7: How to Report and Pay ── */}
+        <AccordionSection id="reporting" title="7. How to Report and Pay Dividend Tax" client:load>
+          <p class="mb-3">Reporting requirements depend on the amount of dividend income:</p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>£500 or less:</strong> No action needed.</li>
+            <li><strong>£500 to £10,000:</strong> Contact HMRC to adjust your PAYE tax code, or file a Self Assessment return.</li>
+            <li><strong>Over £10,000:</strong> You must file a Self Assessment tax return.</li>
+          </ul>
+
+          <p class="mb-3">
+            If your Self Assessment bill exceeds £1,000, HMRC will set up payments on account — advance payments toward next year's bill, due 31 January and 31 July.
+          </p>
+
+          <DeadlineTimeline events={deadlineEvents} client:load />
+        </AccordionSection>
+
+        {/* ── Section 8: FAQs ── */}
+        <AccordionSection id="faqs" title="8. Dividend Tax FAQ" client:load>
+          <FAQAccordion items={faqData} client:load />
+        </AccordionSection>
+
+        {/* Cross-links */}
+        <div class="rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-6">
+          <h4 class="text-sm font-semibold text-[var(--text-primary)] mb-3">Related calculators</h4>
+          <div class="space-y-2">
+            <a href="/sole-trader-vs-ltd-calculator/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              ⚖️ Sole Trader vs Ltd Calculator — compare salary/dividend mix strategies
+            </a>
+            <a href="/side-hustle-tax-calculator/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              💰 Side-Hustle Tax Calculator — calculate tax on self-employment income
+            </a>
+            <a href="/take-home-pay-calculator/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              💷 Take-Home Pay Calculator — check your PAYE take-home
+            </a>
+            <a href="/trading-allowance-checker/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              🔍 Trading Allowance Checker — see if the £1,000 allowance covers you
+            </a>
+          </div>
+        </div>
+
+      </article>
+    </div>
+
+    <footer class="mt-12 pt-4 border-t border-[var(--border)]">
+      <p class="text-xs text-[var(--text-muted)]">
+        Tax rates from HMRC for the 2026/27 tax year. This calculator provides estimates only and does not constitute tax advice.
+        See <a href="https://www.gov.uk/tax-on-dividends" class="underline hover:text-primary-500" target="_blank" rel="noopener">GOV.UK</a> for official guidance.
+        Last updated May 2026.
+      </p>
+    </footer>
+  </div>
+</BaseLayout>

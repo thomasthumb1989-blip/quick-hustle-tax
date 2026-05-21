@@ -1,4 +1,4 @@
-import { taxData, getEffectivePersonalAllowance } from '../tax-data/index.ts';
+import { taxData, getEffectivePersonalAllowance, getAdjustedIncomeTaxBands } from '../tax-data/index.ts';
 import type { TaxYearData, TaxBand } from '../tax-data/types.ts';
 
 export interface SideHustleTaxInput {
@@ -145,7 +145,8 @@ function calculateClass4NI(
 function getFullTaxLiability(totalIncome: number, taxYear: TaxYearData): number {
   const pa = getEffectivePersonalAllowance(totalIncome, taxYear);
   const taxableIncome = Math.max(0, totalIncome - pa);
-  const { total } = calculateIncomeTax(taxableIncome, taxYear.incomeTaxBands);
+  const adjustedBands = getAdjustedIncomeTaxBands(pa, taxYear);
+  const { total } = calculateIncomeTax(taxableIncome, adjustedBands);
   return total;
 }
 
@@ -160,7 +161,8 @@ export function calculateSideHustleTax(input: SideHustleTaxInput): SideHustleTax
     const totalGross = input.employmentIncome + input.sideHustleGrossIncome;
     const empPA = getEffectivePersonalAllowance(input.employmentIncome, taxYear);
     const empTaxable = Math.max(0, input.employmentIncome - empPA);
-    const { breakdown, total: empTax } = calculateIncomeTax(empTaxable, taxYear.incomeTaxBands);
+    const adjustedBands = getAdjustedIncomeTaxBands(empPA, taxYear);
+    const { breakdown, total: empTax } = calculateIncomeTax(empTaxable, adjustedBands);
 
     return {
       totalGrossIncome: totalGross,
@@ -218,10 +220,11 @@ export function calculateSideHustleTax(input: SideHustleTaxInput): SideHustleTax
   const personalAllowanceUsed = getEffectivePersonalAllowance(totalGrossIncome, taxYear);
   const totalTaxableIncome = Math.max(0, totalGrossIncome - personalAllowanceUsed);
 
-  // Income tax on total income
+  // Income tax on total income (adjusted bands for PA taper)
+  const adjustedBands = getAdjustedIncomeTaxBands(personalAllowanceUsed, taxYear);
   const { breakdown: incomeTaxBreakdown, total: totalIncomeTax } = calculateIncomeTax(
     totalTaxableIncome,
-    taxYear.incomeTaxBands
+    adjustedBands
   );
 
   // Income tax on employment income alone
