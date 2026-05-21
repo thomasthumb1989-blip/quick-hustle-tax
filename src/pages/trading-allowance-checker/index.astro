@@ -1,22 +1,112 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TradingAllowanceChecker from '../../components/calculators/TradingAllowance/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
 import { SITE } from '../../config/site';
-import { breadcrumbSchema } from '../../lib/seo/schema';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
 
-const pageTitle = 'UK Trading Allowance Checker 2026/27';
-const pageDescription = 'Check if you qualify for the £1,000 trading allowance and whether you need to register for Self Assessment. Free, instant result.';
+const pageTitle = 'UK Trading Allowance Checker 2026/27 — Do You Need to Register with HMRC?';
+const pageDescription =
+  "Check if your side income is covered by the £1,000 UK trading allowance. Free instant checker for Etsy, eBay, Vinted sellers and freelancers. Updated for 2026/27.";
+const canonicalUrl = `${SITE.url}/trading-allowance-checker/`;
+
+const appSchema = webApplicationSchema({
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+});
 
 const breadcrumbs = breadcrumbSchema([
   { name: 'Home', url: SITE.url },
   { name: 'Tools', url: `${SITE.url}/tools/` },
-  { name: 'Trading Allowance Checker', url: `${SITE.url}/trading-allowance-checker/` },
+  { name: 'Trading Allowance Checker', url: canonicalUrl },
 ]);
+
+const faqData = [
+  {
+    question: 'Do I need to pay tax if I sell things on Vinted?',
+    answer: "If you're selling personal belongings you already own, no — that's not trading and isn't taxable (unless you sell for more than you paid). If you're buying items to resell at a profit, that IS trading. The £1,000 trading allowance covers your first £1,000 of gross trading income per tax year.",
+  },
+  {
+    question: 'Is the £1,000 trading allowance per platform or total?',
+    answer: "Total. The £1,000 covers ALL your trading income combined — Etsy, eBay, Vinted, freelance work, everything. If you earn £600 on Etsy and £500 on eBay, that's £1,100 total and you've exceeded the allowance.",
+  },
+  {
+    question: 'Can I use the trading allowance AND claim expenses?',
+    answer: "No. You choose one or the other for each tax year. If your expenses exceed £1,000, claim actual expenses. If your expenses are under £1,000, claim the flat allowance. You cannot combine them.",
+  },
+  {
+    question: 'What if my expenses are exactly £1,000?',
+    answer: "Either option gives the same deduction. Choose the trading allowance for simplicity — you don't need to keep receipts or records of individual expenses.",
+  },
+  {
+    question: 'Do I need to register if I earn £1,001?',
+    answer: "Yes. Any gross trading income over £1,000 requires Self Assessment registration by 5 October following the tax year. Even if your profit is tiny or zero, the registration requirement is based on gross income, not profit.",
+  },
+  {
+    question: 'Does the trading allowance apply to rental income?',
+    answer: "No. Rental income has its own separate £1,000 property allowance with different rules. The trading allowance only applies to trading, freelance, and casual income.",
+  },
+  {
+    question: 'What happens if HMRC writes to me about my online sales?',
+    answer: "Don't panic, but do respond. Since January 2024, platforms report seller data to HMRC. A letter doesn't mean you owe tax — HMRC may just want clarification. If you're selling personal items below cost, explain that. If you are trading, check if the trading allowance covers you.",
+  },
+  {
+    question: 'Can I use the trading allowance if I am employed full-time?',
+    answer: "Yes, absolutely. The trading allowance is separate from your employment income. You can be employed full-time and use the allowance for side income. However, if your side income comes from your employer or a connected party, the allowance is not available.",
+  },
+  {
+    question: 'Is the trading allowance changing in 2027?',
+    answer: "The £1,000 allowance itself stays. But from 2027/28, a new simplified reporting system replaces full Self Assessment for trading income between £1,000 and £3,000. This means less admin for small-scale traders.",
+  },
+  {
+    question: 'Do I need to keep records if I am under £1,000?',
+    answer: "Strictly, no — if you're fully covered by the trading allowance, you don't need to register or file. However, keeping basic records (sales totals per platform) is wise in case HMRC asks. Platform reporting means they can see your data anyway.",
+  },
+  {
+    question: "What's the difference between the trading allowance and the personal allowance?",
+    answer: "The personal allowance (£12,570) is the amount of total income you can earn tax-free from all sources. The trading allowance (£1,000) is a separate exemption specifically for trading income. If your trading income exceeds £1,000, the taxable amount is then added to your other income and taxed using the personal allowance and normal tax bands.",
+  },
+  {
+    question: 'Does Making Tax Digital affect me if I use the trading allowance?',
+    answer: "No. If your gross trading income is £1,000 or less and you're fully covered by the trading allowance, MTD for Income Tax does not apply to you. MTD only kicks in for self-employed individuals with gross income over £50,000 (from April 2026) or £30,000 (from April 2027).",
+  },
+];
+
+const faqs = faqPageSchema(faqData);
+const faqItems = faqData;
+
+const tocSections = [
+  { id: 'what-is', title: 'What Is the Trading Allowance?' },
+  { id: 'who-can-use', title: 'Who Can Use It?' },
+  { id: 'trading-vs-personal', title: 'Trading vs Personal Sales' },
+  { id: 'allowance-vs-expenses', title: 'Allowance vs Expenses' },
+  { id: 'platform-reporting', title: 'Platform Reporting' },
+  { id: 'mtd', title: 'Making Tax Digital' },
+  { id: 'future-changes', title: '2027/28 Changes' },
+  { id: 'worked-examples', title: 'Worked Examples' },
+  { id: 'common-mistakes', title: 'Common Mistakes' },
+  { id: 'faqs', title: 'FAQs' },
+];
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
 
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
     <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
       <ol class="flex items-center gap-1.5">
         <li><a href="/" class="hover:text-primary-500">Home</a></li>
@@ -27,29 +117,232 @@ const breadcrumbs = breadcrumbSchema([
       </ol>
     </nav>
 
+    {/* Header */}
     <header class="mb-8">
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
         Trading Allowance Checker
         <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2026/27)</span>
       </h1>
       <p class="text-lg text-[var(--text-secondary)] mt-2">
-        Do you need to tell HMRC about your side income? Check if the £1,000 trading allowance covers you.
+        Do you need to tell HMRC about your side income? Answer a few questions to find out if the £1,000 trading allowance covers you.
       </p>
     </header>
 
-    <div class="rounded-xl border-2 border-dashed border-[var(--border)] p-12 text-center">
-      <p class="text-2xl mb-2">✅</p>
-      <p class="text-lg font-semibold text-[var(--text-primary)]">Coming Soon</p>
-      <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md mx-auto">
-        This checker is being built right now. In the meantime, try our
-        <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Side-Hustle Tax Calculator</a>
-        which includes the trading allowance automatically.
-      </p>
+    {/* Checker */}
+    <section class="mb-12" aria-label="Trading allowance checker">
+      <TradingAllowanceChecker client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Guide content */}
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
+      {/* Table of Contents sidebar */}
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">
+            On this page
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      <article>
+        <p class="text-xs text-[var(--text-muted)] mb-6">
+          Last updated: May 2026 · Tax year 2026/27 · All rates and thresholds from HMRC published guidance
+        </p>
+
+        <p class="text-base text-[var(--text-secondary)] mb-6 leading-relaxed">
+          If your total gross trading income across all platforms is £1,000 or less in 2026/27, you don't need to register with HMRC, file a Self Assessment tax return, or pay any tax on that income. The UK trading allowance lets individuals earn up to £1,000 per tax year from self-employment, casual trading, or miscellaneous activities without paying income tax or registering with HMRC. The allowance applies to gross income — total revenue before deducting any expenses — and is combined across all platforms and activities. All rules and thresholds below are from HMRC's published guidance for the 2026/27 tax year.
+        </p>
+
+        <CalloutBox variant="tip" title="Quick Answer" client:load>
+          <p>
+            Gross trading income ≤ £1,000 = no action needed. Over £1,000 = register for Self Assessment by 5 October 2027 and choose between the £1,000 flat allowance or actual expenses — whichever gives the bigger deduction.
+          </p>
+        </CalloutBox>
+
+        <AccordionSection id="what-is" title="1. What Is the Trading Allowance?" defaultOpen={true} client:load>
+          <p class="mb-3">
+            The trading allowance is a £1,000 annual exemption on gross trading income, introduced in April 2017. It's available to individuals only — not partnerships or companies. If your gross trading income is £1,000 or less, the entire amount is tax-free with no registration, filing, or record-keeping required.
+          </p>
+          <p class="mb-3">
+            If your income exceeds £1,000, you can still use the allowance as a flat £1,000 deduction instead of claiming actual expenses. This is useful if your expenses are low or you don't want to keep detailed records.
+          </p>
+          <CalloutBox variant="warning" client:load>
+            <p>The £1,000 is based on GROSS income — total revenue BEFORE expenses. This is the most misunderstood part. £1,200 in sales with £500 in expenses = £1,200 gross, which is OVER the threshold.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="who-can-use" title="2. Who Can Use It — and Who Can't" client:load>
+          <p class="mb-3">
+            The trading allowance is available to sole traders, freelancers, gig workers, casual sellers, and content creators. It covers income from any trading, casual, or miscellaneous source.
+          </p>
+          <p class="mb-3">
+            However, you CANNOT use the trading allowance if any of your trading income comes from:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Your employer or a connected party</strong> — even if the work is completely separate from your employment</li>
+            <li><strong>A business partnership</strong> — partnership income has its own reporting rules</li>
+            <li><strong>A company you own or control</strong> — this income should go through the company's accounts</li>
+          </ul>
+          <CalloutBox variant="warning" client:load>
+            <p>The employer rule catches people out. If ANY of your trading income comes from your employer or a connected party, the ENTIRE trading allowance becomes unavailable — not just the employer portion.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="trading-vs-personal" title="3. Trading vs Selling Personal Items" client:load>
+          <p class="mb-3">
+            HMRC distinguishes between trading (buying or making goods with the intention of selling at a profit) and disposing of personal belongings. The distinction matters because personal sales are not taxable at all — no trading allowance needed.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Trading:</strong> regular buying-to-resell, making products to sell, offering services for payment</li>
+            <li><strong>Personal sales:</strong> clearing out your wardrobe, selling used electronics, disposing of unwanted gifts</li>
+          </ul>
+          <p class="mb-3">
+            HMRC looks at frequency, intent, and profit motive to decide. One-off sales of personal items are almost never trading. Regular sourcing and reselling usually is.
+          </p>
+          <CalloutBox variant="info" client:load>
+            <p>Selling 200 items of your own used clothing on Vinted at a loss is NOT trading. Buying 50 items at charity shops to resell at a profit IS trading. Intent matters.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="allowance-vs-expenses" title="4. Trading Allowance vs Actual Expenses" client:load>
+          <p class="mb-3">
+            If your gross trading income exceeds £1,000, you must choose between the flat £1,000 trading allowance OR your actual business expenses. You cannot claim both.
+          </p>
+          <ComparisonTable
+            client:load
+            headers={['Scenario', 'Gross', 'Expenses', 'Taxable (allowance)', 'Taxable (expenses)', 'Better']}
+            rows={[
+              ['Low costs', '£3,000', '£400', '£2,000', '£2,600', 'Allowance'],
+              ['High costs', '£5,000', '£2,500', '£4,000', '£2,500', 'Expenses'],
+              ['Equal', '£3,000', '£1,000', '£2,000', '£2,000', 'Either'],
+            ]}
+          />
+          <p class="mt-3">
+            Simple rule: if your expenses are under £1,000, claim the allowance. Over £1,000, claim expenses. Equal? The allowance is simpler — no receipts needed.
+          </p>
+          <p class="mt-3">
+            Want to see the exact tax impact? Use our <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 hover:underline">Side-Hustle Tax Calculator</a> to calculate the actual tax you'd owe.
+          </p>
+        </AccordionSection>
+
+        <AccordionSection id="platform-reporting" title="5. Platform Reporting — What HMRC Now Knows" client:load>
+          <p class="mb-3">
+            Since January 2024 (under DAC7 rules), digital platforms must report seller data to HMRC. This covers eBay, Etsy, Vinted, Depop, Amazon, Airbnb, Fiverr, Upwork, Deliveroo, Uber, and similar platforms.
+          </p>
+          <p class="mb-3">
+            Platforms report if you have 30+ transactions OR €2,000+ (~£1,700) in gross sales during the year. The data includes your name, address, total sales, and transaction counts.
+          </p>
+          <CalloutBox variant="info" client:load>
+            <p>Platform reporting doesn't mean you owe tax. It means HMRC can see your sales data. If you're selling personal items below cost, that's still not taxable — but HMRC might write asking for clarification.</p>
+          </CalloutBox>
+          <CalloutBox variant="warning" client:load>
+            <p>HMRC has been sending letters to online sellers since 2024 based on platform data. If you get one, don't panic — but do respond. Ignoring it leads to investigations.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="mtd" title="6. Making Tax Digital (MTD) and the Trading Allowance" client:load>
+          <p class="mb-3">
+            Making Tax Digital for Income Tax started in April 2026 for self-employed individuals with gross income over £50,000. From April 2027, the threshold drops to £30,000.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Under £1,000 (covered by trading allowance):</strong> MTD does not apply. The allowance exempts you entirely.</li>
+            <li><strong>£1,000–£30,000:</strong> Self Assessment required but no MTD quarterly reporting (for 2026/27).</li>
+            <li><strong>£30,000–£50,000:</strong> MTD applies from April 2027.</li>
+            <li><strong>Over £50,000:</strong> MTD applies now (from April 2026). Quarterly digital submissions required.</li>
+          </ul>
+          <CalloutBox variant="tip" client:load>
+            <p>If your trading income is under £1,000, MTD is irrelevant to you. The allowance effectively exempts you from the entire digital reporting system.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="future-changes" title="7. Upcoming Change: 2027/28 Simplified Reporting" client:load>
+          <p class="mb-3">
+            From 2027/28, the Self Assessment threshold for trading income rises to £3,000. The trading allowance itself stays at £1,000, but a new simplified online reporting system will handle income between £1,000 and £3,000.
+          </p>
+          <p class="mb-3">
+            This means less admin for small-scale traders: no full Self Assessment return required for moderate trading income. For 2026/27, the current rules still apply — if you're over £1,000, you need full Self Assessment.
+          </p>
+          <CalloutBox variant="info" client:load>
+            <p>From 2027/28, if your trading income is between £1,000 and £3,000, you won't need a full Self Assessment return. A new simplified system will handle it. But for 2026/27, the current rules apply.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="worked-examples" title="8. Worked Examples" client:load>
+          <WorkedExample
+            persona="Lisa — Occasional Etsy Seller"
+            job="Part-time teacher"
+            sideHustle="£650 gross from handmade cards"
+            income={650}
+            expenses={180}
+            client:load
+          >
+            <p>Lisa sells handmade greeting cards on Etsy — £650 total sales this year, £180 in materials. Her gross income (£650) is under the £1,000 trading allowance.</p>
+            <p>Verdict: Fully covered. Lisa doesn't need to register with HMRC, file a return, or pay anything. No records required, though keeping a note of total sales is wise.</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="Omar — Freelance Photographer"
+            job="Office worker"
+            sideHustle="£4,500 gross from client shoots"
+            income={4500}
+            expenses={800}
+            client:load
+          >
+            <p>Omar earns £4,500 from weekend photography gigs, with £800 in expenses (equipment hire, travel). His gross exceeds £1,000 so he must register for Self Assessment.</p>
+            <p>Trading allowance route: taxable income = £3,500 (£4,500 − £1,000). Expenses route: taxable income = £3,700 (£4,500 − £800). The allowance saves £40 at basic rate.</p>
+            <p>Verdict: Register and claim the trading allowance. Simpler (no receipts) and saves more tax.</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="Jade — Depop Reseller"
+            job="Student"
+            sideHustle="£8,000 gross from vintage clothes"
+            income={8000}
+            expenses={3500}
+            client:load
+          >
+            <p>Jade buys vintage clothes at charity shops and resells on Depop. £8,000 gross, £3,500 in expenses (stock, postage, packaging). Her expenses far exceed the £1,000 allowance.</p>
+            <p>Trading allowance route: taxable = £7,000. Expenses route: taxable = £4,500. Expenses save £500 at basic rate. Platform reporting applies — Depop will report her data to HMRC.</p>
+            <p>Verdict: Register and claim actual expenses. Keep all receipts. The £2,500 extra deduction is worth the record-keeping.</p>
+          </WorkedExample>
+        </AccordionSection>
+
+        <AccordionSection id="common-mistakes" title="9. Common Mistakes" client:load>
+          <div class="space-y-3">
+            <CalloutBox variant="warning" client:load>
+              <p><strong>Thinking the allowance is per-platform.</strong> The £1,000 is your total across ALL platforms and activities combined. £600 on Etsy + £500 on eBay = £1,100, which exceeds the threshold.</p>
+            </CalloutBox>
+            <CalloutBox variant="warning" client:load>
+              <p><strong>Using gross profit instead of gross income.</strong> The £1,000 threshold is based on gross REVENUE (total sales), not gross profit (sales minus costs). £1,200 in sales with £500 costs = £1,200 gross. You're over.</p>
+            </CalloutBox>
+            <CalloutBox variant="warning" client:load>
+              <p><strong>Claiming BOTH allowance and expenses.</strong> It's one or the other, never both. Pick the larger deduction for the year.</p>
+            </CalloutBox>
+            <CalloutBox variant="warning" client:load>
+              <p><strong>Not registering when gross exceeds £1,000.</strong> Even if your profit is tiny or zero after expenses, you must register for Self Assessment if gross income is over £1,000.</p>
+            </CalloutBox>
+            <CalloutBox variant="warning" client:load>
+              <p><strong>Assuming personal sales count as trading.</strong> Clearing your wardrobe is not trading. But regular sourcing and reselling is. HMRC looks at intent and frequency.</p>
+            </CalloutBox>
+            <CalloutBox variant="warning" client:load>
+              <p><strong>Ignoring HMRC platform reporting letters.</strong> Since 2024, HMRC receives data from platforms. If they write, respond promptly. Ignoring leads to investigations and potential penalties.</p>
+            </CalloutBox>
+          </div>
+        </AccordionSection>
+
+        <AccordionSection id="faqs" title="10. Frequently Asked Questions" client:load>
+          <FAQAccordion items={faqItems} client:load />
+        </AccordionSection>
+      </article>
     </div>
 
+    {/* Footer */}
     <footer class="mt-12 pt-4 border-t border-[var(--border)]">
       <p class="text-xs text-[var(--text-muted)]">
-        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates
+        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates · Not financial advice
       </p>
     </footer>
   </div>
