@@ -336,6 +336,18 @@ const tocSections = [
         <AccordionSection id="faqs" title="10. Frequently Asked Questions" client:load>
           <FAQAccordion items={faqItems} client:load />
         </AccordionSection>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Need to file Self Assessment?</strong> Check your deadlines and potential late penalties with our
+            <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Self-Assessment Deadline Checker</a>.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Earning more than £1,000?</strong> Calculate your full side-hustle tax with our
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>.
+          </p>
+        </div>
       </article>
     </div>
 

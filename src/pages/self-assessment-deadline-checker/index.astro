@@ -1,0 +1,427 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SelfAssessmentPenaltyCalculator from '../../components/calculators/SelfAssessmentPenalty/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
+import AffiliateCard from '../../components/affiliates/AffiliateCard.astro';
+import { SITE } from '../../config/site';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { DeadlineTimeline } from '../../components/content/DeadlineTimeline';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
+
+const pageTitle = 'Self-Assessment Deadline & Penalty Checker 2025/26 — Free UK Tax Tool';
+const pageDescription =
+  "Check your Self Assessment deadlines and calculate HMRC late filing and payment penalties. See exactly what you owe in fines and interest.";
+const canonicalUrl = `${SITE.url}/self-assessment-deadline-checker/`;
+
+const appSchema = webApplicationSchema({
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Tools', url: `${SITE.url}/tools/` },
+  { name: 'Self-Assessment Deadline Checker', url: canonicalUrl },
+]);
+
+const faqs = faqPageSchema([
+  {
+    question: 'What happens if I miss the Self Assessment deadline by just one day?',
+    answer: "You'll receive an automatic £100 penalty, even if you owe no tax or have already paid what you owe. This penalty applies from 1 February onwards for the previous tax year.",
+  },
+  {
+    question: 'Do I still get a penalty if I owe no tax?',
+    answer: "Yes. Filing penalties apply regardless of whether you owe tax. The £100 initial penalty, daily penalties, and time-based penalties all apply to late filing even if your tax bill is zero.",
+  },
+  {
+    question: 'Can I appeal a Self Assessment penalty?',
+    answer: "Yes, you can appeal within 30 days if you have a reasonable excuse — serious illness, bereavement, fire/flood, or HMRC system issues. You'll need to explain why the excuse prevented you from meeting the deadline.",
+  },
+  {
+    question: 'What is the interest rate on late tax payments?',
+    answer: "HMRC charges late payment interest at the Bank of England base rate plus 4%. As of 2025, this is 7.75% per year, calculated daily on the outstanding amount.",
+  },
+  {
+    question: 'Can I set up a payment plan with HMRC?',
+    answer: "Yes. HMRC's Time to Pay service lets you spread payments over up to 12 months. You can set this up online for debts up to £30,000, or call HMRC for larger amounts. Interest still accrues during the payment plan.",
+  },
+  {
+    question: 'What are payments on account?',
+    answer: "If your Self Assessment bill is over £1,000 and less than 80% was collected through PAYE, HMRC requires advance payments towards next year's bill. These are due on 31 January and 31 July.",
+  },
+  {
+    question: 'Is the penalty system changing?',
+    answer: "Yes. From April 2027, HMRC is introducing a points-based penalty system. You'll receive a point for each late submission, and a fixed penalty only when you reach the threshold (e.g., 4 points for quarterly submissions). The current penalty system applies to tax years up to and including 2025/26.",
+  },
+  {
+    question: 'Do penalties apply to paper returns too?',
+    answer: "Paper returns have an earlier deadline of 31 October. If you miss the paper deadline but file online by 31 January, no late filing penalty applies. If you miss both deadlines, penalties run from 1 February.",
+  },
+]);
+
+const tocSections = [
+  { id: 'how-penalties-work', title: 'How Penalties Work' },
+  { id: 'filing-penalties', title: 'Filing Penalties' },
+  { id: 'payment-penalties', title: 'Payment Penalties' },
+  { id: 'interest', title: 'Late Payment Interest' },
+  { id: 'worked-examples', title: 'Worked Examples' },
+  { id: 'penalty-comparison', title: 'Penalty Timeline' },
+  { id: 'deadlines-2025-26', title: '2025/26 Deadlines' },
+  { id: 'appeals', title: 'Appealing Penalties' },
+  { id: 'new-system', title: 'New Penalty System (2027)' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const deadlineEvents = [
+  { date: '5 April 2026', title: 'Tax year ends', description: '2025/26 tax year closes. Start gathering your records.', color: 'blue' as const },
+  { date: '6 April 2026', title: 'Filing opens', description: 'You can submit your 2025/26 return from this date.', color: 'blue' as const },
+  { date: '5 October 2026', title: 'Registration deadline', description: 'Register for Self Assessment if filing for the first time.', color: 'purple' as const },
+  { date: '31 October 2026', title: 'Paper return deadline', description: 'Last day to submit a paper tax return.', color: 'purple' as const },
+  { date: '31 January 2027', title: 'Online filing + payment deadline', description: 'File online AND pay any tax owed. Penalties start the next day.', color: 'red' as const },
+  { date: '31 July 2027', title: 'Second payment on account', description: 'Second advance payment towards next year, if applicable.', color: 'red' as const },
+];
+
+const faqItems = [
+  {
+    question: 'What happens if I miss the Self Assessment deadline by just one day?',
+    answer: "You'll receive an automatic £100 penalty, even if you owe no tax or have already paid. This applies from 1 February for the 2025/26 tax year.",
+  },
+  {
+    question: 'Do I still get a penalty if I owe no tax?',
+    answer: "Yes. Filing penalties apply regardless of whether you owe tax. The initial £100 penalty and all subsequent filing penalties still apply. However, the 6-month and 12-month penalties have a minimum of £300 (rather than 5% of tax owed) when no tax is due.",
+  },
+  {
+    question: 'Can I appeal a Self Assessment penalty?',
+    answer: "Yes, within 30 days of the penalty notice. Reasonable excuses include serious illness, bereavement, fire/flood, postal delays, or HMRC system issues. 'I forgot' or 'I didn't know' are not considered reasonable excuses.",
+  },
+  {
+    question: 'What is the current interest rate on late tax payments?',
+    answer: "HMRC charges interest at the Bank of England base rate plus 4%. Currently this is 7.75% per year (3.75% base rate + 4%), calculated daily on the outstanding balance.",
+  },
+  {
+    question: 'Can I set up a payment plan with HMRC?',
+    answer: "Yes. HMRC's Time to Pay arrangement lets you spread your bill over up to 12 months. You can set this up online for Self Assessment debts up to £30,000, or call the Self Assessment helpline for larger amounts. Interest continues to accrue during the plan.",
+  },
+  {
+    question: 'What are payments on account?',
+    answer: "Advance payments towards next year's tax bill. Required if your SA bill exceeds £1,000 and less than 80% was collected through PAYE. Each payment on account is half of the previous year's bill, due 31 January and 31 July.",
+  },
+  {
+    question: 'Is the penalty system changing?',
+    answer: "Yes. From April 2027, HMRC is introducing a points-based system. You'll accumulate points for late submissions and only receive a financial penalty when you reach the threshold. The current system (described on this page) applies to 2025/26 and earlier tax years.",
+  },
+  {
+    question: 'Do penalties apply if I file on paper?',
+    answer: "Paper returns have an earlier deadline of 31 October. Missing the paper deadline but filing online by 31 January avoids a late filing penalty. Missing both deadlines means penalties run from 1 February.",
+  },
+];
+
+const today = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
+
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/tools" class="hover:text-primary-500">Tools</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Self-Assessment Deadline Checker</li>
+      </ol>
+    </nav>
+
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        Self-Assessment Deadline & Penalty Checker
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2025/26)</span>
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-2">
+        Check your filing and payment deadlines, and see exactly what penalties and interest you'd
+        face for late Self Assessment. Covers the current HMRC penalty regime.
+      </p>
+    </header>
+
+    {/* Calculator — full width */}
+    <section class="mb-12" aria-label="Penalty calculator">
+      <SelfAssessmentPenaltyCalculator client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Affiliate cards */}
+    <section class="space-y-3 my-8">
+      <p class="text-xs text-[var(--text-muted)]">Recommended tools for Self Assessment</p>
+      <AffiliateCard
+        name="FreeAgent"
+        description="Accounting software that handles your Self Assessment tax return automatically."
+        url="https://placeholder.freeagent.com/affiliate"
+        cta="Start Free Trial"
+      />
+      <AffiliateCard
+        name="GoSimpleTax"
+        description="Simple, guided Self Assessment filing — submit directly to HMRC."
+        url="https://placeholder.gosimpletax.com/affiliate"
+        cta="File Your Return"
+      />
+    </section>
+
+    <AdSlot slot="in-article" format="auto" />
+
+    {/* ═══════════ Two-column guide layout ═══════════ */}
+    <div class="mt-12 lg:grid lg:grid-cols-[240px_1fr] lg:gap-10">
+
+      {/* Left: sticky ToC */}
+      <aside class="mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-24">
+          <p class="hidden lg:block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
+            In this guide
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      {/* Right: guide content */}
+      <article class="max-w-[70ch] space-y-2">
+
+        {/* ── Section: How Penalties Work ── */}
+        <AccordionSection id="how-penalties-work" title="How Self Assessment Penalties Work" defaultOpen={true}>
+          <p class="mb-3">
+            HMRC imposes two separate types of penalties for Self Assessment: <strong>filing penalties</strong> for submitting your tax return late, and <strong>payment penalties</strong> for paying your tax bill late. These are completely independent — you can face one without the other, or both simultaneously.
+          </p>
+          <CalloutBox variant="warning" title="Penalties apply even with no tax owed">
+            Filing penalties are charged regardless of whether you owe any tax. Even if your tax bill is zero, a late return still attracts a £100 penalty from day one, rising to over £1,600 after 12 months.
+          </CalloutBox>
+          <p class="mt-3">
+            On top of penalties, HMRC charges <strong>late payment interest</strong> on any unpaid tax. This accrues daily from the day after the payment deadline until you pay in full.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Filing Penalties ── */}
+        <AccordionSection id="filing-penalties" title="Late Filing Penalties Explained" defaultOpen={true}>
+          <p class="mb-3">
+            Late filing penalties escalate in stages. The clock starts on 1 February (the day after the 31 January online deadline):
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Day 1:</strong> Automatic £100 penalty — applies immediately, regardless of tax owed</li>
+            <li><strong>After 3 months (day 91):</strong> Daily penalties of £10 per day begin, up to a maximum of 90 days (£900 total)</li>
+            <li><strong>After 6 months (day 182):</strong> Additional penalty of £300 or 5% of the tax owed, whichever is higher</li>
+            <li><strong>After 12 months (day 365):</strong> Another penalty of £300 or 5% of the tax owed, whichever is higher</li>
+          </ul>
+          <CalloutBox variant="tip" title="Maximum filing penalty">
+            The maximum filing penalty after 12 months is £100 + £900 + 5% + 5% of tax owed. For someone owing £10,000, that's £2,000 in filing penalties alone — on top of their original tax bill.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Payment Penalties ── */}
+        <AccordionSection id="payment-penalties" title="Late Payment Penalties" defaultOpen={true}>
+          <p class="mb-3">
+            Payment penalties apply only to <strong>unpaid tax</strong> — if you've paid your bill but filed late, you won't face payment penalties. The surcharges are:
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>30 days late:</strong> 5% of the unpaid tax</li>
+            <li><strong>6 months late:</strong> Additional 5% of unpaid tax</li>
+            <li><strong>12 months late:</strong> Further 5% of unpaid tax</li>
+          </ul>
+          <p>
+            These three surcharges total 15% of unpaid tax after 12 months. They're separate from filing penalties and from interest — all three can apply simultaneously.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Interest ── */}
+        <AccordionSection id="interest" title="Late Payment Interest">
+          <p class="mb-3">
+            HMRC charges interest at the <strong>Bank of England base rate plus 4%</strong>. The current rate is <strong>7.75% per year</strong> (3.75% base rate + 4%), calculated as simple interest on a daily basis.
+          </p>
+          <p class="mb-3">
+            Interest starts accruing from the day after the payment deadline (1 February) and runs until the date you pay in full. Unlike penalties, which are fixed charges at specific milestones, interest grows continuously every day.
+          </p>
+          <CalloutBox variant="info" title="Interest rate changes">
+            The late payment interest rate changes whenever the Bank of England changes its base rate. HMRC updates the rate accordingly, usually within a few weeks of a Bank Rate decision.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Worked Examples ── */}
+        <AccordionSection id="worked-examples" title="Worked Examples">
+          <div class="space-y-6">
+            <WorkedExample
+              persona="Sarah"
+              job="Freelance Designer"
+              sideHustle="Missed filing deadline by 2 weeks"
+              income={0}
+              expenses={0}
+            >
+              <p class="mb-2">
+                Sarah files her 2025/26 return on 14 February 2027 — two weeks late. Her tax bill was £2,500, which she paid on 31 January.
+              </p>
+              <ul class="list-disc pl-5 space-y-1 text-sm">
+                <li>Filing penalty: <strong>£100</strong> (automatic, from day 1)</li>
+                <li>Payment penalty: <strong>£0</strong> (paid on time)</li>
+                <li>Interest: <strong>£0</strong> (paid on time)</li>
+                <li>Total cost of being 2 weeks late: <strong>£100</strong></li>
+              </ul>
+            </WorkedExample>
+
+            <WorkedExample
+              persona="James"
+              job="Self-Employed Plumber"
+              sideHustle="Filed 4 months late with unpaid tax"
+              income={0}
+              expenses={0}
+            >
+              <p class="mb-2">
+                James files on 31 May 2027 — 120 days late. He owes £5,000 and hasn't paid anything.
+              </p>
+              <ul class="list-disc pl-5 space-y-1 text-sm">
+                <li>Filing penalties: £100 initial + £300 daily (30 days at £10/day) = <strong>£400</strong></li>
+                <li>Payment penalty: 5% of £5,000 at 30 days = <strong>£250</strong></li>
+                <li>Interest: £5,000 at 7.75% for 120 days = <strong>~£127</strong></li>
+                <li>Total cost: <strong>~£777</strong> on top of the £5,000 tax bill</li>
+              </ul>
+            </WorkedExample>
+
+            <WorkedExample
+              persona="Priya"
+              job="Landlord"
+              sideHustle="Filed over 12 months late"
+              income={0}
+              expenses={0}
+            >
+              <p class="mb-2">
+                Priya completely forgot about her 2025/26 return. She files on 1 February 2028 — exactly 12 months late. She owes £8,000 in tax.
+              </p>
+              <ul class="list-disc pl-5 space-y-1 text-sm">
+                <li>Filing: £100 + £900 (daily) + £400 (6-month: 5% of £8k) + £400 (12-month: 5% of £8k) = <strong>£1,800</strong></li>
+                <li>Payment: 5% + 5% + 5% of £8,000 = <strong>£1,200</strong></li>
+                <li>Interest: £8,000 at 7.75% for 365 days = <strong>~£620</strong></li>
+                <li>Total cost: <strong>~£3,620</strong> in penalties and interest alone</li>
+              </ul>
+            </WorkedExample>
+          </div>
+        </AccordionSection>
+
+        {/* ── Section: Penalty Comparison ── */}
+        <AccordionSection id="penalty-comparison" title="Penalty Timeline at a Glance">
+          <ComparisonTable
+            headers={['Time Late', 'Filing Penalty', 'Payment Penalty (on £5,000)', 'Cumulative Total']}
+            rows={[
+              ['1 day', '£100', '£0', '£100'],
+              ['30 days', '£100', '£250 (5%)', '£350'],
+              ['3 months', '£100', '£250', '£350'],
+              ['4 months', '£100 + £300 daily', '£250', '£650'],
+              ['6 months', '£100 + £900 + £300', '£250 + £250', '£1,800'],
+              ['12 months', '£100 + £900 + £300 + £300', '£250 + £250 + £250', '£2,350'],
+            ]}
+          />
+          <p class="text-sm text-[var(--text-muted)] mt-2">
+            * Payment penalties shown for £5,000 unpaid tax. Interest is additional and not included in this table. Actual 6/12-month filing penalties are £300 or 5% of tax, whichever is higher.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Deadlines ── */}
+        <AccordionSection id="deadlines-2025-26" title="Key Deadlines for 2025/26">
+          <p class="mb-4">
+            These are the important dates for the 2025/26 tax year (the year running from 6 April 2025 to 5 April 2026):
+          </p>
+          <DeadlineTimeline events={deadlineEvents} />
+          <CalloutBox variant="tip" title="File early, pay on time">
+            You can file your return from 6 April 2026 onwards. Filing early doesn't mean you have to pay early — the payment deadline remains 31 January 2027. Filing early lets you know exactly what you owe so you can budget.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Appeals ── */}
+        <AccordionSection id="appeals" title="Appealing a Penalty">
+          <p class="mb-3">
+            You can appeal a Self Assessment penalty within 30 days of the penalty notice. HMRC accepts appeals where you have a <strong>reasonable excuse</strong> that prevented you from meeting the deadline:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li>Serious illness or hospitalisation (yourself or close family)</li>
+            <li>Bereavement of a partner or close relative</li>
+            <li>Fire, flood, or other emergency affecting your records</li>
+            <li>HMRC online service outages near the deadline</li>
+            <li>Unexpected postal delays (for paper returns)</li>
+          </ul>
+          <CalloutBox variant="warning" title="Not a reasonable excuse">
+            HMRC does not accept these as reasonable excuses: forgetting, not knowing you needed to file, relying on someone else to file for you, or finding the process confusing. Your accountant missing the deadline is also not accepted.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: New System ── */}
+        <AccordionSection id="new-system" title="New Points-Based Penalty System (April 2027)">
+          <p class="mb-3">
+            HMRC is replacing the current penalty regime with a <strong>points-based system</strong> from April 2027, initially for businesses mandated into Making Tax Digital for Income Tax Self Assessment (MTD ITSA).
+          </p>
+          <p class="mb-3">
+            Under the new system, you'll receive a <strong>penalty point</strong> for each late submission. A financial penalty (£200) is only charged when you reach the points threshold. Points expire after a period of compliance.
+          </p>
+          <CalloutBox variant="info" title="Who's affected first?">
+            MTD ITSA phases in gradually: self-employed individuals and landlords with income over £50,000 from April 2026, over £30,000 from April 2027, and over £20,000 from April 2028. The current penalty system on this page applies to everyone not yet in MTD ITSA.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: FAQs ── */}
+        <section id="faqs" class="my-4">
+          <h2 class="text-xl font-semibold mb-4" style="color: var(--text-primary)">Frequently Asked Questions</h2>
+          <FAQAccordion items={faqItems} />
+        </section>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Need to calculate your actual tax bill?</strong> Use our
+            <a href="/take-home-pay-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Take-Home Pay Calculator</a>
+            for PAYE salary or the
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>
+            for self-employment income.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Comparing business structures?</strong> Try the
+            <a href="/sole-trader-vs-ltd-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Sole Trader vs Ltd Calculator</a>
+            or check your
+            <a href="/dividend-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Dividend Tax</a>.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Not sure if you need to file?</strong> Use our
+            <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Trading Allowance Checker</a>
+            to find out.
+          </p>
+        </div>
+
+      </article>
+    </div>
+
+    <AdSlot slot="end-of-content" format="rectangle" />
+
+    {/* Footer disclaimer */}
+    <footer class="mt-12 pt-4 border-t border-[var(--border)] space-y-2">
+      <p class="text-xs text-[var(--text-muted)]">
+        <strong>Disclaimer:</strong> This tool provides estimates only and does not constitute
+        financial or legal advice. Penalty calculations are based on the current HMRC penalty regime
+        and may not reflect your exact circumstances. Always check with HMRC or a qualified accountant.
+      </p>
+      <p class="text-xs text-[var(--text-muted)]">
+        Last updated: {today} · Tax years 2025/26 and 2026/27 · Late payment interest rate: 7.75%
+      </p>
+    </footer>
+  </div>
+</BaseLayout>

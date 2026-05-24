@@ -373,6 +373,18 @@ const today = new Date().toLocaleDateString('en-GB', {
         <AccordionSection id="faqs" title="10. Frequently Asked Questions" client:load>
           <FAQAccordion items={faqItems} client:load />
         </AccordionSection>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Filing Self Assessment?</strong> Check your deadlines and potential penalties with our
+            <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Self-Assessment Deadline Checker</a>.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Paying yourself dividends?</strong> Calculate your exact dividend tax with our
+            <a href="/dividend-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Dividend Tax Calculator</a>.
+          </p>
+        </div>
       </article>
 
     </div>
