@@ -197,7 +197,7 @@ export function StepWizard({ onComplete, onEarlyExit, initialValues }: StepWizar
                       className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                         (opt === 'Yes' && q.value) || (opt === 'No' && !q.value)
                           ? 'bg-primary-500 text-white'
-                          : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-primary)]'
+                          : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-slate-200 dark:hover:bg-slate-600'
                       }`}
                     >
                       {opt}
@@ -210,7 +210,7 @@ export function StepWizard({ onComplete, onEarlyExit, initialValues }: StepWizar
           <div className="flex gap-3 mt-6">
             <button
               onClick={() => setStep(1)}
-              className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] transition-colors"
+              className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
             >
               ← Back
             </button>
@@ -279,7 +279,7 @@ export function StepWizard({ onComplete, onEarlyExit, initialValues }: StepWizar
                     className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                       platforms.includes(p)
                         ? 'bg-primary-500 text-white'
-                        : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-primary)]'
+                        : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-slate-200 dark:hover:bg-slate-600'
                     }`}
                   >
                     {p}
@@ -313,7 +313,7 @@ export function StepWizard({ onComplete, onEarlyExit, initialValues }: StepWizar
           <div className="flex gap-3 mt-6">
             <button
               onClick={() => setStep(2)}
-              className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] transition-colors"
+              className="px-4 py-2 rounded-lg text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
             >
               ← Back
             </button>
