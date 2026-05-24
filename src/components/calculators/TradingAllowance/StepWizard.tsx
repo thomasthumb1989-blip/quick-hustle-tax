@@ -151,14 +151,14 @@ export function StepWizard({ onComplete, onEarlyExit, initialValues }: StepWizar
               <button
                 key={t.value}
                 onClick={() => handleIncomeType(t.value, t.mapTo)}
-                className={`flex items-center gap-3 rounded-lg border p-3 text-left text-sm transition-colors hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-950/20 ${
+                className={`flex items-center gap-3 rounded-lg border p-3 text-left text-sm transition-colors ${
                   incomeTypeKey === t.value
-                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-950/20'
-                    : 'border-[var(--border)] bg-[var(--bg-secondary)]'
+                    ? 'border-primary-500 bg-primary-100 dark:bg-primary-900/40 ring-1 ring-primary-500/30'
+                    : 'border-[var(--border)] bg-[var(--bg-secondary)] hover:border-primary-500 hover:bg-slate-100 dark:hover:bg-slate-700'
                 }`}
               >
                 <span className="text-xl shrink-0">{t.icon}</span>
-                <span className="text-[var(--text-primary)]">{t.label}</span>
+                <span className={`${incomeTypeKey === t.value ? 'text-primary-900 dark:text-primary-100 font-medium' : 'text-[var(--text-primary)]'}`}>{t.label}</span>
               </button>
             ))}
           </div>
