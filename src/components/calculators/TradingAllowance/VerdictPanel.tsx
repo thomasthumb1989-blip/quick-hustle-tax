@@ -148,7 +148,7 @@ export function VerdictPanel({ result, onReset }: VerdictPanelProps) {
       <div className="text-center">
         <button
           onClick={onReset}
-          className="px-6 py-2.5 rounded-lg text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] border border-[var(--border)] transition-colors"
+          className="px-6 py-2.5 rounded-lg text-sm font-medium bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-slate-200 dark:hover:bg-slate-600 border border-[var(--border)] transition-colors"
         >
           ↩ Check again
         </button>
