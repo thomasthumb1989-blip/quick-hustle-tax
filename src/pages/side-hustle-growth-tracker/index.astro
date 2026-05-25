@@ -1,0 +1,322 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GrowthTracker from '../../components/calculators/GrowthTracker/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
+import { SITE } from '../../config/site';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
+
+const pageTitle = 'Side-Hustle Growth Tracker — How Many Sales Do You Need?';
+const pageDescription =
+  'Calculate exactly how many items you need to sell to hit your income target. Includes real Etsy, eBay, Vinted, Amazon fees. Free instant results.';
+const canonicalUrl = `${SITE.url}/side-hustle-growth-tracker/`;
+
+const appSchema = webApplicationSchema({
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Tools', url: `${SITE.url}/tools/` },
+  { name: 'Growth Tracker', url: canonicalUrl },
+]);
+
+const faqData = [
+  {
+    question: 'How many items do I need to sell to make £1,000 a month?',
+    answer: "It depends on your profit per item. If you make £5 profit per sale, you need 200 sales per month. If you make £20 per sale, you need just 50. Use the calculator above to see your exact number based on your selling price, costs, and platform fees.",
+  },
+  {
+    question: 'Which platform has the lowest fees for sellers?',
+    answer: "Vinted and Depop charge zero seller fees — buyers pay the fees instead. For platforms that do charge sellers, TikTok Shop (5%) is cheapest, followed by Facebook Marketplace (5% + £0.40 for shipped items). Etsy and eBay charge 10-13% total.",
+  },
+  {
+    question: 'Do Etsy fees come out of my profit?',
+    answer: "Yes. Etsy charges a £0.16 listing fee, 6.5% transaction fee, and 4% + £0.20 payment processing on every sale. On a £15 item, that's about £1.94 in fees — roughly 13% of your selling price.",
+  },
+  {
+    question: 'How do I calculate my profit margin?',
+    answer: "Profit margin = (profit per item ÷ selling price) × 100. For example, if you sell for £20 and your total costs (materials + shipping + platform fees) are £12, your profit is £8 and your margin is 40%.",
+  },
+  {
+    question: 'Is Vinted really free for sellers?',
+    answer: "Yes, since Vinted removed seller fees. Buyers pay a protection fee (5% + £0.70), but sellers receive the full listing price. You may still pay postage if you choose to cover shipping costs.",
+  },
+  {
+    question: 'Should I sell on multiple platforms?',
+    answer: "Yes, if you have the inventory and time. Different platforms attract different buyers. Many sellers list the same items on eBay, Vinted, and Depop simultaneously, removing listings when an item sells on one platform.",
+  },
+  {
+    question: 'When should I switch from eBay to my own Shopify store?',
+    answer: "Consider Shopify when you're consistently selling 40+ items per month. At that volume, Shopify's flat £25/month fee plus 2.9% payment processing becomes cheaper than eBay's 12.8% per-item fee. You also get more control over branding and customer data.",
+  },
+  {
+    question: 'Do I need to pay tax on my side-hustle sales?',
+    answer: "If your total gross trading income exceeds £1,000 per tax year, you need to register for Self Assessment. The first £1,000 is covered by the trading allowance — no tax due. Above £1,000, you pay income tax on the profit. Use our Side-Hustle Tax Calculator for exact figures.",
+  },
+  {
+    question: 'How do I account for platform fees on my tax return?',
+    answer: "Platform fees are a business expense. If you claim actual expenses (instead of the £1,000 trading allowance), you can deduct platform fees, postage, materials, and packaging from your gross income to reduce your taxable profit.",
+  },
+  {
+    question: "What's a realistic number of sales per week for a beginner?",
+    answer: "Most beginners start with 5-10 sales per week. With good photos, competitive pricing, and consistent listing, you can grow to 20-30 per week within 3-6 months. Focus on listing new items daily — platforms reward fresh listings with better visibility.",
+  },
+];
+
+const faqSchema = faqPageSchema(faqData);
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} slot="head" />
+
+  <div class="lg:grid lg:grid-cols-[1fr_220px] lg:gap-8 max-w-6xl mx-auto">
+    <div>
+      {/* Header */}
+      <header class="mb-6">
+        <nav class="text-xs text-[var(--text-muted)] mb-3">
+          <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+          <span class="mx-1">/</span>
+          <a href="/tools/" class="hover:text-primary-600 dark:hover:text-primary-400">Tools</a>
+          <span class="mx-1">/</span>
+          <span class="text-[var(--text-secondary)]">Growth Tracker</span>
+        </nav>
+        <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)] leading-tight">
+          Side-Hustle Growth Tracker
+        </h1>
+        <p class="text-base text-[var(--text-secondary)] mt-2 max-w-2xl">
+          Calculate exactly how many items you need to sell to hit your income target — after platform fees, costs, and shipping. Supports Etsy, eBay, Vinted, Amazon, Depop, TikTok Shop, Shopify, and Facebook Marketplace.
+        </p>
+      </header>
+
+      {/* Calculator */}
+      <GrowthTracker client:load />
+
+      <AdSlot slot="mid-content" format="horizontal" />
+
+      {/* Content guide */}
+      <article class="mt-12 prose-custom max-w-none">
+        {/* Featured snippet */}
+        <p class="text-base text-[var(--text-secondary)] leading-relaxed mb-6">
+          To make £1,000 profit per month selling £15 items on Etsy with £5 costs, you need to sell approximately 198 items per month — about 46 per week or 7 per day — after accounting for Etsy's listing fee, 6.5% transaction fee, and 4% payment processing.
+        </p>
+
+        <CalloutBox variant="tip" title="Quick answer" client:load>
+          Your profit per item = selling price minus cost of goods, minus shipping, minus platform fees.
+          Divide your monthly target by profit per item to get the number of sales you need.
+          This tracker does all the maths including real platform fee structures.
+        </CalloutBox>
+
+        <AccordionSection id="calculate-target" title="How to Calculate Your Side-Hustle Sales Target" defaultOpen={true} client:load>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            Start by deciding whether you're targeting <strong>revenue</strong> (total sales value) or <strong>profit</strong> (what you actually keep after all costs). Most sellers should target profit — revenue looks impressive but means nothing if fees and costs eat it all.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            The biggest mistake new sellers make is forgetting platform fees. A £15 Etsy sale doesn't put £15 in your pocket. After listing fees, transaction fees, and payment processing, you receive about £13.06. Then subtract your materials and shipping costs.
+          </p>
+          <CalloutBox variant="warning" title="Don't forget fees" client:load>
+            A £15 Etsy sale doesn't put £15 in your pocket. After listing fees, transaction fees, and payment processing, you receive about £13. Then subtract your materials and shipping.
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="platform-fees" title="Platform Fees Compared" defaultOpen={true} client:load>
+          <ComparisonTable
+            headers={['Platform', 'Seller Fee', 'Payment Fee', 'Other', 'Best For']}
+            rows={[
+              ['Etsy', '6.5% transaction + £0.16/listing', '4% + £0.20', 'Off-site ads 15% (if <$10k)', 'Handmade, vintage, crafts'],
+              ['eBay', '12.8% + £0.30', 'Included', '1,000 free listings/month', 'Reselling, vintage, electronics'],
+              ['Vinted', 'Free', 'Free (buyer pays)', '—', 'Fashion, clothes, shoes'],
+              ['Amazon', '15% referral', '£0.75/item or £25/mo', 'FBA adds more', 'New products, high volume'],
+              ['Depop', 'Free', 'Free (buyer pays)', '—', 'Streetwear, vintage fashion'],
+              ['TikTok Shop', '5%', 'Included', '—', 'Trending products, younger audience'],
+              ['Shopify', '£25/month', '2.9% + £0.30', 'No per-item commission', 'Own brand, high volume'],
+              ['FB Marketplace', '5% + £0.40 (shipped)', 'Included', 'Free for local pickup', 'Local sales, furniture'],
+              ['Direct sales', 'None', 'Varies (PayPal/Stripe)', '—', 'Craft fairs, markets'],
+            ]}
+            client:load
+          />
+          <CalloutBox variant="tip" title="Cheapest platform" client:load>
+            Vinted and Depop charge sellers zero fees — buyers pay the protection fee. If you're selling clothes or fashion items, these platforms give you the highest take-home per sale.
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="profit-margin" title="Understanding Your Profit Margin" defaultOpen={true} client:load>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            Your profit margin is the percentage of each sale you actually keep. Calculate it as: (selling price - all costs) ÷ selling price × 100. Aim for at least 30-40% to make your side hustle worthwhile.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            <strong>Don't forget hidden costs:</strong> postage labels, packaging materials, bubble wrap, tissue paper, thank-you cards, fuel for post office trips, and your time. These add up fast.
+          </p>
+          <CalloutBox variant="info" title="Target margins" client:load>
+            Most successful Etsy sellers target a 40-60% profit margin. Below 30% means you're working very hard for very little. If your margin is under 30%, raise your prices or find cheaper materials.
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="worked-examples" title="Three Worked Examples" client:load>
+          <WorkedExample
+            persona="Gemma"
+            job="Teacher"
+            sideHustle="Etsy candle maker — target £800/month profit"
+            income={800}
+            expenses={0}
+            client:load
+          >
+            <p>Sells candles at £15 each, materials cost £4, shipping £3.</p>
+            <p>Etsy fees: £0.16 listing + £0.98 transaction + £0.80 payment = £1.94.</p>
+            <p>Profit per candle: £15 - £4 - £3 - £1.94 = £6.06.</p>
+            <p>Units needed: £800 ÷ £6.06 = 132 candles/month.</p>
+            <p>That's about 33 per week or 5 per day — very achievable with good processes.</p>
+          </WorkedExample>
+          <WorkedExample
+            persona="Ryan"
+            job="Office worker"
+            sideHustle="eBay vintage reseller — target £1,500/month profit"
+            income={1500}
+            expenses={0}
+            client:load
+          >
+            <p>Average selling price £30, sourcing cost £10, shipping £5.</p>
+            <p>eBay fees: (£30 × 12.8%) + £0.30 = £4.14.</p>
+            <p>Profit per item: £30 - £10 - £5 - £4.14 = £10.86.</p>
+            <p>Units needed: £1,500 ÷ £10.86 = 138 items/month.</p>
+            <p>That's about 32 per week or 5 per day — requires consistent sourcing.</p>
+          </WorkedExample>
+          <WorkedExample
+            persona="Sophie"
+            job="Student"
+            sideHustle="Depop fashion seller — target £500/month profit"
+            income={500}
+            expenses={0}
+            client:load
+          >
+            <p>Average item £18, sourcing cost £6, shipping £4.</p>
+            <p>Depop fees: £0 (no seller fees since 2024).</p>
+            <p>Profit per item: £18 - £6 - £4 = £8.00.</p>
+            <p>Units needed: £500 ÷ £8 = 63 items/month.</p>
+            <p>That's about 15 per week or 2-3 per day — very manageable.</p>
+          </WorkedExample>
+        </AccordionSection>
+
+        <AccordionSection id="realistic-targets" title="Setting Realistic Targets" client:load>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            Start with how many hours you have, not how much money you want. Each listing takes 30-60 minutes when you factor in photography, writing descriptions, packaging, and posting.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            <strong>Build gradually:</strong> aim for 10 items/week in month one, then increase to 20, then 30 as you streamline your process. Trying to list 50 items in your first week leads to burnout and poor-quality listings.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            <strong>Seasonal patterns matter:</strong> Q4 (October–December) typically brings 2-3x normal sales for most platforms. Plan your inventory and listing schedule around this — stock up in September.
+          </p>
+        </AccordionSection>
+
+        <AccordionSection id="scaling" title="Scaling Your Side Hustle" client:load>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            The single most effective growth lever is <strong>raising your price</strong>. If items sell consistently within 48 hours, you're underpriced. Test a 10-20% increase — most buyers won't notice, but your profit margin jumps significantly.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            Other scaling strategies: buy materials in bulk to reduce per-unit cost, sell on multiple platforms simultaneously, offer bundles or quantity discounts, and consider moving to Shopify when monthly sales exceed 40+ items (the flat fee becomes cheaper than per-item commissions).
+          </p>
+          <CalloutBox variant="tip" title="Pricing power" client:load>
+            The single most effective growth lever is raising your price. If you're selling out consistently, your items are underpriced. A 20% price increase on a £15 item adds £3 — that's nearly a 60% profit increase if your costs stay the same.
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="tax-implications" title="Tax Implications as You Grow" client:load>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            Under £1,000 gross trading income per tax year, the trading allowance covers you — no registration needed and no tax to pay. Once you exceed £1,000, you must register for Self Assessment.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+            As your sales grow, platforms report your revenue to HMRC under DAC7 rules. Being proactive about registration avoids penalties — voluntary disclosure is always treated more favourably than HMRC discovering unreported income.
+          </p>
+          <CalloutBox variant="warning" title="DAC7 reporting" client:load>
+            As your sales grow, platform reporting (DAC7) means HMRC will see your revenue. If you're above the £1,000 trading allowance, register for Self Assessment proactively — voluntary disclosure gets lower penalties than HMRC discovery.
+          </CalloutBox>
+          <div class="mt-3 space-y-2">
+            <a href="/trading-allowance-checker/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              ✅ Trading Allowance Checker — check if the £1,000 allowance covers you
+            </a>
+            <a href="/side-hustle-tax-calculator/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              💰 Side-Hustle Tax Calculator — calculate your exact tax bill
+            </a>
+            <a href="/platform-seller-reporting-checker/" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">
+              🛒 Platform Seller Reporting Checker — see if HMRC already knows about your sales
+            </a>
+          </div>
+        </AccordionSection>
+
+        <AccordionSection id="faqs" title="Frequently Asked Questions" client:load>
+          <FAQAccordion items={faqData} client:load />
+        </AccordionSection>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Ready to calculate your tax?</strong> Use our
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>
+            to see exactly what you owe on your side-hustle profit.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Is the £1,000 allowance enough?</strong> Check with our
+            <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Trading Allowance Checker</a>.
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Selling on eBay, Etsy or Vinted?</strong> See if HMRC knows with our
+            <a href="/platform-seller-reporting-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Platform Seller Reporting Checker</a>.
+          </p>
+        </div>
+
+        {/* Disclaimer */}
+        <p class="text-xs text-[var(--text-muted)] mt-8">
+          Platform fees last verified: May 2026. Fee structures change frequently — always check the current fee schedule
+          on your platform before making business decisions. This tool provides estimates for planning purposes only.
+          Not financial advice.
+        </p>
+      </article>
+    </div>
+
+    {/* Sidebar ToC */}
+    <aside class="hidden lg:block">
+      <div class="sticky top-24">
+        <TableOfContents
+          sections={[
+            { id: 'calculate-target', title: 'Calculate Your Target' },
+            { id: 'platform-fees', title: 'Platform Fees Compared' },
+            { id: 'profit-margin', title: 'Profit Margin' },
+            { id: 'worked-examples', title: 'Worked Examples' },
+            { id: 'realistic-targets', title: 'Realistic Targets' },
+            { id: 'scaling', title: 'Scaling Up' },
+            { id: 'tax-implications', title: 'Tax Implications' },
+            { id: 'faqs', title: 'FAQs' },
+          ]}
+          client:load
+        />
+      </div>
+    </aside>
+  </div>
+
+  <AdSlot slot="end-of-content" format="rectangle" />
+
+  {/* Footer */}
+  <footer class="mt-12 pt-4 border-t border-[var(--border)]">
+    <p class="text-xs text-[var(--text-muted)]">
+      Platform fees verified May 2026 · Estimates for planning only · Not financial advice
+    </p>
+  </footer>
+</BaseLayout>

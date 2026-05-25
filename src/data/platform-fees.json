@@ -1,0 +1,103 @@
+{
+  "platforms": {
+    "etsy": {
+      "name": "Etsy",
+      "icon": "🎨",
+      "fees": {
+        "listingFee": 0.16,
+        "transactionFee": 0.065,
+        "paymentProcessing": 0.04,
+        "paymentFixed": 0.20,
+        "offSiteAdsFeePercent": 0.15,
+        "offSiteAdsThreshold": 10000
+      },
+      "description": "£0.16 listing + 6.5% transaction + 4% + £0.20 payment processing. Off-site ads 15% if under $10k/year revenue.",
+      "notes": "Etsy charges in USD for listing fees. £0.16 is approximate GBP equivalent of $0.20."
+    },
+    "ebay": {
+      "name": "eBay",
+      "icon": "🏷️",
+      "fees": {
+        "finalValueFee": 0.128,
+        "finalValueFixed": 0.30,
+        "paymentProcessing": 0,
+        "freeListings": 1000
+      },
+      "description": "12.8% + £0.30 per sale (includes payment processing). 1,000 free listings/month.",
+      "notes": "Final value fee varies by category (10-14.6%). 12.8% is the most common rate."
+    },
+    "vinted": {
+      "name": "Vinted",
+      "icon": "👗",
+      "fees": {
+        "sellerFee": 0,
+        "buyerProtectionFee": 0.05,
+        "buyerFixedFee": 0.70
+      },
+      "description": "No seller fees. Buyers pay 5% + £0.70 protection fee. Seller receives full listing price.",
+      "notes": "Vinted is free for sellers — buyer pays all fees. Seller take-home = listing price minus postage if seller pays."
+    },
+    "amazon": {
+      "name": "Amazon",
+      "icon": "📦",
+      "fees": {
+        "referralFee": 0.15,
+        "individualPerItem": 0.75,
+        "professionalMonthly": 25,
+        "professionalThreshold": 40
+      },
+      "description": "15% referral fee + £0.75/item (Individual) or £25/month (Professional, 40+ items).",
+      "notes": "Referral fee varies by category (8-45%). 15% is the most common. FBA adds storage + fulfilment fees."
+    },
+    "depop": {
+      "name": "Depop",
+      "icon": "📱",
+      "fees": {
+        "sellerFee": 0,
+        "paymentProcessing": 0
+      },
+      "description": "No seller fees since 2024. Depop removed the 10% selling fee.",
+      "notes": "Previously 10% + payment processing. Now free for sellers. Buyers pay a fee instead."
+    },
+    "tiktokShop": {
+      "name": "TikTok Shop",
+      "icon": "🎵",
+      "fees": {
+        "referralFee": 0.05,
+        "transactionFee": 0
+      },
+      "description": "5% referral fee per sale. No listing fees.",
+      "notes": "Introductory rate. May increase. Commission varies by category."
+    },
+    "shopify": {
+      "name": "Shopify (own store)",
+      "icon": "🛒",
+      "fees": {
+        "monthlyBasic": 25,
+        "transactionFee": 0,
+        "paymentProcessing": 0.029,
+        "paymentFixed": 0.30
+      },
+      "description": "£25/month Basic plan + 2.9% + £0.30 per transaction (Shopify Payments).",
+      "notes": "No per-item commission. Monthly cost is fixed regardless of sales volume."
+    },
+    "facebookMarketplace": {
+      "name": "Facebook Marketplace",
+      "icon": "📘",
+      "fees": {
+        "sellerFee": 0,
+        "shippingSellerFee": 0.05,
+        "shippingFixed": 0.40
+      },
+      "description": "Free for local pickup sales. 5% + £0.40 for shipped items (via checkout).",
+      "notes": "Most FB Marketplace sales are local pickup with no fees."
+    },
+    "noFees": {
+      "name": "No platform / direct sales",
+      "icon": "💰",
+      "fees": {},
+      "description": "Selling directly (craft fairs, local, website without platform fees).",
+      "notes": "May still have payment processing costs (PayPal, Stripe, Square)."
+    }
+  }
+}
