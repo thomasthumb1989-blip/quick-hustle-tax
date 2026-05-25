@@ -1,0 +1,386 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlatformSellerChecker from '../../components/calculators/PlatformSeller/index';
+import AdSlot from '../../components/ads/AdSlot.astro';
+import { SITE } from '../../config/site';
+import { TableOfContents } from '../../components/content/TableOfContents';
+import { AccordionSection } from '../../components/content/AccordionSection';
+import { CalloutBox } from '../../components/content/CalloutBox';
+import { WorkedExample } from '../../components/content/WorkedExample';
+import { ComparisonTable } from '../../components/content/ComparisonTable';
+import { FAQAccordion } from '../../components/content/FAQAccordion';
+import {
+  webApplicationSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../lib/seo/schema';
+
+const pageTitle = 'HMRC Platform Seller Reporting Checker 2026/27 — eBay, Etsy, Vinted, Amazon';
+const pageDescription =
+  'Check if HMRC knows about your online sales. Free checker for eBay, Etsy, Vinted, Depop, Amazon, Fiverr sellers. See if you need to register and pay tax.';
+const canonicalUrl = `${SITE.url}/platform-seller-reporting-checker/`;
+
+const appSchema = webApplicationSchema({
+  name: pageTitle,
+  description: pageDescription,
+  url: canonicalUrl,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Tools', url: `${SITE.url}/tools/` },
+  { name: 'Platform Seller Reporting Checker', url: canonicalUrl },
+]);
+
+const faqData = [
+  {
+    question: 'Does HMRC know about my Vinted sales?',
+    answer: 'If you made 30 or more sales OR earned over €2,000 (~£1,700) in a calendar year, yes — Vinted is legally required to report your data to HMRC under DAC7 rules. If you\'re below both thresholds, your data is not reported. Even if reported, selling personal items at a loss is not taxable.',
+  },
+  {
+    question: 'Do I need to pay tax if I sell personal items on eBay?',
+    answer: 'No, not if you\'re selling personal belongings for less than you originally paid. Disposing of your own items at a loss is not trading and creates no tax liability, even if eBay reports your sales data to HMRC.',
+  },
+  {
+    question: 'What happens if my platform reports me but I\'m not trading?',
+    answer: 'Nothing automatic — platform reporting simply means HMRC can see your sales data. If you\'re selling personal items, no tax is owed. You might receive a "nudge letter" asking for clarification. Respond explaining you\'re selling personal items with evidence of original purchase prices.',
+  },
+  {
+    question: 'Is the 30-transaction threshold per platform or total?',
+    answer: 'Per platform. Each platform independently assesses whether you hit 30 transactions or €2,000 in revenue on THEIR platform. However, for tax purposes, your trading income is combined across ALL platforms.',
+  },
+  {
+    question: 'What if I sell on multiple platforms?',
+    answer: 'Each platform reports independently based on its own thresholds. For tax, you combine ALL your trading income across every platform. So you might be below reporting thresholds on each platform individually but still over the £1,000 trading allowance when combined.',
+  },
+  {
+    question: 'Do I need to declare income under £1,000?',
+    answer: 'No, if your total gross trading income across all platforms is £1,000 or less in the tax year, the trading allowance covers you fully. No registration, no tax return, no tax to pay.',
+  },
+  {
+    question: 'What\'s the difference between calendar year and tax year for reporting?',
+    answer: 'Platform reporting (DAC7) uses the calendar year (January to December). Tax liability uses the UK tax year (6 April to 5 April). Your calendar year revenue may differ from your tax year income — track both.',
+  },
+  {
+    question: 'Can HMRC see my bank account from platform reports?',
+    answer: 'No. Platforms report your name, address, NI number, gross sales, and transaction count. They do not share your bank account transactions. However, HMRC has separate powers to request bank statements during an investigation.',
+  },
+  {
+    question: 'What should I do if I get an HMRC nudge letter?',
+    answer: 'Don\'t panic — it\'s not an accusation. Verify the letter is genuine via HMRC.gov.uk (don\'t click links in the letter). If you\'re selling personal items, respond stating this with evidence. If you are trading, register for Self Assessment if you haven\'t already. Respond within the deadline — voluntary disclosure gets lower penalties.',
+  },
+  {
+    question: 'Do I need to keep records if I\'m selling personal items?',
+    answer: 'Not strictly required, but strongly recommended. Keep records of what you originally paid for items and what you sold them for. This protects you if HMRC asks questions. Platform annual statements are a good starting point.',
+  },
+  {
+    question: 'Are platform fees deductible as expenses?',
+    answer: 'Yes — if you\'re trading. Platform listing fees, transaction fees, payment processing fees, postage, packaging, and materials are all legitimate business expenses. You can claim these if you choose actual expenses over the £1,000 trading allowance.',
+  },
+  {
+    question: 'Does Vinted report my sales even if I\'m not a business?',
+    answer: 'Yes, if you exceed 30 sales or ~£1,700 revenue in a calendar year. Vinted reports based on volume, not whether you\'re a business. But being reported doesn\'t mean you owe tax — HMRC determines whether your activity is trading.',
+  },
+];
+
+const faqs = faqPageSchema(faqData);
+const faqItems = faqData;
+
+const tocSections = [
+  { id: 'what-is-dac7', title: 'What Is Platform Reporting?' },
+  { id: 'which-platforms', title: 'Which Platforms Report?' },
+  { id: 'reporting-vs-tax', title: 'Reporting ≠ Tax' },
+  { id: 'trading-vs-personal', title: 'Trading vs Personal Selling' },
+  { id: 'trading-allowance', title: 'The £1,000 Trading Allowance' },
+  { id: 'hmrc-letters', title: 'HMRC Nudge Letters' },
+  { id: 'platform-guidance', title: 'Platform-Specific Guidance' },
+  { id: 'worked-examples', title: 'Worked Examples' },
+  { id: 'faqs', title: 'FAQs' },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(appSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
+
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/tools" class="hover:text-primary-500">Tools</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Platform Seller Reporting Checker</li>
+      </ol>
+    </nav>
+
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        Platform Seller Reporting Checker
+        <span class="text-lg font-normal text-[var(--text-muted)] ml-2">(2026/27)</span>
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-2">
+        Is HMRC watching your online sales? Check your platform reporting status, trading classification, and whether you need to register and pay tax.
+      </p>
+    </header>
+
+    {/* Featured snippet */}
+    <p class="text-base text-[var(--text-secondary)] mb-6 leading-relaxed font-medium">
+      If you sell goods on platforms like Etsy, eBay, or Vinted and make 30 or more sales OR earn over €2,000 (~£1,700) in a calendar year, the platform will report your data to HMRC. For services platforms like Fiverr or Deliveroo, ALL income is reported regardless of amount. Platform reporting does not mean you owe tax — it means HMRC can see your activity.
+    </p>
+
+    {/* Checker */}
+    <section class="mb-12" aria-label="Platform seller reporting checker">
+      <PlatformSellerChecker client:load />
+    </section>
+
+    <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Guide content */}
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
+      {/* Table of Contents sidebar */}
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+          <p class="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wide mb-3">
+            On this page
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      <article>
+        <p class="text-xs text-[var(--text-muted)] mb-6">
+          Last updated: May 2026 · Tax year 2026/27 · Based on HMRC Platform Operators Regulations 2023 and OECD DAC7 framework
+        </p>
+
+        <p class="text-base text-[var(--text-secondary)] mb-6 leading-relaxed">
+          Since January 2024, online platforms including eBay, Etsy, Vinted, Amazon, and Airbnb are legally required to report UK seller data to HMRC under the Platform Operators (Due Diligence and Reporting Requirements) Regulations 2023 — the UK's implementation of the OECD DAC7 framework. This does not create a new tax, but it means HMRC can now automatically cross-check your platform sales against your Self Assessment tax return.
+        </p>
+
+        <CalloutBox variant="tip" title="Quick answer" client:load>
+          <p>
+            Platform reporting and tax liability are two separate things. Your platform reports you to HMRC based on transactions/revenue (calendar year). You owe tax based on whether you're trading and whether your gross income exceeds the £1,000 trading allowance (tax year). Being reported doesn't mean you owe tax. Selling personal items at a loss is not taxable even if reported.
+          </p>
+        </CalloutBox>
+
+        <AccordionSection id="what-is-dac7" title="1. What Is Platform Reporting? (DAC7 Explained)" defaultOpen={true} client:load>
+          <p class="mb-3">
+            DAC7 is an OECD framework that requires digital platforms to collect and report seller information to tax authorities. The UK implemented this through the Platform Operators Regulations 2023, effective from January 2024.
+          </p>
+          <p class="mb-3">
+            Platforms report: your name, address, National Insurance number, date of birth, gross sales amounts, number of transactions, bank account details used for payments, and any fees charged.
+          </p>
+          <CalloutBox variant="info" client:load>
+            <p>Platform reporting is something the PLATFORM does, not you. You don't need to file anything extra — the platform sends your data to HMRC automatically if you cross the thresholds.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="which-platforms" title="2. Which Platforms Report to HMRC?" defaultOpen={true} client:load>
+          <ComparisonTable
+            client:load
+            headers={['Platform', 'Type', 'Reports?', 'Threshold']}
+            rows={[
+              ['Etsy', 'Goods', '✅ Yes', '30 transactions or €2,000'],
+              ['eBay', 'Goods', '✅ Yes', '30 transactions or €2,000'],
+              ['Vinted', 'Goods', '✅ Yes', '30 transactions or €2,000'],
+              ['Depop', 'Goods', '✅ Yes', '30 transactions or €2,000'],
+              ['Amazon', 'Goods', '✅ Yes', '30 transactions or €2,000'],
+              ['TikTok Shop', 'Goods', '✅ Yes', '30 transactions or €2,000'],
+              ['Fiverr', 'Services', '✅ Yes', 'No threshold — all income'],
+              ['Upwork', 'Services', '✅ Yes', 'No threshold — all income'],
+              ['Deliveroo', 'Services', '✅ Yes', 'No threshold — all income'],
+              ['Uber', 'Services', '✅ Yes', 'No threshold — all income'],
+              ['YouTube', 'Services', '✅ Yes', 'No threshold — all income'],
+              ['Airbnb', 'Property', '✅ Yes', 'No threshold — all income'],
+            ]}
+          />
+          <CalloutBox variant="warning" client:load>
+            <p>Services platforms (Fiverr, Upwork, Deliveroo, Uber, YouTube) report ALL your income from the first penny. There is no 30-transaction or €2,000 threshold for services — only for goods.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="reporting-vs-tax" title="3. Reporting ≠ Tax: The Crucial Difference" defaultOpen={true} client:load>
+          <p class="mb-3">
+            This is the most important thing to understand. Platform reporting and tax liability are two completely separate systems with different thresholds, different time periods, and different consequences.
+          </p>
+          <ComparisonTable
+            client:load
+            headers={['', 'Platform Reporting (DAC7)', 'Tax Liability (Trading Allowance)']}
+            rows={[
+              ['Threshold (goods)', '30 transactions OR €2,000 (~£1,700)', '£1,000 gross trading income'],
+              ['Threshold (services)', 'No threshold — all reported', '£1,000 gross trading income'],
+              ['Time period', 'Calendar year (Jan–Dec)', 'Tax year (6 Apr–5 Apr)'],
+              ['Who acts', 'Platform reports automatically', 'You register for Self Assessment'],
+              ['Consequence', 'HMRC can see your data', 'You may owe income tax'],
+            ]}
+          />
+          <CalloutBox variant="warning" client:load>
+            <p>Being reported by your platform does NOT mean you owe tax. A Vinted seller with 35 sales of personal clothes at a loss will be reported (over 30 transactions) but owes zero tax (not trading). Conversely, a freelance tutor earning £1,500 on Fiverr IS trading and DOES owe tax, and their platform also reports them.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="trading-vs-personal" title="4. Trading vs Personal Selling — How HMRC Decides" client:load>
+          <p class="mb-3">
+            HMRC looks at three factors to decide if your activity is trading: intent to profit, regularity/frequency, and whether you're acquiring stock specifically to sell.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Always trading:</strong> buying items to resell at profit, making goods to sell, providing services for payment</li>
+            <li><strong>Never trading:</strong> selling personal belongings you already owned at a loss (wardrobe clearouts, old electronics)</li>
+            <li><strong>Grey area:</strong> selling personal items for more than you paid, occasional profitable sales, hobby income</li>
+          </ul>
+          <CalloutBox variant="info" client:load>
+            <p>Selling 200 items of your own used clothing on Vinted at a loss is NOT trading. Buying 50 items at charity shops to resell at a profit IS trading. Intent matters more than volume.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="trading-allowance" title="5. The £1,000 Trading Allowance for Platform Sellers" client:load>
+          <p class="mb-3">
+            If your total gross trading income across ALL platforms is £1,000 or less in the tax year, the trading allowance covers you completely — no registration, no tax return, no tax.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Combined across all platforms</strong> — £600 on Etsy + £500 on eBay = £1,100, which exceeds the allowance</li>
+            <li><strong>Based on gross income</strong> — total revenue BEFORE expenses</li>
+            <li><strong>Choose one:</strong> £1,000 flat allowance OR actual expenses, never both</li>
+          </ul>
+          <CalloutBox variant="tip" client:load>
+            <p>Use our <a href="/trading-allowance-checker/" class="underline font-medium">Trading Allowance Checker</a> for a detailed assessment of whether the £1,000 allowance or actual expenses saves you more tax.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="hmrc-letters" title="6. What to Do If HMRC Writes to You" client:load>
+          <p class="mb-3">
+            Since 2024, HMRC has been sending "nudge letters" to online sellers based on platform data. These are not accusations — they're requests to check your records and confirm whether you owe tax.
+          </p>
+          <ol class="list-decimal pl-5 space-y-2 mb-3">
+            <li>Don't panic — a letter is not an accusation</li>
+            <li>Verify the letter is genuine via HMRC.gov.uk (never click links in the letter)</li>
+            <li>Download your annual statements from each platform</li>
+            <li>Determine if your activity is trading or personal selling</li>
+            <li>If personal selling at a loss: respond stating this with evidence</li>
+            <li>If trading and over £1,000: register for Self Assessment</li>
+            <li>Respond within the deadline stated in the letter</li>
+          </ol>
+          <CalloutBox variant="warning" client:load>
+            <p>HMRC penalties range from 0% (voluntary unprompted disclosure) to 100% of tax owed (deliberate concealment discovered by HMRC). It is ALWAYS better to come forward voluntarily. Use our <a href="/self-assessment-deadline-checker/" class="underline font-medium">Self-Assessment Deadline Checker</a> to see potential penalties.</p>
+          </CalloutBox>
+        </AccordionSection>
+
+        <AccordionSection id="platform-guidance" title="7. Platform-Specific Guidance" client:load>
+          <div class="space-y-3">
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">🛍️ Etsy</p>
+              <p class="text-sm text-[var(--text-secondary)]">Etsy contacts sellers who hit reporting thresholds to verify identity and NI number. You have 60 days to respond before payouts may be withheld. Etsy provides annual tax summaries.</p>
+            </div>
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">🏷️ eBay</p>
+              <p class="text-sm text-[var(--text-secondary)]">Both private and business seller accounts are reported if thresholds are met. eBay does not distinguish between personal and trading sales — HMRC makes that determination. Annual tax summaries available in My eBay.</p>
+            </div>
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">👗 Vinted</p>
+              <p class="text-sm text-[var(--text-secondary)]">Most Vinted sellers are selling personal items at a loss and owe no tax. However, if you exceed 30 sales or ~£1,700, Vinted will report your data. Vinted's CEO has publicly stated most users will not be affected.</p>
+            </div>
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">📦 Amazon</p>
+              <p class="text-sm text-[var(--text-secondary)]">Amazon Marketplace and FBA sellers almost always exceed reporting thresholds due to transaction volumes. Annual tax summaries available in Seller Central.</p>
+            </div>
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">💼 Fiverr / Upwork</p>
+              <p class="text-sm text-[var(--text-secondary)]">ALL service income is reported from the first penny — no threshold. Every gig, project, and payment is included in the report to HMRC.</p>
+            </div>
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">🚴 Deliveroo / 🚗 Uber</p>
+              <p class="text-sm text-[var(--text-secondary)]">ALL rider/driver income is reported. You're self-employed, not an employee. Track mileage, phone costs, and other expenses for deductions.</p>
+            </div>
+            <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-primary)] p-4">
+              <p class="font-semibold text-[var(--text-primary)] mb-1">🏠 Airbnb</p>
+              <p class="text-sm text-[var(--text-secondary)]">ALL host income is reported — no threshold for property rental. Rental income uses the separate £1,000 property allowance, not the trading allowance.</p>
+            </div>
+          </div>
+        </AccordionSection>
+
+        <AccordionSection id="worked-examples" title="8. Worked Examples" client:load>
+          <WorkedExample
+            persona="Rachel — Vinted wardrobe clearout"
+            job="Nurse"
+            sideHustle="50 sales, £600 total on Vinted"
+            income={600}
+            expenses={0}
+            client:load
+          >
+            <p>Rachel sold 50 dresses and tops on Vinted that she bought years ago, mostly for less than she originally paid. She's above the 30-transaction threshold, so Vinted reports her data to HMRC.</p>
+            <p>However, she's selling personal items at a loss — this is NOT trading. No tax, no registration needed. If HMRC writes, she can respond explaining these are personal items sold below original cost.</p>
+            <p class="font-medium">Verdict: Reported ✅ | Trading ❌ | Tax owed: £0</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="Marcus — Etsy jewellery maker"
+            job="Graphic designer (employed)"
+            sideHustle="120 sales, £8,000 gross on Etsy"
+            income={8000}
+            expenses={3200}
+            client:load
+          >
+            <p>Marcus makes silver jewellery and sells on Etsy. 120 sales and £8,000 revenue means he's well above reporting thresholds. Making goods to sell = clearly trading.</p>
+            <p>Expenses: £3,200 (silver, tools, packaging, Etsy fees). Expenses route: taxable = £4,800. Allowance route: taxable = £7,000. Claiming expenses saves £440 at basic rate.</p>
+            <p class="font-medium">Verdict: Reported ✅ | Trading ✅ | Must register, claim expenses. Estimated tax: £960</p>
+          </WorkedExample>
+
+          <WorkedExample
+            persona="Priya — Fiverr designer + Vinted seller"
+            job="Marketing assistant"
+            sideHustle="£3,500 Fiverr + £400 Vinted personal sales"
+            income={3500}
+            expenses={200}
+            client:load
+          >
+            <p>Priya earns £3,500 on Fiverr (graphic design) and £400 selling old clothes on Vinted. Fiverr is services — always reported, no threshold. Vinted: 15 sales, below threshold, not reported.</p>
+            <p>Only the Fiverr income is trading (£3,500). Vinted personal sales don't count. Trading allowance: taxable = £2,500. Expenses (£200): taxable = £3,300. Allowance is better.</p>
+            <p class="font-medium">Verdict: Fiverr reported ✅ | Trading income: £3,500 | Must register, claim allowance. Estimated tax: £500</p>
+          </WorkedExample>
+        </AccordionSection>
+
+        <AccordionSection id="faqs" title="9. Frequently Asked Questions" client:load>
+          <FAQAccordion items={faqItems} client:load />
+        </AccordionSection>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Want to dig deeper into the trading allowance?</strong>
+            <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Trading Allowance Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Calculate your exact tax bill?</strong>
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Check Self Assessment deadlines and penalties?</strong>
+            <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Self-Assessment Deadline Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Compare sole trader vs limited company?</strong>
+            <a href="/sole-trader-vs-ltd-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Sole Trader vs Ltd Calculator</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>See your PAYE take-home pay?</strong>
+            <a href="/take-home-pay-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Take-Home Pay Calculator</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Check dividend tax rates?</strong>
+            <a href="/dividend-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Dividend Tax Calculator</a>
+          </p>
+        </div>
+      </article>
+    </div>
+
+    {/* Footer */}
+    <footer class="mt-12 pt-4 border-t border-[var(--border)]">
+      <p class="text-xs text-[var(--text-muted)]">
+        Tax year {SITE.taxYear} · England, Wales & Northern Ireland rates · Not financial advice
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
