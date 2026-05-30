@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const pageTitle = 'Contact Us';
+const pageDescription = 'Get in touch with Quick Hustle Tax. Report a bug, suggest a calculator, or ask a question about our free UK tax tools.';
+const canonicalUrl = `${SITE.url}/contact/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Contact', url: canonicalUrl },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
+
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">Contact</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Contact Us</h1>
+    </header>
+
+    <div class="space-y-8 text-sm text-[var(--text-secondary)] leading-relaxed">
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Get in touch</h2>
+        <p>
+          We'd love to hear from you. Whether you've found a bug, have a suggestion for a new calculator, or want to
+          let us know how our tools have helped, drop us an email.
+        </p>
+      </section>
+
+      <section>
+        <div class="rounded-lg border-2 border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-950/30 p-6 text-center">
+          <p class="text-sm text-[var(--text-muted)] mb-2">Email us at</p>
+          <a
+            href="mailto:Thomasthumb1989@gmail.com"
+            class="text-xl font-semibold text-primary-600 dark:text-primary-400 hover:underline"
+          >
+            Thomasthumb1989@gmail.com
+          </a>
+          <p class="text-xs text-[var(--text-muted)] mt-2">We aim to respond within 48 hours</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What you can contact us about</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>Bug reports or calculation errors</strong> — if you think a calculator is giving wrong results, let us know the inputs you used and what you expected</li>
+          <li><strong>Suggestions for new calculators</strong> — we're always looking for tools that would help UK side-hustlers and sole traders</li>
+          <li><strong>Questions about how a calculator works</strong> — we're happy to explain the methodology</li>
+          <li><strong>Privacy or data queries</strong> — anything related to our <a href="/privacy/" class="text-primary-600 dark:text-primary-400 underline">Privacy Policy</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What we can't help with</h2>
+        <div class="rounded-lg border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30 p-4">
+          <ul class="list-disc pl-5 space-y-2 text-amber-800 dark:text-amber-300">
+            <li><strong>Personal tax advice</strong> — we are not accountants or tax advisors. For advice specific to your situation, please speak to HMRC or a qualified professional.</li>
+            <li><strong>HMRC queries</strong> — for questions about your tax account, payments, or Self Assessment, contact <a href="https://www.gov.uk/contact-hmrc" class="underline" rel="noopener noreferrer" target="_blank">HMRC directly</a>.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const pageTitle = 'Disclaimer & Terms of Use';
+const pageDescription = 'Terms of use for Quick Hustle Tax. Our free UK tax calculators are for guidance only — not professional tax advice.';
+const canonicalUrl = `${SITE.url}/disclaimer/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Disclaimer & Terms', url: canonicalUrl },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
+
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">Disclaimer & Terms</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Disclaimer & Terms of Use</h1>
+      <p class="text-sm text-[var(--text-muted)] mt-2">Last updated: May 2026</p>
+    </header>
+
+    <div class="space-y-8 text-sm text-[var(--text-secondary)] leading-relaxed">
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Acceptance of terms</h2>
+        <p>
+          By accessing and using Quick Hustle Tax (<a href="https://quickhustletax.co.uk" class="text-primary-600 dark:text-primary-400 underline">quickhustletax.co.uk</a>),
+          you agree to be bound by these terms and conditions. If you do not agree with any part of these terms,
+          please do not use this website.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What this site is</h2>
+        <p>
+          Quick Hustle Tax provides free tax calculators and educational content for UK taxpayers. Our tools are designed
+          to help side-hustlers, sole traders, and freelancers understand their tax obligations for the {SITE.taxYear} tax year.
+        </p>
+        <p class="mt-2 font-medium text-[var(--text-primary)]">
+          We are NOT accountants, tax advisors, financial advisors, or HMRC. Our tools provide estimates based on
+          published HMRC rates and thresholds.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Important disclaimer</h2>
+        <div class="rounded-lg border-2 border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30 p-4">
+          <p class="text-amber-800 dark:text-amber-300 font-medium mb-2">Please read carefully:</p>
+          <ul class="list-disc pl-5 space-y-2 text-amber-800 dark:text-amber-300">
+            <li>All calculations are <strong>estimates for guidance only</strong> and should not be treated as professional tax advice.</li>
+            <li>Tax situations vary — always check with HMRC or a qualified accountant for your specific circumstances.</li>
+            <li>We make every effort to use current, accurate HMRC rates and thresholds but <strong>cannot guarantee accuracy</strong>.</li>
+            <li>We are <strong>not liable</strong> for any decisions made based on our calculator results.</li>
+            <li>Our calculators use England, Wales, and Northern Ireland tax rates. Scottish income tax rates differ.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Intellectual property</h2>
+        <p>
+          All content, code, designs, calculators, and branding on this website are owned by Quick Hustle Tax. You may
+          not reproduce, copy, or redistribute our calculators, content, or code without written permission.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Acceptable use</h2>
+        <p>You agree not to:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li>Use the site for any unlawful purpose</li>
+          <li>Attempt to gain unauthorised access to our systems</li>
+          <li>Interfere with the proper functioning of the website</li>
+          <li>Scrape, copy, or reproduce our content or calculators without permission</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Third-party links</h2>
+        <p>
+          This website contains links to external websites, including HMRC (gov.uk), Google, and Cloudflare. We are not
+          responsible for the content, accuracy, or privacy practices of any third-party websites.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Limitation of liability</h2>
+        <p>
+          To the fullest extent permitted by law, Quick Hustle Tax shall not be liable for any direct, indirect,
+          incidental, consequential, or special damages arising from or in connection with your use of this website
+          or reliance on any calculator results.
+        </p>
+        <p class="mt-2">
+          This includes, but is not limited to, any financial loss, penalties, or additional tax liability resulting
+          from decisions made based on our calculator outputs.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Governing law</h2>
+        <p>
+          These terms are governed by and construed in accordance with the laws of England and Wales. Any disputes
+          shall be subject to the exclusive jurisdiction of the courts of England and Wales.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Changes to these terms</h2>
+        <p>
+          We may update these terms from time to time. Continued use of the website after changes are posted constitutes
+          acceptance of the updated terms. We encourage you to review this page periodically.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Contact</h2>
+        <p>
+          For questions about these terms, contact us at
+          <a href="mailto:Thomasthumb1989@gmail.com" class="text-primary-600 dark:text-primary-400 underline">Thomasthumb1989@gmail.com</a>.
+        </p>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>

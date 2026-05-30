@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const pageTitle = 'Privacy Policy';
+const pageDescription = 'How Quick Hustle Tax collects, uses, and protects your data. GDPR-compliant privacy policy for our free UK tax calculators.';
+const canonicalUrl = `${SITE.url}/privacy/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Privacy Policy', url: canonicalUrl },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
+
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">Privacy Policy</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Privacy Policy</h1>
+      <p class="text-sm text-[var(--text-muted)] mt-2">Last updated: May 2026</p>
+    </header>
+
+    <div class="space-y-8 text-sm text-[var(--text-secondary)] leading-relaxed">
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Who we are</h2>
+        <p>
+          Quick Hustle Tax (<a href="https://quickhustletax.co.uk" class="text-primary-600 dark:text-primary-400 underline">quickhustletax.co.uk</a>)
+          is a free tax calculator website for UK side-hustlers, sole traders, and freelancers. It is an independent
+          informational website — we are not a registered company, accountancy firm, or financial advisor.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What data we collect</h2>
+
+        <h3 class="text-base font-medium text-[var(--text-primary)] mb-2 mt-4">Calculator inputs</h3>
+        <p>
+          <strong>We do not collect or store your calculator inputs.</strong> All calculations run entirely in your
+          browser using client-side JavaScript. Your income, salary, expenses, and tax figures never leave your device.
+          We never see your financial data.
+        </p>
+
+        <h3 class="text-base font-medium text-[var(--text-primary)] mb-2 mt-4">Cookies and local storage</h3>
+        <p>
+          We use localStorage (similar to cookies but stored only on your device) to remember your cookie consent
+          preference and calculator settings (such as selected tax year). This data never leaves your browser.
+        </p>
+
+        <h3 class="text-base font-medium text-[var(--text-primary)] mb-2 mt-4">Analytics</h3>
+        <p>
+          We use Cloudflare Web Analytics, which is privacy-focused and does not use cookies or collect personal data.
+          We also use Google Analytics (GA4) to understand how visitors use our site. GA4 may collect anonymised usage
+          data such as pages visited, time on site, and device type. No personally identifiable information is collected.
+        </p>
+
+        <h3 class="text-base font-medium text-[var(--text-primary)] mb-2 mt-4">Advertising</h3>
+        <p>
+          We use Google AdSense to display advertisements. Google may use cookies to serve ads based on your browsing
+          history. These cookies are only set if you consent via our cookie banner. You can manage your Google ad
+          personalisation settings at
+          <a href="https://adssettings.google.com" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">adssettings.google.com</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">How we use cookies</h2>
+        <p>
+          When you first visit our site, a cookie consent banner gives you three choices: <strong>Consent</strong>,
+          <strong>Do not consent</strong>, or <strong>Manage</strong>. Without your consent, only essential functionality
+          runs (no advertising cookies). If you consent, Google AdSense may set cookies to serve relevant ads.
+        </p>
+        <p class="mt-2">
+          You can change your cookie preferences at any time by clearing your browser's localStorage or using your
+          browser's cookie settings.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Your rights under UK GDPR</h2>
+        <p>Under the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018, you have the right to:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><strong>Know</strong> what personal data we collect about you</li>
+          <li><strong>Access</strong> any personal data we hold</li>
+          <li><strong>Erasure</strong> — request deletion of your data</li>
+          <li><strong>Object</strong> to processing of your data</li>
+          <li><strong>Withdraw consent</strong> at any time (via the cookie banner or browser settings)</li>
+        </ul>
+        <p class="mt-2">
+          Since we don't collect or store personal data from calculator usage, there is typically nothing to access or
+          delete. For any privacy queries, contact us at
+          <a href="mailto:Thomasthumb1989@gmail.com" class="text-primary-600 dark:text-primary-400 underline">Thomasthumb1989@gmail.com</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Third-party services</h2>
+        <ul class="list-disc pl-5 space-y-2">
+          <li>
+            <strong>Google AdSense</strong> (advertising) —
+            <a href="https://policies.google.com/privacy" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Google Privacy Policy</a>
+          </li>
+          <li>
+            <strong>Google Analytics</strong> (usage analytics) —
+            <a href="https://policies.google.com/privacy" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Google Privacy Policy</a>
+          </li>
+          <li>
+            <strong>Cloudflare</strong> (hosting, CDN, analytics) —
+            <a href="https://www.cloudflare.com/privacypolicy/" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Cloudflare Privacy Policy</a>
+          </li>
+        </ul>
+        <p class="mt-2">We do not share your data with any other third parties.</p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Data retention</h2>
+        <p>
+          We do not store personal data on our servers. Cookie consent preferences and calculator settings are stored in
+          localStorage on your device and remain until you clear your browser data.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Children</h2>
+        <p>
+          This site is not directed at children under 16. We do not knowingly collect data from children. If you believe
+          a child has provided data to us, please contact us and we will take steps to remove it.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Changes to this policy</h2>
+        <p>
+          We may update this privacy policy from time to time. Any changes will be posted on this page with an updated
+          "Last updated" date. We encourage you to review this page periodically.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Contact</h2>
+        <p>
+          For any privacy-related queries, contact us at
+          <a href="mailto:Thomasthumb1989@gmail.com" class="text-primary-600 dark:text-primary-400 underline">Thomasthumb1989@gmail.com</a>.
+        </p>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>

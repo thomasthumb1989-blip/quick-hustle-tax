@@ -1,34 +1,110 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/ui/Card.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const canonicalUrl = `${SITE.url}/tools/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'All Tools', url: canonicalUrl },
+]);
 
 const tools = [
-  { title: 'Take-Home Pay Calculator', description: 'See your actual take-home after tax, NI, and deductions.', href: '/take-home-pay-calculator/', icon: '💷' },
-  { title: 'Side-Hustle Tax Calculator', description: 'Calculate tax on your side income alongside PAYE employment.', href: '/side-hustle-tax-calculator/', icon: '💰' },
-  { title: 'Sole Trader vs Ltd', description: 'Compare tax efficiency between sole trader and limited company.', href: '/sole-trader-vs-ltd-calculator/', icon: '⚖️' },
-  { title: 'Trading Allowance Checker', description: 'Check if you qualify for the £1,000 trading allowance.', href: '/trading-allowance-checker/', icon: '✅' },
-  { title: 'Dividend Tax Calculator', description: 'Calculate dividend tax at the new 10.75% and 35.75% rates.', href: '/dividend-tax-calculator/', icon: '📊' },
-  { title: 'Self-Assessment Deadline Checker', description: 'Check your deadlines and calculate late filing/payment penalties.', href: '/self-assessment-deadline-checker/', icon: '📅' },
-  { title: 'Platform Seller Reporting Checker', description: 'Check if HMRC knows about your eBay, Etsy, Vinted or Amazon sales — and whether you owe tax.', href: '/platform-seller-reporting-checker/', icon: '🛒' },
-  { title: 'Side-Hustle Growth Tracker', description: 'Calculate how many items you need to sell to hit your income target, after real platform fees.', href: '/side-hustle-growth-tracker/', icon: '📈' },
+  {
+    title: 'Side-Hustle Tax Calculator',
+    description: 'Calculate exactly how much income tax and National Insurance you owe on side-hustle income stacked on top of your PAYE salary. Accounts for personal allowance, existing tax paid, and student loans.',
+    href: '/side-hustle-tax-calculator/',
+    icon: '💰',
+  },
+  {
+    title: 'Take-Home Pay Calculator',
+    description: 'See your actual take-home pay after income tax, National Insurance, pension contributions, and student loan repayments. Full PAYE breakdown for the current tax year.',
+    href: '/take-home-pay-calculator/',
+    icon: '💷',
+  },
+  {
+    title: 'Sole Trader vs Ltd Company',
+    description: 'Compare the total tax bill between sole trader and limited company structures side by side. Includes corporation tax, dividend tax, employer NI, and salary optimisation.',
+    href: '/sole-trader-vs-ltd-calculator/',
+    icon: '⚖️',
+  },
+  {
+    title: 'Trading Allowance Checker',
+    description: 'Guided decision tree to check whether the £1,000 trading allowance covers your side income, or whether you need to register for Self Assessment with HMRC.',
+    href: '/trading-allowance-checker/',
+    icon: '✅',
+  },
+  {
+    title: 'Dividend Tax Calculator',
+    description: 'Calculate dividend tax at the 2026/27 rates including the £500 dividend allowance, with salary and dividend stacking across basic, higher, and additional rate bands.',
+    href: '/dividend-tax-calculator/',
+    icon: '📊',
+  },
+  {
+    title: 'Self-Assessment Deadline & Penalty Checker',
+    description: 'Check your Self Assessment filing and payment deadlines, and calculate exactly what late filing penalties, late payment penalties, and interest charges apply.',
+    href: '/self-assessment-deadline-checker/',
+    icon: '📅',
+  },
+  {
+    title: 'Platform Seller Reporting Checker',
+    description: 'Find out whether eBay, Etsy, Vinted, Amazon, or other platforms report your sales to HMRC under DAC7 rules — and whether you actually owe any tax on those sales.',
+    href: '/platform-seller-reporting-checker/',
+    icon: '🛒',
+  },
+  {
+    title: 'Side-Hustle Growth Tracker',
+    description: 'Calculate how many items you need to sell to hit your income target, factoring in real platform fees from Etsy, eBay, Vinted, Amazon, Depop, TikTok Shop, and Shopify.',
+    href: '/side-hustle-growth-tracker/',
+    icon: '📈',
+  },
 ];
 ---
 
-<BaseLayout title="All Tax Tools" description="Free UK tax calculators for side-hustlers, sole traders, and freelancers. 2026/27 rates, instant results, no sign-up.">
-  <h1 class="text-3xl font-bold mb-2">All Tools</h1>
-  <p class="text-[var(--text-secondary)] mb-8">Free UK tax calculators and checkers for the {import.meta.env.PUBLIC_TAX_YEAR || '2026/27'} tax year.</p>
+<BaseLayout title="All Tax Tools & Calculators" description="Free UK tax calculators for side-hustlers, sole traders, and freelancers. 8 tools covering income tax, NI, dividends, trading allowance, deadlines, and platform reporting. Updated for 2026/27.">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {tools.map((tool) => (
-      <a href={tool.href} class="group">
-        <Card class="h-full hover:border-primary-500/50 hover:shadow-md transition-all duration-200">
-          <span class="text-2xl">{tool.icon}</span>
-          <h2 class="text-lg font-semibold mt-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-            {tool.title}
-          </h2>
-          <p class="text-sm text-[var(--text-secondary)] mt-1">{tool.description}</p>
-        </Card>
-      </a>
-    ))}
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">All Tools</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">All Tax Tools & Calculators</h1>
+      <p class="text-base text-[var(--text-secondary)] mt-3 leading-relaxed">
+        Free UK tax calculators and checkers for the {SITE.taxYear} tax year. Every tool runs entirely in your
+        browser — no sign-up required, and your financial data never leaves your device. All rates and thresholds
+        are sourced from HMRC's published guidance.
+      </p>
+      <p class="text-sm text-[var(--text-muted)] mt-2">
+        {tools.length} free tools · Updated for {SITE.taxYear} · England, Wales & Northern Ireland rates
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {tools.map((tool) => (
+        <a href={tool.href} class="group">
+          <Card class="h-full hover:border-primary-500/50 hover:shadow-md transition-all duration-200">
+            <span class="text-2xl">{tool.icon}</span>
+            <h2 class="text-lg font-semibold mt-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              {tool.title}
+            </h2>
+            <p class="text-sm text-[var(--text-secondary)] mt-1 leading-relaxed">{tool.description}</p>
+          </Card>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-8 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5">
+      <h2 class="text-base font-semibold text-[var(--text-primary)] mb-2">About these calculators</h2>
+      <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
+        All calculators use the current HMRC tax rates and thresholds for the {SITE.taxYear} tax year
+        (6 April 2026 – 5 April 2027). Results are estimates for guidance only and should not be treated
+        as professional tax advice. For advice specific to your situation, consult HMRC or a qualified accountant.
+      </p>
+    </div>
   </div>
 </BaseLayout>

@@ -1,0 +1,136 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const pageTitle = 'Cookie Policy';
+const pageDescription = 'How Quick Hustle Tax uses cookies. We use minimal cookies — your calculator data never leaves your browser.';
+const canonicalUrl = `${SITE.url}/cookies/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Cookie Policy', url: canonicalUrl },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
+
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">Cookie Policy</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Cookie Policy</h1>
+      <p class="text-sm text-[var(--text-muted)] mt-2">Last updated: May 2026</p>
+    </header>
+
+    <div class="space-y-8 text-sm text-[var(--text-secondary)] leading-relaxed">
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What are cookies?</h2>
+        <p>
+          Cookies are small text files stored on your device when you visit a website. They help websites remember
+          your preferences and understand how you use the site. Some cookies are essential for the site to function,
+          while others are used for analytics and advertising.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Cookies we use</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border border-[var(--border)] rounded-lg overflow-hidden">
+            <thead>
+              <tr class="bg-[var(--bg-tertiary)]">
+                <th class="text-left px-4 py-2 font-medium text-[var(--text-primary)]">Type</th>
+                <th class="text-left px-4 py-2 font-medium text-[var(--text-primary)]">Purpose</th>
+                <th class="text-left px-4 py-2 font-medium text-[var(--text-primary)]">Source</th>
+                <th class="text-left px-4 py-2 font-medium text-[var(--text-primary)]">Consent required?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-[var(--border)]">
+                <td class="px-4 py-2 font-medium text-[var(--text-primary)]">Essential</td>
+                <td class="px-4 py-2">Cookie consent preference, dark/light mode, calculator settings (tax year)</td>
+                <td class="px-4 py-2">First-party (localStorage)</td>
+                <td class="px-4 py-2">No — required for site to function</td>
+              </tr>
+              <tr class="border-t border-[var(--border)]">
+                <td class="px-4 py-2 font-medium text-[var(--text-primary)]">Analytics</td>
+                <td class="px-4 py-2">Understand how visitors use the site (pages visited, time on site, device type)</td>
+                <td class="px-4 py-2">Google Analytics (GA4), Cloudflare Web Analytics (cookieless)</td>
+                <td class="px-4 py-2">GA4: Yes. Cloudflare: No (no cookies used)</td>
+              </tr>
+              <tr class="border-t border-[var(--border)]">
+                <td class="px-4 py-2 font-medium text-[var(--text-primary)]">Advertising</td>
+                <td class="px-4 py-2">Serve relevant advertisements and measure ad performance</td>
+                <td class="px-4 py-2">Google AdSense (third-party)</td>
+                <td class="px-4 py-2">Yes — only set if you consent</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">How to manage cookies</h2>
+        <p>
+          When you first visit our site, a cookie consent banner appears with three options:
+          <strong>Consent</strong>, <strong>Do not consent</strong>, or <strong>Manage</strong>.
+          You can change your preference at any time by clearing your browser's localStorage.
+        </p>
+        <p class="mt-2">You can also manage cookies through your browser settings:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><a href="https://support.google.com/chrome/answer/95647" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Google Chrome</a></li>
+          <li><a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Mozilla Firefox</a></li>
+          <li><a href="https://support.apple.com/en-gb/guide/safari/sfri11471" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Safari</a></li>
+          <li><a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Microsoft Edge</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What happens if you decline cookies</h2>
+        <p>
+          The site works perfectly without advertising cookies. All calculators function without any cookies at all —
+          your calculations run entirely in your browser and never require cookies to operate. Declining cookies only
+          means you may see less relevant advertisements.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Third-party cookies</h2>
+        <p>
+          Google AdSense may set cookies from the following domains when you consent to advertising cookies:
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><code class="text-xs bg-[var(--bg-tertiary)] px-1 py-0.5 rounded">google.com</code></li>
+          <li><code class="text-xs bg-[var(--bg-tertiary)] px-1 py-0.5 rounded">doubleclick.net</code></li>
+          <li><code class="text-xs bg-[var(--bg-tertiary)] px-1 py-0.5 rounded">googlesyndication.com</code></li>
+        </ul>
+        <p class="mt-2">
+          For details on Google's use of cookies, see the
+          <a href="https://policies.google.com/technologies/cookies" class="text-primary-600 dark:text-primary-400 underline" rel="noopener noreferrer" target="_blank">Google Cookie Policy</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Changes to this policy</h2>
+        <p>
+          We may update this cookie policy from time to time. Any changes will be posted on this page with an updated
+          "Last updated" date.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Contact</h2>
+        <p>
+          For questions about our use of cookies, contact us at
+          <a href="mailto:Thomasthumb1989@gmail.com" class="text-primary-600 dark:text-primary-400 underline">Thomasthumb1989@gmail.com</a>.
+        </p>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>

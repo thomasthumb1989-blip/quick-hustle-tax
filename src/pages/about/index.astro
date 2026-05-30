@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema } from '../../lib/seo/schema';
+
+const pageTitle = 'About Quick Hustle Tax';
+const pageDescription = 'Quick Hustle Tax provides free, accurate UK tax calculators for side-hustlers, sole traders, and freelancers. Built for the 2026/27 tax year.';
+const canonicalUrl = `${SITE.url}/about/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'About', url: canonicalUrl },
+]);
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} slot="head" />
+
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">About</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">About Quick Hustle Tax</h1>
+    </header>
+
+    <div class="space-y-8 text-sm text-[var(--text-secondary)] leading-relaxed">
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">What is Quick Hustle Tax?</h2>
+        <p>
+          Quick Hustle Tax is a free resource built specifically for people with side hustles, freelance income, or
+          small sole trader businesses in the UK. Our calculators help you understand your tax obligations without
+          needing to pay an accountant for basic questions.
+        </p>
+        <p class="mt-2">
+          Whether you're selling candles on Etsy, reselling vintage finds on eBay, freelancing on Fiverr, or running
+          a small business alongside your day job, our tools give you clear, instant answers about your tax position.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Why we built this</h2>
+        <p>
+          Tax is confusing, especially when you have employment income AND side-hustle income. Most tax calculators
+          online are either too basic (they don't stack side-hustle income on top of your PAYE salary) or they're
+          behind a paywall.
+        </p>
+        <p class="mt-2">
+          We wanted to build something genuinely useful and free. Every calculator on this site is free to use,
+          with no sign-up required. Your financial data never leaves your browser — all calculations run client-side
+          in JavaScript.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Our calculators</h2>
+        <p class="mb-4">We currently offer 8 free tools, all updated for the {SITE.taxYear} tax year:</p>
+        <div class="space-y-4">
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/side-hustle-tax-calculator/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              💰 Side-Hustle Tax Calculator
+            </a>
+            <p class="mt-1">See exactly how much tax you'll owe on side income stacked on your PAYE salary. Accounts for your personal allowance, existing tax paid through PAYE, National Insurance, and student loans.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/take-home-pay-calculator/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              💷 Take-Home Pay Calculator
+            </a>
+            <p class="mt-1">Full PAYE breakdown showing your actual take-home pay after income tax, National Insurance, pension contributions, and student loan repayments.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/sole-trader-vs-ltd-calculator/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              ⚖️ Sole Trader vs Ltd Company Comparison
+            </a>
+            <p class="mt-1">Side-by-side comparison of tax efficiency between sole trader and limited company structures. Spoiler: Ltd doesn't always win anymore after the April 2026 changes.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/trading-allowance-checker/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              ✅ Trading Allowance Checker
+            </a>
+            <p class="mt-1">Guided decision tree that tells you whether the £1,000 trading allowance covers your side income, or whether you need to register for Self Assessment.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/dividend-tax-calculator/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              📊 Dividend Tax Calculator
+            </a>
+            <p class="mt-1">Calculate dividend tax at the {SITE.taxYear} rates with salary and dividend stacking. Shows basic, higher, and additional rate dividend tax.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/self-assessment-deadline-checker/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              📅 Self-Assessment Deadline & Penalty Checker
+            </a>
+            <p class="mt-1">Check if you've missed your Self Assessment deadlines and calculate exactly what penalties and interest apply. Covers filing penalties, payment penalties, and daily penalties.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/platform-seller-reporting-checker/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              🛒 Platform Seller Reporting Checker
+            </a>
+            <p class="mt-1">Find out if eBay, Etsy, Vinted, Amazon, or other platforms are reporting your sales to HMRC under the new DAC7 rules — and whether you actually owe any tax.</p>
+          </div>
+
+          <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+            <a href="/side-hustle-growth-tracker/" class="text-base font-semibold text-primary-600 dark:text-primary-400 hover:underline">
+              📈 Side-Hustle Growth Tracker
+            </a>
+            <p class="mt-1">Calculate exactly how many items you need to sell to hit your income target, factoring in real platform fees from Etsy, eBay, Vinted, Amazon, and more.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">How we keep it accurate</h2>
+        <p>
+          All rates and thresholds are sourced from HMRC's published guidance for the {SITE.taxYear} tax year
+          (April 2026 – April 2027). We update our calculators whenever HMRC changes rates or thresholds.
+        </p>
+        <p class="mt-2">
+          All calculations run in your browser — we never see your financial data. Your income, salary, expenses,
+          and tax figures are processed entirely on your device using client-side JavaScript.
+        </p>
+        <p class="mt-2">
+          While we strive for accuracy, our calculators provide estimates for guidance only. They should not be treated
+          as professional tax advice. For your specific circumstances, always consult HMRC or a qualified accountant.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Contact us</h2>
+        <p>
+          We welcome feedback, bug reports, and suggestions for new calculators. Get in touch at
+          <a href="mailto:Thomasthumb1989@gmail.com" class="text-primary-600 dark:text-primary-400 underline">Thomasthumb1989@gmail.com</a>.
+        </p>
+      </section>
+
+    </div>
+  </article>
+</BaseLayout>
