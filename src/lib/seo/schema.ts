@@ -80,6 +80,40 @@ export function blogSchema(opts: {
   };
 }
 
+export function blogPostingSchema(opts: {
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified: string;
+  image?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: opts.headline,
+    description: opts.description,
+    url: opts.url,
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified,
+    ...(opts.image && { image: opts.image }),
+    author: {
+      '@type': 'Organization',
+      name: SITE.name,
+      url: SITE.url,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.name,
+      url: SITE.url,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': opts.url,
+    },
+  };
+}
+
 export function breadcrumbSchema(
   items: Array<{ name: string; url: string }>
 ) {

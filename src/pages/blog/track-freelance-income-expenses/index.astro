@@ -1,0 +1,587 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SITE } from '../../../config/site';
+import { TableOfContents } from '../../../components/content/TableOfContents';
+import { AccordionSection } from '../../../components/content/AccordionSection';
+import { CalloutBox } from '../../../components/content/CalloutBox';
+import { FAQAccordion } from '../../../components/content/FAQAccordion';
+import {
+  blogPostingSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../../lib/seo/schema';
+import { blogPosts } from '../../../data/blog-posts';
+
+const post = blogPosts.find((p) => p.slug === 'track-freelance-income-expenses')!;
+
+const pageTitle = 'How to Track Freelance Income & Expenses (UK Guide)';
+const pageDescription =
+  'How to track freelance income and expenses for UK Self Assessment. Covers allowable expenses, cash basis vs traditional, HMRC record-keeping rules, and Making Tax Digital.';
+const canonicalUrl = `${SITE.url}/blog/${post.slug}/`;
+
+const posting = blogPostingSchema({
+  headline: post.title,
+  description: pageDescription,
+  url: canonicalUrl,
+  datePublished: post.date,
+  dateModified: post.updated,
+  image: `${SITE.url}${post.image}`,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Blog', url: `${SITE.url}/blog/` },
+  { name: 'Track Freelance Income & Expenses', url: canonicalUrl },
+]);
+
+const faqItems = [
+  {
+    question: 'Am I legally required to track my freelance income and expenses?',
+    answer: 'Yes. If your gross trading income exceeds £1,000 (the trading allowance), you must register for Self Assessment and keep accurate records of all income and expenses. Even below £1,000, keeping records is good practice.',
+  },
+  {
+    question: 'How long do I need to keep my records?',
+    answer: 'At least 5 years after the 31 January submission deadline of the relevant tax year. For example, your 2025/26 tax return is due by 31 January 2027, so keep those records until at least 31 January 2032. If you file more than 4 years late, keep records for 15 months after submission.',
+  },
+  {
+    question: 'What counts as an allowable expense for freelancers?',
+    answer: 'HMRC allows business expenses that are wholly and exclusively for your trade. Common examples: office supplies, software subscriptions, phone bills (business proportion), travel to clients, professional development, advertising, raw materials, postage, and a proportion of home office costs (heating, electricity, broadband).',
+  },
+  {
+    question: 'Is a spreadsheet good enough, or do I need accounting software?',
+    answer: 'A spreadsheet is perfectly fine for tracking income and expenses and for filing your Self Assessment return. However, from April 2026 onwards, Making Tax Digital for Income Tax requires MTD-compatible software for qualifying taxpayers. A plain spreadsheet is NOT MTD-compliant unless linked to HMRC via approved bridging software.',
+  },
+  {
+    question: 'What is the difference between cash basis and traditional accounting?',
+    answer: 'Cash basis records income when you receive payment and expenses when you pay them — simple and suitable for most freelancers. Traditional (accrual) accounting records income when invoiced and expenses when incurred, regardless of payment date. Since 6 April 2024, cash basis is the default for all eligible sole traders and partnerships with no turnover threshold. Traditional accounting is opt-in — you elect it on your Self Assessment return each year. Limited companies cannot use cash basis.',
+  },
+  {
+    question: 'How much tax should I set aside from each payment?',
+    answer: 'It depends on your total income including your salary. Rather than guessing a flat percentage, use our Side-Hustle Tax Calculator to see your exact marginal rate and set aside that proportion of each payment you receive.',
+  },
+  {
+    question: 'Do I need to track income if I earn under the £1,000 trading allowance?',
+    answer: "Strictly, if your total gross trading income is £1,000 or less, you don't need to tell HMRC. But tracking is still wise — it proves you're under the threshold if HMRC ever asks, and it helps you spot when you cross it.",
+  },
+  {
+    question: 'Can I use a spreadsheet for Making Tax Digital?',
+    answer: 'Not on its own. MTD for Income Tax requires you to submit quarterly updates to HMRC using MTD-compatible software. A spreadsheet can feed into MTD via approved bridging software, but a standalone spreadsheet does not meet MTD requirements.',
+  },
+  {
+    question: 'What records do I need for my Self Assessment return?',
+    answer: 'You need: all invoices and receipts for income and expenses, bank statements, mileage logs if claiming travel, records of any assets purchased for the business, and a summary of total income and expenses by category. Digital records (photos of receipts, spreadsheets, accounting software exports) are accepted by HMRC.',
+  },
+  {
+    question: 'Should I build my own tracker or buy a ready-made one?',
+    answer: "Both work. Building your own is free but takes time to set up correctly with the right categories and formulas. A ready-made tracker saves setup time and is pre-structured with HMRC-friendly categories. Either way, the important thing is consistency — update it regularly, don't let receipts pile up.",
+  },
+];
+
+const faqs = faqPageSchema(faqItems);
+
+const tocSections = [
+  { id: 'why-tracking-matters', title: 'Why Tracking Matters' },
+  { id: 'what-to-track', title: 'What to Track' },
+  { id: 'allowable-expenses', title: 'Allowable vs Disallowable' },
+  { id: 'cash-basis-vs-traditional', title: 'Cash Basis vs Traditional' },
+  { id: 'how-much-to-set-aside', title: 'How Much to Set Aside' },
+  { id: 'deadlines', title: 'Key Deadlines' },
+  { id: 'trading-allowance', title: 'The Trading Allowance' },
+  { id: 'making-tax-digital', title: 'Making Tax Digital' },
+  { id: 'spreadsheet-vs-tracker', title: 'Spreadsheet vs Ready-Made' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(canonicalUrl)}&media=${encodeURIComponent(`${SITE.url}/freelancer-tracker-pin.jpg`)}&description=${encodeURIComponent('How to track freelance income and expenses for UK Self Assessment — free guide with HMRC categories and record-keeping rules')}`;
+
+const today = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(posting)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
+
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/blog/" class="hover:text-primary-500">Blog</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Track Freelance Income & Expenses</li>
+      </ol>
+    </nav>
+
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        How to Track Your Freelance Income and Expenses (And Why You Need To)
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-3">
+        <strong>In short:</strong> Every UK freelancer and sole trader earning over £1,000 must keep accurate records of income and expenses for Self Assessment — and you must keep them for at least 5 years after your filing deadline.
+      </p>
+      <div class="flex flex-wrap items-center gap-4 mt-4 text-sm text-[var(--text-muted)]">
+        <time datetime={post.date}>Last updated: {today}</time>
+        <span>·</span>
+        <span>12 min read</span>
+        <span>·</span>
+        <a
+          href={pinterestUrl}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-1 text-primary-600 dark:text-primary-400 hover:underline"
+        >
+          Save to Pinterest
+        </a>
+      </div>
+      <p class="text-xs text-[var(--text-muted)] mt-2">
+        Tax rates and thresholds sourced from <a href="https://www.gov.uk/self-employed-records" class="underline" target="_blank" rel="noopener">GOV.UK</a>. This guide is for informational purposes only and does not constitute tax advice.
+      </p>
+    </header>
+
+    {/* ═══════════ Two-column guide layout ═══════════ */}
+    <div class="mt-8 lg:grid lg:grid-cols-[240px_1fr] lg:gap-10">
+
+      {/* Left: sticky ToC */}
+      <aside class="mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-24">
+          <p class="hidden lg:block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
+            In this guide
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      {/* Right: guide content */}
+      <article class="max-w-[70ch] space-y-2">
+
+        {/* ── Section: Why Tracking Matters ── */}
+        <AccordionSection id="why-tracking-matters" title="Why Tracking Your Income and Expenses Matters" defaultOpen={true}>
+          <p class="mb-3">
+            If you freelance, sell online, or run any kind of side hustle in the UK, tracking your income and expenses isn't optional — it's a legal requirement once you cross certain thresholds. But even if you're not yet required to file a Self Assessment return, there are compelling reasons to start tracking from day one.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">1. Accurate Self Assessment filing</h3>
+          <p class="mb-3">
+            When you file your Self Assessment tax return, HMRC needs two core numbers: your total trading income and your total allowable expenses. If you've been tracking all year, filing takes minutes. If you haven't, you're scrambling through bank statements in January trying to remember what a £47.99 payment to Amazon was for.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">2. Claiming every allowable expense</h3>
+          <p class="mb-3">
+            Expenses you don't record are expenses you can't claim. Every missed receipt is tax you're overpaying. A freelance web developer who forgets to log their Adobe subscription (£54.99/month), domain renewals, and hosting fees could easily miss £800+ in legitimate deductions — that's £160–£320 in unnecessary tax depending on their marginal rate.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">3. Understanding your real profit</h3>
+          <p class="mb-3">
+            Revenue is vanity; profit is sanity. Tracking expenses alongside income shows you what you're actually keeping. A freelancer invoicing £3,000 a month but spending £1,200 on tools, travel, and materials isn't earning £36,000 — they're earning £21,600. That distinction matters for every financial decision you make.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">4. The 5-year record-keeping duty</h3>
+          <p class="mb-3">
+            HMRC requires you to keep records for at least <strong>5 years after the 31 January submission deadline</strong> of the relevant tax year. For your 2025/26 tax return (deadline 31 January 2027), that means keeping records until at least 31 January 2032. If you file more than 4 years late, you must keep records for 15 months after submission.
+          </p>
+          <p class="mb-3 text-sm">
+            Source: <a href="https://www.gov.uk/self-employed-records/how-long-to-keep-your-records" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">GOV.UK — How long to keep your records</a>
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">5. Setting tax aside as you earn</h3>
+          <p class="mb-3">
+            The biggest shock for new freelancers is the tax bill arriving in January. If you track income and expenses monthly, you can set aside the right amount from each payment and avoid the scramble. The trick is knowing your marginal rate — which depends on your total income including any PAYE salary.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">6. Avoiding the January panic</h3>
+          <p class="mb-3">
+            Every January, millions of UK taxpayers rush to file their Self Assessment returns. Those who've tracked income and expenses throughout the year can file in April — the moment the tax year ends — and get it out of the way. Filing early doesn't mean paying early (you still pay by 31 January), but it removes the stress entirely.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: What to Track ── */}
+        <AccordionSection id="what-to-track" title="What to Track: Income, Expenses, and Categories" defaultOpen={true}>
+          <h3 class="text-base font-semibold mb-2" style="color: var(--text-primary)">Income tracking</h3>
+          <p class="mb-3">
+            Record every payment you receive for your freelance or side-hustle work. For each entry, note:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>Date received</strong> (or date invoiced, if using traditional accounting)</li>
+            <li><strong>Client or source</strong> — who paid you</li>
+            <li><strong>Amount</strong> — the gross figure before any deductions</li>
+            <li><strong>Invoice number</strong> — for your own reference</li>
+            <li><strong>Payment method</strong> — bank transfer, PayPal, cash, platform payout</li>
+          </ul>
+          <p class="mb-3">
+            If you sell on platforms like Etsy, eBay, or Shopify, the platform takes fees before paying you. Track the <strong>gross sale price</strong> as income and the <strong>platform fees as a separate expense</strong> — this gives you a clearer picture of your costs.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Expense tracking</h3>
+          <p class="mb-3">
+            Record every business expense as it happens. For each entry, note:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>Date paid</strong></li>
+            <li><strong>Supplier or vendor</strong></li>
+            <li><strong>Amount</strong></li>
+            <li><strong>Category</strong> — HMRC-aligned (see below)</li>
+            <li><strong>Receipt</strong> — photo or PDF, stored digitally</li>
+          </ul>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">HMRC-friendly expense categories</h3>
+          <p class="mb-3">
+            The Self Assessment form groups expenses into standard categories. Using these from the start makes filing straightforward:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li><strong>Cost of goods sold</strong> — raw materials, stock, packaging</li>
+            <li><strong>Office, property & equipment</strong> — rent, repairs, stationery, small tools</li>
+            <li><strong>Travel</strong> — fuel, public transport, parking (not commuting to a regular workplace)</li>
+            <li><strong>Staff costs</strong> — subcontractors, freelancers you hire</li>
+            <li><strong>Advertising & marketing</strong> — website hosting, social media ads, business cards</li>
+            <li><strong>Professional fees</strong> — accountant, solicitor, professional memberships</li>
+            <li><strong>Phone, internet & software</strong> — business proportion of bills, SaaS subscriptions</li>
+            <li><strong>Use of home</strong> — simplified expenses flat rate based on hours worked from home: 25–50 hrs/month = £10/month, 51–100 hrs = £18/month, 101+ hrs = £26/month (covers heating, lighting, and power only — council tax, rent, mortgage interest, and water require the actual-cost apportionment method instead)</li>
+            <li><strong>Other expenses</strong> — insurance, bank charges, professional development</li>
+          </ul>
+        </AccordionSection>
+
+        {/* ── Section: Allowable Expenses ── */}
+        <AccordionSection id="allowable-expenses" title="Allowable vs Disallowable Expenses" defaultOpen={true}>
+          <p class="mb-3">
+            Not everything you spend money on counts as a tax-deductible expense. HMRC's rule is straightforward: the expense must be <strong>wholly and exclusively for the purposes of your trade</strong>.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Allowable (you CAN claim)</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li>Office supplies and stationery</li>
+            <li>Software subscriptions (Canva, Adobe, Xero, Mailchimp)</li>
+            <li>Phone and broadband (business proportion)</li>
+            <li>Travel to clients, meetings, or trade fairs (not regular commuting)</li>
+            <li>Raw materials and stock for resale</li>
+            <li>Packaging and postage</li>
+            <li>Professional courses and training directly related to your work</li>
+            <li>Advertising, website costs, and domain names</li>
+            <li>Accountancy fees</li>
+            <li>Business insurance</li>
+            <li>Bank charges on a business account</li>
+            <li>Use of home as office (simplified expenses flat rate based on hours, or apportioned actual costs)</li>
+          </ul>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Disallowable (you CANNOT claim)</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li>Personal expenses (food, clothing, personal phone bill)</li>
+            <li>Entertainment — client lunches, gifts to clients (with limited exceptions)</li>
+            <li>Fines and penalties (parking tickets, HMRC penalties)</li>
+            <li>Your own drawings or salary (as a sole trader, profit is your income)</li>
+            <li>Clothing, unless it's a uniform or protective gear</li>
+            <li>Commuting from home to a regular workplace</li>
+          </ul>
+
+          <CalloutBox variant="tip" title="Mixed-use expenses">
+            If you use something for both personal and business purposes (like your mobile phone), you can claim the business proportion. Keep a log for a representative month to establish your split — for example, 60% business calls means you claim 60% of the bill.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Cash Basis vs Traditional ── */}
+        <AccordionSection id="cash-basis-vs-traditional" title="Cash Basis vs Traditional Accounting">
+          <p class="mb-3">
+            When you file your Self Assessment, you use one of two accounting methods. Since 6 April 2024, <strong>cash basis is the default</strong> for all eligible sole traders and partnerships — the old £150,000 turnover threshold was abolished.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Cash basis (the default)</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li>Record income when you <strong>receive</strong> the money</li>
+            <li>Record expenses when you <strong>pay</strong> them</li>
+            <li>The default for sole traders and partnerships — <strong>no turnover threshold</strong></li>
+            <li>Simpler — no need to track debtors or creditors</li>
+            <li>Limited companies cannot use cash basis</li>
+          </ul>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Traditional (accrual) accounting — opt-in</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li>Record income when you <strong>invoice</strong> (even if not yet paid)</li>
+            <li>Record expenses when you <strong>incur</strong> them (even if not yet paid)</li>
+            <li>You must <strong>elect</strong> traditional accounting on your Self Assessment return each year</li>
+            <li>Useful if you want to offset losses more flexibly or claim capital allowances</li>
+          </ul>
+
+          <p class="mb-3 text-sm">
+            Source: <a href="https://www.gov.uk/simpler-income-tax-cash-basis" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">GOV.UK — Cash basis</a>
+          </p>
+
+          <CalloutBox variant="info" title="Which should you choose?">
+            Most freelancers should stick with <strong>cash basis</strong> — it's the default, it matches what your bank statement shows, and it's far easier to reconcile. You only need to opt into traditional accounting if you have specific reasons (complex loss offsetting, capital allowances, or if you run a limited company).
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: How Much to Set Aside ── */}
+        <AccordionSection id="how-much-to-set-aside" title="How Much Tax to Set Aside">
+          <p class="mb-3">
+            One of the most common questions from new freelancers is "how much should I save for tax?" The honest answer is: it depends entirely on your total income.
+          </p>
+          <p class="mb-3">
+            If your freelance income is your only income, you have the £12,570 Personal Allowance before any tax is due. But if you have a PAYE salary alongside your freelancing, your employer has already used up your Personal Allowance — so every pound of freelance profit is taxed at your marginal rate.
+          </p>
+          <p class="mb-3">
+            Rather than guessing a flat percentage (the commonly quoted "30% rule" is wrong for most people), <strong>use our calculator to see your exact position</strong>:
+          </p>
+
+          <div class="rounded-lg border border-primary-300 dark:border-primary-700 bg-primary-50 dark:bg-primary-950/30 p-4 my-4">
+            <p class="font-semibold text-[var(--text-primary)] mb-1">Work out your exact tax bill</p>
+            <p class="text-sm text-[var(--text-secondary)] mb-3">
+              Enter your salary, side-hustle income, and expenses to see exactly how much extra tax and NI you owe.
+            </p>
+            <a
+              href="/side-hustle-tax-calculator/"
+              class="inline-block px-4 py-2 text-sm font-medium rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors"
+            >
+              Open Side-Hustle Tax Calculator &rarr;
+            </a>
+          </div>
+
+          <p class="mt-3">
+            Once you know your marginal rate, set that percentage aside from every freelance payment into a separate savings account. When January comes, the money is already there.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Deadlines ── */}
+        <AccordionSection id="deadlines" title="Key Self Assessment Deadlines">
+          <p class="mb-3">
+            Missing deadlines costs real money. Here are the dates that matter for the 2026/27 tax year:
+          </p>
+          <ul class="list-none space-y-3 mb-4">
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">5 Apr 2027</span>
+              <span>Tax year ends — start gathering your figures</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">5 Oct 2027</span>
+              <span>Deadline to register for Self Assessment (first-time filers)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">31 Jan 2028</span>
+              <span>Online filing deadline and payment deadline</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">31 Jul 2028</span>
+              <span>Second payment on account (if applicable)</span>
+            </li>
+          </ul>
+
+          <CalloutBox variant="warning" title="Late filing penalties">
+            Miss the 31 January deadline and you'll face an immediate £100 penalty, even if you owe no tax. After 3 months, daily penalties of £10 (up to £900) kick in. After 6 and 12 months, further penalties apply based on the tax owed. Check exactly what you'd owe with our <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline font-medium">Self-Assessment Deadline & Penalty Checker</a>.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Trading Allowance ── */}
+        <AccordionSection id="trading-allowance" title="The £1,000 Trading Allowance">
+          <p class="mb-3">
+            Every UK taxpayer gets a £1,000 trading allowance. If your total gross trading income is £1,000 or less, you don't need to tell HMRC or file a Self Assessment return for that income.
+          </p>
+          <p class="mb-3">
+            If your gross income exceeds £1,000, you must register for Self Assessment — but you can still choose to deduct the £1,000 allowance instead of claiming actual expenses. This is simpler if your real expenses are low.
+          </p>
+
+          <CalloutBox variant="info" title="Gross income, not profit">
+            The £1,000 threshold is based on your <strong>total revenue</strong>, not your profit after expenses. If you sell £1,200 worth of handmade candles but spend £900 on materials, your gross income is £1,200 — above the allowance — and you need to file, even though your profit is only £300.
+          </CalloutBox>
+
+          <p class="mt-3 text-sm">
+            Not sure if the trading allowance applies to you? Use our <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">Trading Allowance Checker</a> to find out in 30 seconds.
+          </p>
+        </AccordionSection>
+
+        {/* ── CTA block (mid-article) ── */}
+        <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 p-6 my-6">
+          <p class="text-sm text-[var(--text-muted)] mb-2">If you'd rather not build a spreadsheet from scratch, we made a ready-to-use one.</p>
+          <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-3">Freelancer Income & Expense Tracker</h3>
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="md:w-1/2">
+              <a
+                href="https://www.etsy.com/listing/4514883144/freelancer-income-expense-tracker-google"
+                target="_blank"
+                rel="sponsored noopener"
+              >
+                <picture>
+                  <source srcset="/freelancer-income-expense-tracker.avif" type="image/avif" />
+                  <source srcset="/freelancer-income-expense-tracker.webp" type="image/webp" />
+                  <img
+                    src="/freelancer-income-expense-tracker.jpg"
+                    alt="Freelancer Income & Expense Tracker spreadsheet by The Finance Specialist — tracks income by client, expenses by category, monthly profit and tax set-aside in Google Sheets and Excel."
+                    width="1000"
+                    height="1339"
+                    loading="lazy"
+                    decoding="async"
+                    class="rounded-lg w-full h-auto"
+                  />
+                </picture>
+              </a>
+            </div>
+            <div class="md:w-1/2 flex flex-col justify-center">
+              <ul class="list-disc pl-5 space-y-1 text-sm text-[var(--text-secondary)] mb-4">
+                <li>Track income by client with invoice numbers and dates</li>
+                <li>Log expenses in HMRC-friendly categories</li>
+                <li>Auto-calculates monthly profit and tax set-aside</li>
+                <li>Works in Google Sheets and Microsoft Excel</li>
+                <li>One-time purchase — no subscription</li>
+              </ul>
+              <a
+                href="https://www.etsy.com/listing/4514883144/freelancer-income-expense-tracker-google"
+                target="_blank"
+                rel="sponsored noopener"
+                class="inline-block px-5 py-2.5 text-sm font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors text-center"
+              >
+                Get It on Etsy &rarr;
+              </a>
+              <p class="text-xs text-[var(--text-muted)] mt-2">
+                £9.99, one-time purchase · Google Sheets + Excel · opens Etsy in a new tab
+              </p>
+              <p class="text-xs text-[var(--text-muted)] mt-1">
+                From The Finance Specialist, our sister shop.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Section: Making Tax Digital ── */}
+        <AccordionSection id="making-tax-digital" title="Making Tax Digital for Income Tax">
+          <p class="mb-3">
+            Making Tax Digital (MTD) for Income Tax is HMRC's programme to digitise tax reporting. It's being introduced in phases based on your qualifying income (gross self-employment income plus property income combined):
+          </p>
+          <ul class="list-none space-y-3 mb-4">
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">From 6 Apr 2026</span>
+              <span>Qualifying income over <strong>£50,000</strong> (based on 2024/25 return)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">From 6 Apr 2027</span>
+              <span>Qualifying income over <strong>£30,000</strong> (based on 2025/26 return)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-primary-600 dark:text-primary-400">From 6 Apr 2028</span>
+              <span>Qualifying income over <strong>£20,000</strong> (based on 2026/27 return)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-[var(--text-muted)]">Not yet confirmed</span>
+              <span>Qualifying income <strong>£20,000 or under</strong> — currently not in scope</span>
+            </li>
+          </ul>
+          <p class="mb-3 text-sm">
+            Source: <a href="https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">GOV.UK — Check if you're eligible for Making Tax Digital for Income Tax</a>
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">What MTD requires</h3>
+          <p class="mb-3">
+            If you're in scope, you must use <strong>MTD-compatible software</strong> to keep digital records and submit <strong>quarterly updates</strong> to HMRC (instead of just one annual return). Popular MTD-compatible options include FreeAgent, Xero, QuickBooks, and Sage.
+          </p>
+
+          <CalloutBox variant="warning" title="Important: spreadsheets alone are NOT MTD-compliant">
+            A plain spreadsheet (Google Sheets or Excel) does not meet MTD requirements on its own. You would need approved <strong>bridging software</strong> to link your spreadsheet to HMRC's MTD system. If you're in scope for MTD, the simplest option is to switch to MTD-compatible accounting software.
+          </CalloutBox>
+
+          <p class="mt-3">
+            If you're not yet in scope for MTD, a spreadsheet or manual tracker remains perfectly acceptable for keeping records and filing your annual Self Assessment return.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Spreadsheet vs Ready-Made ── */}
+        <AccordionSection id="spreadsheet-vs-tracker" title="Build Your Own Spreadsheet or Use a Ready-Made Tracker?">
+          <p class="mb-3">
+            You have two main options for tracking your freelance finances without full accounting software:
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Option 1: Build your own spreadsheet</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li><strong>Pros:</strong> Free, fully customisable, you understand every formula</li>
+            <li><strong>Cons:</strong> Takes time to set up properly, easy to miss categories, formulas can break</li>
+          </ul>
+          <p class="mb-3">
+            If you go this route, create separate tabs for income and expenses. Use the HMRC categories listed above so your data maps directly to the Self Assessment form. Add a summary tab that auto-calculates totals by category and month.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Option 2: Use a ready-made tracker</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li><strong>Pros:</strong> Pre-built with HMRC categories, formulas already working, saves hours of setup</li>
+            <li><strong>Cons:</strong> Small upfront cost, less customisable than a blank sheet</li>
+          </ul>
+
+          <CalloutBox variant="tip" title="The key thing">
+            Whether you build or buy, consistency matters more than the tool. The best tracker is the one you actually use every week. Pick one approach and stick with it — don't let receipts pile up for months.
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── CTA block (end of article) ── */}
+        <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 p-6 my-6">
+          <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-2">Freelancer Income & Expense Tracker</h3>
+          <p class="text-sm text-[var(--text-secondary)] mb-3">
+            Pre-built with HMRC-friendly categories, automatic profit calculations, and a tax set-aside column. Works in Google Sheets and Excel.
+          </p>
+          <ul class="list-disc pl-5 space-y-1 text-sm text-[var(--text-secondary)] mb-4">
+            <li>Income tab — log by client, invoice number, date, and payment method</li>
+            <li>Expenses tab — categorised to match the Self Assessment form</li>
+            <li>Summary dashboard — monthly profit, running totals, tax set-aside</li>
+          </ul>
+          <a
+            href="https://www.etsy.com/listing/4514883144/freelancer-income-expense-tracker-google"
+            target="_blank"
+            rel="sponsored noopener"
+            class="inline-block px-5 py-2.5 text-sm font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
+          >
+            Get It on Etsy &rarr;
+          </a>
+          <p class="text-xs text-[var(--text-muted)] mt-2">
+            £9.99, one-time purchase · Google Sheets + Excel · opens Etsy in a new tab
+          </p>
+          <p class="text-xs text-[var(--text-muted)] mt-1">
+            From The Finance Specialist, our sister shop.
+          </p>
+        </div>
+
+        {/* ── Section: FAQs ── */}
+        <section id="faqs" class="my-4">
+          <h2 class="text-xl font-semibold mb-4" style="color: var(--text-primary)">Frequently Asked Questions</h2>
+          <FAQAccordion items={faqItems} client:load />
+        </section>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Work out your exact tax bill:</strong>
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Check if the trading allowance covers you:</strong>
+            <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Trading Allowance Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Check Self Assessment deadlines and penalties:</strong>
+            <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Deadline & Penalty Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Selling on platforms? Check if HMRC knows:</strong>
+            <a href="/platform-seller-reporting-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Platform Seller Reporting Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>See how many sales you need to hit your targets:</strong>
+            <a href="/side-hustle-growth-tracker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Growth Tracker</a>
+          </p>
+        </div>
+
+      </article>
+    </div>
+
+    {/* Footer disclaimer */}
+    <footer class="mt-12 pt-4 border-t border-[var(--border)] space-y-2">
+      <p class="text-xs text-[var(--text-muted)]">
+        <strong>Disclaimer:</strong> This article provides general information only and does not constitute
+        financial or tax advice. Tax rules are complex and individual circumstances vary. Always consult
+        HMRC or a qualified accountant for advice specific to your situation.
+      </p>
+      <p class="text-xs text-[var(--text-muted)]">
+        Last updated: {today} · Tax rates sourced from GOV.UK
+      </p>
+    </footer>
+  </div>
+</BaseLayout>

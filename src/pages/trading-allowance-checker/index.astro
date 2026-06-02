@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TradingAllowanceChecker from '../../components/calculators/TradingAllowance/index';
 import AdSlot from '../../components/ads/AdSlot.astro';
+import AffiliateCard from '../../components/affiliates/AffiliateCard.astro';
 import { SITE } from '../../config/site';
 import { TableOfContents } from '../../components/content/TableOfContents';
 import { AccordionSection } from '../../components/content/AccordionSection';
@@ -134,6 +135,17 @@ const tocSections = [
     </section>
 
     <AdSlot slot="after-calculator" format="horizontal" />
+
+    {/* Affiliate cards */}
+    <section class="space-y-3 my-8">
+      <p class="text-xs text-[var(--text-muted)]">Recommended tools for side hustlers</p>
+      <AffiliateCard
+        name="Freelancer Income & Expense Tracker"
+        description="Track income by client, expenses by category, and auto-calculate your profit and tax set-aside. Google Sheets + Excel. One-time purchase."
+        url="https://www.etsy.com/listing/4514883144/freelancer-income-expense-tracker-google"
+        cta="Get It on Etsy"
+      />
+    </section>
 
     {/* Guide content */}
     <div class="mt-12 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
