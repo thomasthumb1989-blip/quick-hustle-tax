@@ -46,6 +46,40 @@ export function faqPageSchema(faqs: FAQItem[]) {
   };
 }
 
+export function blogSchema(opts: {
+  name: string;
+  description: string;
+  url: string;
+  posts: Array<{
+    title: string;
+    url: string;
+    date: string;
+    description: string;
+    image?: string;
+  }>;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.name,
+      url: SITE.url,
+    },
+    blogPost: opts.posts.map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.title,
+      url: post.url,
+      datePublished: post.date,
+      description: post.description,
+      ...(post.image && { image: post.image }),
+    })),
+  };
+}
+
 export function breadcrumbSchema(
   items: Array<{ name: string; url: string }>
 ) {

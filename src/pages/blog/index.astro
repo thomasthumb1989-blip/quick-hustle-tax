@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/ui/Card.astro';
+import { SITE } from '../../config/site';
+import { breadcrumbSchema, blogSchema } from '../../lib/seo/schema';
+import { blogPosts } from '../../data/blog-posts';
+
+const canonicalUrl = `${SITE.url}/blog/`;
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Blog', url: canonicalUrl },
+]);
+
+const blog = blogSchema({
+  name: `${SITE.name} Blog`,
+  description: 'Practical guides on UK tax, side-hustle finances, freelancing, and Self Assessment for small earners.',
+  url: canonicalUrl,
+  posts: blogPosts.map((post) => ({
+    title: post.title,
+    url: `${SITE.url}/blog/${post.slug}/`,
+    date: post.date,
+    description: post.description,
+    image: `${SITE.url}${post.image}`,
+  })),
+});
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title="Freelancer Tax & Finance Guides"
+  description="Practical guides on UK tax, Self Assessment, side-hustle finances, and freelancing. Free tips to save money and stay HMRC-compliant."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(blog)} />
+
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-8">
+      <nav class="text-xs text-[var(--text-muted)] mb-3">
+        <a href="/" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <span class="mx-1">/</span>
+        <span class="text-[var(--text-secondary)]">Blog</span>
+      </nav>
+      <h1 class="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">Freelancer Tax & Finance Guides</h1>
+      <p class="text-base text-[var(--text-secondary)] mt-3 leading-relaxed">
+        Practical guides to help UK side-hustlers, freelancers, and sole traders stay on top of their
+        tax obligations and grow their income. No jargon, no fluff — just actionable advice.
+      </p>
+      <p class="text-sm text-[var(--text-muted)] mt-2">
+        {blogPosts.length} {blogPosts.length === 1 ? 'guide' : 'guides'} published
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-6">
+      {blogPosts.map((post) => (
+        <a href={`/blog/${post.slug}/`} class="group">
+          <Card class="h-full hover:border-primary-500/50 hover:shadow-md transition-all duration-200">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <div class="sm:w-48 sm:flex-shrink-0">
+                <picture>
+                  <source srcset={post.image.replace('.jpg', '.avif')} type="image/avif" />
+                  <source srcset={post.image.replace('.jpg', '.webp')} type="image/webp" />
+                  <img
+                    src={post.image}
+                    alt={post.imageAlt}
+                    width="400"
+                    height="300"
+                    loading="lazy"
+                    class="w-full sm:w-48 h-auto rounded-lg object-cover"
+                  />
+                </picture>
+              </div>
+              <div class="flex-1">
+                <time datetime={post.date} class="text-xs text-[var(--text-muted)]">
+                  {formatDate(post.date)}
+                </time>
+                <h2 class="text-lg font-semibold mt-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  {post.title}
+                </h2>
+                <p class="text-sm text-[var(--text-secondary)] mt-2 leading-relaxed">{post.excerpt}</p>
+                <span class="inline-block mt-3 text-sm font-medium text-primary-600 dark:text-primary-400 group-hover:underline">
+                  Read more &rarr;
+                </span>
+              </div>
+            </div>
+          </Card>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-8 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5">
+      <h2 class="text-base font-semibold text-[var(--text-primary)] mb-2">Looking for calculators?</h2>
+      <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
+        Check out our <a href="/tools/" class="text-primary-600 dark:text-primary-400 underline">free tax tools</a> —
+        8 calculators covering income tax, National Insurance, dividends, trading allowance, deadlines, and platform fees.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
