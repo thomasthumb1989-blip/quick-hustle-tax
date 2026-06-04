@@ -1,0 +1,497 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SITE } from '../../../config/site';
+import { TableOfContents } from '../../../components/content/TableOfContents';
+import { AccordionSection } from '../../../components/content/AccordionSection';
+import { CalloutBox } from '../../../components/content/CalloutBox';
+import { FAQAccordion } from '../../../components/content/FAQAccordion';
+import {
+  blogPostingSchema,
+  faqPageSchema,
+  breadcrumbSchema,
+} from '../../../lib/seo/schema';
+import { blogPosts } from '../../../data/blog-posts';
+
+const post = blogPosts.find((p) => p.slug === 'track-self-assessment-tax')!;
+
+const pageTitle = 'How to Track Your Self Assessment Tax Throughout the Year';
+const pageDescription =
+  'Year-round Self Assessment tracking for UK sole traders and freelancers. Track income, expenses, and mileage so filing is accurate, stress-free, and you never miss a deduction.';
+const canonicalUrl = `${SITE.url}/blog/${post.slug}/`;
+
+const posting = blogPostingSchema({
+  headline: post.title,
+  description: pageDescription,
+  url: canonicalUrl,
+  datePublished: post.date,
+  dateModified: post.updated,
+});
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: SITE.url },
+  { name: 'Blog', url: `${SITE.url}/blog/` },
+  { name: 'Track Self Assessment Tax', url: canonicalUrl },
+]);
+
+const faqItems = [
+  {
+    question: 'When should I start tracking my Self Assessment income and expenses?',
+    answer: 'From day one. The moment you earn your first pound from self-employment or a side hustle, start recording it. Trying to reconstruct a year of transactions from bank statements in January is stressful and error-prone — you will miss allowable deductions and overpay tax.',
+  },
+  {
+    question: 'What is the best way to track self-employment expenses UK?',
+    answer: 'Use a dedicated spreadsheet or accounting app with HMRC-aligned expense categories. Log each expense as it happens with the date, amount, supplier, and category. Keep digital copies of receipts. The key is consistency — update weekly, not annually.',
+  },
+  {
+    question: 'What are the 2026/27 HMRC approved mileage rates?',
+    answer: 'From 6 April 2026, the approved mileage allowance payment (AMAP) rate is 55p per mile for the first 10,000 business miles and 25p per mile thereafter. This is the first increase since 2011 — the previous rate was 45p/25p. You can claim these rates instead of tracking actual vehicle costs.',
+  },
+  {
+    question: 'Do I need to keep receipts for Self Assessment?',
+    answer: 'Yes. HMRC requires you to keep records of all business income and expenses for at least 5 years after the 31 January submission deadline. Digital records are accepted — photos of receipts, scanned PDFs, and spreadsheets all count. If HMRC opens an enquiry and you cannot produce evidence, the expense will be disallowed.',
+  },
+  {
+    question: 'How do I track mileage for Self Assessment?',
+    answer: 'Record each business journey with the date, destination, purpose, and miles driven. You can use a mileage log in a spreadsheet or a dedicated app. Multiply total miles by the AMAP rate (55p for the first 10,000 miles, 25p after that in 2026/27) to calculate your deduction. Do not claim commuting miles — only journeys wholly and exclusively for business.',
+  },
+  {
+    question: 'What happens if I miss the Self Assessment deadline?',
+    answer: 'Missing the 31 January online filing deadline triggers an immediate £100 penalty, even if you owe no tax. After 3 months, daily penalties of £10 begin (up to £900). At 6 and 12 months, further penalties are calculated as a percentage of tax owed. Late payment also incurs interest. Use our Self-Assessment Deadline & Penalty Checker to see exactly what you would owe.',
+  },
+  {
+    question: 'How much tax should I set aside from my self-employment income?',
+    answer: 'It depends on your total income from all sources. If you have a PAYE salary, your Personal Allowance is likely already used — so freelance profit is taxed at your marginal rate (20%, 40%, or 45%). Use the Side-Hustle Tax Calculator on QuickHustleTax to see your exact liability, then set that percentage aside from each payment into a separate savings account.',
+  },
+  {
+    question: 'What is Payment on Account and how do I plan for it?',
+    answer: 'If your Self Assessment tax bill is over £1,000 and less than 80% was collected at source (e.g. PAYE), HMRC requires two advance payments toward next year\'s bill: 50% by 31 January and 50% by 31 July. This means your first Self Assessment payment can be 150% of one year\'s tax. Tracking income throughout the year lets you anticipate this and save accordingly.',
+  },
+  {
+    question: 'Can I use a spreadsheet instead of accounting software for Self Assessment?',
+    answer: 'Yes, for filing your annual Self Assessment return a spreadsheet is perfectly acceptable. However, if you are in scope for Making Tax Digital for Income Tax (qualifying income over £50,000 from April 2026, over £30,000 from April 2027), you need MTD-compatible software or approved bridging software. A standalone spreadsheet is not MTD-compliant.',
+  },
+  {
+    question: 'What expenses can sole traders claim against tax in 2026/27?',
+    answer: 'Any expense wholly and exclusively for your trade is allowable. Common categories: cost of goods sold, office supplies, travel (at AMAP rates or actual cost), staff and subcontractor costs, advertising, professional fees, phone and software (business proportion), use of home as office, insurance, and bank charges. Personal expenses, entertainment, fines, and clothing (unless protective or uniform) are not allowable.',
+  },
+];
+
+const faqs = faqPageSchema(faqItems);
+
+const tocSections = [
+  { id: 'why-year-round', title: 'Why Year-Round Tracking' },
+  { id: 'what-to-track', title: 'What to Track' },
+  { id: 'mileage-rates', title: 'New 55p Mileage Rate' },
+  { id: 'monthly-routine', title: 'Monthly Tax Routine' },
+  { id: 'payment-on-account', title: 'Payment on Account' },
+  { id: 'avoiding-penalties', title: 'Avoiding Penalties' },
+  { id: 'diy-vs-ready-made', title: 'DIY vs Ready-Made Tracker' },
+  { id: 'faqs', title: 'FAQs' },
+];
+
+const today = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(posting)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqs)} />
+
+  <div class="max-w-5xl mx-auto">
+    {/* Breadcrumbs */}
+    <nav class="text-sm text-[var(--text-muted)] mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-1.5">
+        <li><a href="/" class="hover:text-primary-500">Home</a></li>
+        <li>/</li>
+        <li><a href="/blog/" class="hover:text-primary-500">Blog</a></li>
+        <li>/</li>
+        <li class="text-[var(--text-primary)]">Track Self Assessment Tax</li>
+      </ol>
+    </nav>
+
+    {/* Header */}
+    <header class="mb-8">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
+        How to Track Your Self Assessment Tax Throughout the Year
+      </h1>
+      <p class="text-lg text-[var(--text-secondary)] mt-3">
+        <strong>In short:</strong> Tracking income, expenses, and mileage all year means your Self Assessment return takes minutes instead of a January panic — and you claim every deduction you're entitled to.
+      </p>
+      <div class="flex flex-wrap items-center gap-4 mt-4 text-sm text-[var(--text-muted)]">
+        <time datetime={post.date}>Last updated: {today}</time>
+        <span>·</span>
+        <span>10 min read</span>
+      </div>
+      <p class="text-xs text-[var(--text-muted)] mt-2">
+        Tax rates and thresholds sourced from <a href="https://www.gov.uk/income-tax-rates" class="underline" target="_blank" rel="noopener">GOV.UK</a>. This guide is for informational purposes only and does not constitute tax advice.
+      </p>
+    </header>
+
+    {/* Two-column guide layout */}
+    <div class="mt-8 lg:grid lg:grid-cols-[240px_1fr] lg:gap-10">
+
+      {/* Left: sticky ToC */}
+      <aside class="mb-8 lg:mb-0">
+        <div class="lg:sticky lg:top-24">
+          <p class="hidden lg:block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3">
+            In this guide
+          </p>
+          <TableOfContents sections={tocSections} client:load />
+        </div>
+      </aside>
+
+      {/* Right: guide content */}
+      <article class="max-w-[70ch] space-y-2">
+
+        {/* ── Section: Why Year-Round Tracking ── */}
+        <AccordionSection id="why-year-round" title="Why Tracking All Year Beats a January Scramble" defaultOpen={true} client:load>
+          <p class="mb-3">
+            Most sole traders and freelancers know they need to file a Self Assessment return. Far fewer have a system for tracking their numbers as they go. The result: a stressful January spent digging through bank statements, guessing which Amazon purchases were business expenses, and almost certainly missing deductions.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">1. Accurate filing, fewer mistakes</h3>
+          <p class="mb-3">
+            When you track income and expenses in real time, your Self Assessment return is a copy-paste exercise. No guesswork, no rounding, no "I think that was a business expense." HMRC can enquire into any return up to 12 months after the filing deadline — and if your figures don't match your bank records, they'll adjust your bill and add interest.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">2. Claim every allowable deduction</h3>
+          <p class="mb-3">
+            Expenses you forget to log are expenses you can't claim. A freelance photographer who doesn't track their Adobe subscription (£54.99/month), SD cards, and travel to shoots could easily miss £1,000+ in legitimate deductions. At the 20% basic rate, that's £200 in unnecessary tax. At 40%, it's £400.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">3. Know your estimated bill before January 31st</h3>
+          <p class="mb-3">
+            The worst surprise is a tax bill you didn't budget for. If you've been tracking all year, you can estimate your liability at any point. Better still — once you know your estimated liability using our <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline font-medium">Side-Hustle Tax Calculator</a>, you can set the right amount aside from each payment.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">4. Payment on Account planning</h3>
+          <p class="mb-3">
+            If your tax bill exceeds £1,000, HMRC requires two advance payments toward next year's bill. Your first Self Assessment payment could be 150% of one year's tax. Tracking throughout the year means this doesn't blindside you.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">5. Avoid penalties entirely</h3>
+          <p class="mb-3">
+            Year-round tracking means you can file as soon as the tax year ends on 5 April — months before the deadline. Filing early doesn't mean paying early (payment is still due 31 January), but it removes the risk of a late-filing penalty entirely. Check what penalties apply with our <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline font-medium">Deadline & Penalty Checker</a>.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: What to Track ── */}
+        <AccordionSection id="what-to-track" title="What You Need to Track (and How to Categorise It)" defaultOpen={true} client:load>
+          <p class="mb-3">
+            Your Self Assessment return (SA103 for self-employment) needs three core sets of data: income, expenses by HMRC category, and mileage if you drive for business.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Income</h3>
+          <p class="mb-3">
+            Record every payment you receive with the date, client name, amount, and invoice reference. If you use the cash basis (the default for sole traders since April 2024), record income when you receive the money — not when you invoice.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Expenses by HMRC category</h3>
+          <p class="mb-3">
+            HMRC groups allowable expenses into standard categories on the SA103 form. Using these categories from the start means your year-end numbers slot straight into the return:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>Cost of goods sold</strong> — raw materials, stock, packaging</li>
+            <li><strong>Office, property & equipment</strong> — rent, repairs, stationery</li>
+            <li><strong>Car, van & travel</strong> — fuel, parking, public transport, mileage</li>
+            <li><strong>Staff costs</strong> — subcontractors, freelancers you hire</li>
+            <li><strong>Advertising & marketing</strong> — website, social media ads, business cards</li>
+            <li><strong>Professional fees</strong> — accountant, solicitor, memberships</li>
+            <li><strong>Phone, internet & software</strong> — business proportion of bills</li>
+            <li><strong>Use of home</strong> — simplified expenses flat rate or apportioned actual costs</li>
+            <li><strong>Other expenses</strong> — insurance, bank charges, training</li>
+          </ul>
+
+          <CalloutBox variant="tip" title="Use dropdown categories" client:load>
+            <p>
+              If you're using a spreadsheet, add a dropdown list for expense categories. It prevents typos, ensures consistency, and makes year-end totals a simple SUMIF formula. The <a href="https://www.etsy.com/listing/4516631239/uk-self-assessment-tax-tracker-2026-27" target="_blank" rel="sponsored noopener" class="text-primary-600 dark:text-primary-400 underline">UK Self Assessment Tax Tracker</a> has 17 HMRC-aligned categories with dropdowns pre-built.
+            </p>
+          </CalloutBox>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Mileage</h3>
+          <p class="mb-3">
+            If you drive for business, log each journey with the date, destination, purpose, and miles driven. You can claim approved mileage rates instead of tracking actual vehicle running costs — and from April 2026, those rates have increased significantly.
+          </p>
+
+          <p class="mt-3 text-sm">
+            Not sure if the <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">Trading Allowance</a> covers your income? Check whether you need to track expenses at all.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: New 55p Mileage Rate ── */}
+        <AccordionSection id="mileage-rates" title="The New 55p Mileage Rate (From April 2026)" defaultOpen={true} client:load>
+          <p class="mb-3">
+            On 6 April 2026, the approved mileage allowance payment (AMAP) rate increased from 45p to <strong>55p per mile</strong> for the first 10,000 business miles. This is the first increase since 2011 — fifteen years at the same rate despite fuel costs rising significantly.
+          </p>
+
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--border)]">
+                  <th class="text-left py-2 pr-4 font-semibold" style="color: var(--text-primary)">Miles</th>
+                  <th class="text-right py-2 px-4 font-semibold" style="color: var(--text-primary)">Old Rate (to 5 Apr 2026)</th>
+                  <th class="text-right py-2 pl-4 font-semibold text-emerald-600 dark:text-emerald-400">New Rate (from 6 Apr 2026)</th>
+                </tr>
+              </thead>
+              <tbody class="text-[var(--text-secondary)]">
+                <tr class="border-b border-[var(--border)]">
+                  <td class="py-2 pr-4">First 10,000</td>
+                  <td class="text-right py-2 px-4">45p</td>
+                  <td class="text-right py-2 pl-4 font-semibold text-emerald-600 dark:text-emerald-400">55p</td>
+                </tr>
+                <tr>
+                  <td class="py-2 pr-4">Above 10,000</td>
+                  <td class="text-right py-2 px-4">25p</td>
+                  <td class="text-right py-2 pl-4">25p (unchanged)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <CalloutBox variant="info" title="What this means in practice" client:load>
+            <p>
+              A sole trader driving 8,000 business miles in 2026/27 can now deduct <strong>£4,400</strong> (8,000 × 55p) instead of £3,600 (8,000 × 45p) — an extra £800 deduction. At the 20% basic rate, that saves £160 in tax. At 40%, it saves £320.
+            </p>
+          </CalloutBox>
+
+          <p class="mb-3">
+            To claim mileage, you must keep a log. For each journey, record:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li>Date of the journey</li>
+            <li>Start and end location</li>
+            <li>Business purpose (e.g. "client meeting — Acme Ltd")</li>
+            <li>Miles driven</li>
+          </ul>
+          <p class="mb-3">
+            You cannot claim commuting miles (home to a regular workplace). But travel to clients, suppliers, temporary workplaces, and trade events all qualify.
+          </p>
+          <p class="mb-3 text-sm">
+            Source: <a href="https://www.gov.uk/expenses-and-benefits-business-travel-mileage/rules-for-tax" class="text-primary-600 dark:text-primary-400 underline" target="_blank" rel="noopener">GOV.UK — Approved mileage rates</a>
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Monthly Routine ── */}
+        <AccordionSection id="monthly-routine" title="A Simple Monthly Tax Routine" client:load>
+          <p class="mb-3">
+            Tracking doesn't need to take hours. A 30-minute monthly routine keeps everything current:
+          </p>
+
+          <ol class="list-decimal pl-5 space-y-3 mb-4">
+            <li>
+              <strong>Log any unrecorded income</strong> — check your bank account, PayPal, and platform dashboards against your tracker. Every payment should have a matching entry.
+            </li>
+            <li>
+              <strong>Categorise expenses</strong> — go through business spending for the month and assign each transaction to an HMRC category. Photograph any paper receipts.
+            </li>
+            <li>
+              <strong>Update mileage</strong> — add any business journeys you drove. If you forgot to log individual trips, reconstruct from your calendar or Google Maps timeline.
+            </li>
+            <li>
+              <strong>Check your running profit</strong> — income minus expenses. This is your taxable profit so far this year.
+            </li>
+            <li>
+              <strong>Set tax aside</strong> — calculate your marginal rate using the <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline font-medium">Side-Hustle Tax Calculator</a>, then transfer that percentage of the month's profit to a separate savings account.
+            </li>
+          </ol>
+
+          <CalloutBox variant="tip" title="Calendar reminder" client:load>
+            <p>
+              Set a recurring monthly reminder — first Sunday of each month works well. 30 minutes once a month is far less painful than 30 hours in January.
+            </p>
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── Section: Payment on Account ── */}
+        <AccordionSection id="payment-on-account" title="Understanding Payment on Account" client:load>
+          <p class="mb-3">
+            Payment on Account catches many first-time filers off guard. If your Self Assessment tax bill is more than £1,000 <strong>and</strong> less than 80% of your total tax was collected at source (e.g. through PAYE), HMRC requires you to make advance payments toward next year's bill.
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">How it works</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>31 January</strong> — pay the full tax owed for the year just gone, plus 50% of that amount as an advance payment toward next year</li>
+            <li><strong>31 July</strong> — pay a second advance payment of 50%</li>
+            <li>The following January, any remaining balance is settled (or refunded if you overpaid)</li>
+          </ul>
+
+          <CalloutBox variant="warning" title="The 150% shock" client:load>
+            <p>
+              Your very first Self Assessment payment can be <strong>150% of one year's tax</strong> — the full bill plus 50% advance for next year. If your annual tax is £3,000, your January payment is £4,500. Year-round tracking means you see this coming and save for it.
+            </p>
+          </CalloutBox>
+
+          <p class="mb-3">
+            If your income drops significantly, you can apply to reduce your Payments on Account. But you need to know your numbers to do this — another reason to track throughout the year.
+          </p>
+        </AccordionSection>
+
+        {/* ── Section: Avoiding Penalties ── */}
+        <AccordionSection id="avoiding-penalties" title="How Year-Round Tracking Prevents Penalties" client:load>
+          <p class="mb-3">
+            Self Assessment penalties escalate quickly:
+          </p>
+          <ul class="list-none space-y-3 mb-4">
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-red-600 dark:text-red-400">1 day late</span>
+              <span>£100 fixed penalty (even if you owe nothing)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-red-600 dark:text-red-400">3 months late</span>
+              <span>£10 per day for up to 90 days (up to £900)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-red-600 dark:text-red-400">6 months late</span>
+              <span>5% of tax owed or £300, whichever is greater</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="shrink-0 font-semibold text-red-600 dark:text-red-400">12 months late</span>
+              <span>Another 5% or £300, plus possible further penalties</span>
+            </li>
+          </ul>
+          <p class="mb-3">
+            Tracking year-round eliminates the most common reason for late filing: not having the numbers ready. When your figures are current, you can file your return the day the tax year ends — 6 April — and forget about it.
+          </p>
+          <p class="mb-3">
+            Check exactly what penalties apply to your situation with our <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline font-medium">Self-Assessment Deadline & Penalty Checker</a>.
+          </p>
+        </AccordionSection>
+
+        {/* ── CTA block (mid-article) ── */}
+        <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 p-6 my-6">
+          <p class="text-sm text-[var(--text-muted)] mb-2">If you'd rather not build a tracker from scratch</p>
+          <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-3">UK Self Assessment Tax Tracker 2026/27</h3>
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="md:w-1/2 flex flex-col justify-center">
+              <p class="text-sm text-[var(--text-secondary)] mb-3">
+                An 8-tab Google Sheets/Excel spreadsheet that tracks everything you need for Self Assessment:
+              </p>
+              <ul class="list-disc pl-5 space-y-1 text-sm text-[var(--text-secondary)] mb-4">
+                <li>Income by client with invoice tracking</li>
+                <li>Expenses across 17 HMRC categories with dropdowns</li>
+                <li>Business mileage at the new 55p/25p approved rates</li>
+                <li>Auto-calculates income tax (all bands + Personal Allowance taper above £100k), Class 4 NI, and optional Class 2 NI</li>
+                <li>Allowable expenses checklist</li>
+                <li>Annual dashboard with monthly breakdown</li>
+                <li>SA103-ready tax return summary</li>
+                <li>All 2026/27 HMRC rates pre-filled and editable</li>
+              </ul>
+              <a
+                href="https://www.etsy.com/listing/4516631239/uk-self-assessment-tax-tracker-2026-27"
+                target="_blank"
+                rel="sponsored noopener"
+                class="inline-block px-5 py-2.5 text-sm font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors text-center"
+              >
+                Get It on Etsy &rarr;
+              </a>
+              <p class="text-xs text-[var(--text-muted)] mt-2">
+                £14.99, one-time purchase · Google Sheets + Excel · opens Etsy in a new tab
+              </p>
+              <p class="text-xs text-[var(--text-muted)] mt-1">
+                From The Finance Specialist, our sister shop.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Section: DIY vs Ready-Made ── */}
+        <AccordionSection id="diy-vs-ready-made" title="Build Your Own or Use a Ready-Made Tracker?" client:load>
+          <p class="mb-3">
+            You have two main options for year-round Self Assessment tracking without full accounting software:
+          </p>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Option 1: Build your own spreadsheet</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li><strong>Pros:</strong> Free, fully customisable</li>
+            <li><strong>Cons:</strong> Takes hours to set up correctly — you need separate tabs for income, expenses, mileage, a dashboard, formulas for tax bands, NI thresholds, and the Personal Allowance taper. Easy to get formulas wrong.</li>
+          </ul>
+
+          <h3 class="text-base font-semibold mt-4 mb-2" style="color: var(--text-primary)">Option 2: Use a ready-made tracker</h3>
+          <ul class="list-disc pl-5 space-y-1 mb-3">
+            <li><strong>Pros:</strong> Pre-built with HMRC categories, tax calculations already working, mileage log included, saves hours of setup</li>
+            <li><strong>Cons:</strong> Small upfront cost</li>
+          </ul>
+
+          <p class="mb-3">
+            Comparing the two options side by side — the <a href="/sole-trader-vs-ltd-calculator/" class="text-primary-600 dark:text-primary-400 underline font-medium">Sole Trader vs Ltd Calculator</a> can also help you decide your business structure before committing to a tracking approach.
+          </p>
+
+          <CalloutBox variant="tip" title="The key thing" client:load>
+            <p>
+              The best tracker is the one you actually use. If building your own means you'll tinker with formulas for weeks and never start logging, buy a ready-made one and start tracking today. Consistency matters more than the tool.
+            </p>
+          </CalloutBox>
+        </AccordionSection>
+
+        {/* ── CTA block (end of article) ── */}
+        <div class="rounded-xl border-2 border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/30 p-6 my-6">
+          <h3 class="text-lg font-semibold text-[var(--text-primary)] mb-2">UK Self Assessment Tax Tracker 2026/27</h3>
+          <p class="text-sm text-[var(--text-secondary)] mb-3">
+            8-tab spreadsheet with income tracking, 17 HMRC expense categories, mileage log at the new 55p/25p rates, and auto-calculated tax across all bands. SA103-ready. Works in Google Sheets and Excel.
+          </p>
+          <a
+            href="https://www.etsy.com/listing/4516631239/uk-self-assessment-tax-tracker-2026-27"
+            target="_blank"
+            rel="sponsored noopener"
+            class="inline-block px-5 py-2.5 text-sm font-medium rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
+          >
+            Get It on Etsy &rarr;
+          </a>
+          <p class="text-xs text-[var(--text-muted)] mt-2">
+            £14.99, one-time purchase · Google Sheets + Excel · opens Etsy in a new tab
+          </p>
+          <p class="text-xs text-[var(--text-muted)] mt-1">
+            From The Finance Specialist, our sister shop.
+          </p>
+        </div>
+
+        {/* ── Section: FAQs ── */}
+        <section id="faqs" class="my-4">
+          <h2 class="text-xl font-semibold mb-4" style="color: var(--text-primary)">Frequently Asked Questions</h2>
+          <FAQAccordion items={faqItems} client:load />
+        </section>
+
+        {/* Cross-links */}
+        <div class="rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] p-5 mt-8 space-y-2">
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Work out your exact tax bill:</strong>
+            <a href="/side-hustle-tax-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Side-Hustle Tax Calculator</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Check Self Assessment deadlines and penalties:</strong>
+            <a href="/self-assessment-deadline-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Deadline & Penalty Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Check if the trading allowance covers you:</strong>
+            <a href="/trading-allowance-checker/" class="text-primary-600 dark:text-primary-400 underline ml-1">Trading Allowance Checker</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Sole trader vs limited company?</strong>
+            <a href="/sole-trader-vs-ltd-calculator/" class="text-primary-600 dark:text-primary-400 underline ml-1">Sole Trader vs Ltd Calculator</a>
+          </p>
+          <p class="text-sm text-[var(--text-secondary)]">
+            <strong>Track freelance income & expenses:</strong>
+            <a href="/blog/track-freelance-income-expenses/" class="text-primary-600 dark:text-primary-400 underline ml-1">Full UK Guide</a>
+          </p>
+        </div>
+
+      </article>
+    </div>
+
+    {/* Footer disclaimer */}
+    <footer class="mt-12 pt-4 border-t border-[var(--border)] space-y-2">
+      <p class="text-xs text-[var(--text-muted)]">
+        <strong>Disclaimer:</strong> This article provides general information only and does not constitute
+        financial or tax advice. Tax rules are complex and individual circumstances vary. Always consult
+        HMRC or a qualified accountant for advice specific to your situation.
+      </p>
+      <p class="text-xs text-[var(--text-muted)]">
+        Last updated: {today} · Tax year 2026/27 · Tax rates sourced from GOV.UK
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
