@@ -17,8 +17,8 @@ export const blogPosts: BlogPost[] = [
     description: 'Year-round Self Assessment tracking for UK sole traders and freelancers. Track income, expenses, and mileage so filing is accurate, stress-free, and you never miss a deduction.',
     date: '2026-06-04',
     updated: '2026-06-04',
-    image: '',
-    imageAlt: '',
+    image: '/self-assessment-tax-tracker.jpg',
+    imageAlt: 'UK Self Assessment Tax Tracker 2026/27 spreadsheet by The Finance Specialist',
   },
   {
     slug: 'track-freelance-income-expenses',
